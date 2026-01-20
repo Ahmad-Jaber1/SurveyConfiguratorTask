@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SurveyConfiguratorTask
+namespace SurveyConfiguratorTask.Models
 {
     public class StarsQuestion : Question
     {
@@ -19,6 +19,18 @@ namespace SurveyConfiguratorTask
                 throw new ArgumentOutOfRangeException(nameof(count), $"Value must be between 1 and 10.");
             }
             StarsCount = count;
+        }
+
+        public override void  EditQuestion(EditContext context, List<Question> questions)
+        {
+            base.SetText(context.Text);
+            SetStarsCount(context.StarsCount);
+            this.ChangeQuestionOrder(questions, context.Order);
+        }
+        public override void Show(Question question)
+        {
+            var temp = (StarsQuestion)question;
+            Console.WriteLine($"{temp.Text}- Order : {temp.Order}\nCount ={temp.StarsCount}");
         }
 
     }

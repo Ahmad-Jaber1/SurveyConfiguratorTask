@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SurveyConfiguratorTask
+namespace SurveyConfiguratorTask.Models
 {
     public class SmileyFacesQuestion : Question
     {
@@ -24,5 +24,19 @@ namespace SurveyConfiguratorTask
 
 
         }
+
+        public override void EditQuestion(EditContext context, List<Question> questions)
+        {
+            base.SetText(context.Text);
+            SetSmileyCount(context.SmileyCount);
+            this.ChangeQuestionOrder(questions, context.Order);
+        }
+
+        public override void Show(Question question)
+        {
+            var temp = (SmileyFacesQuestion)question;
+            Console.WriteLine($"{temp.Text} - Order : {temp.Order}\nCount = {temp.SmileyCount}");
+        }
+
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SurveyConfiguratorTask
+namespace SurveyConfiguratorTask.Models
 {
     public class SliderQuestion : Question
     {
@@ -66,6 +66,24 @@ namespace SurveyConfiguratorTask
 
             EndCaption = caption;
             
+        }
+
+        public override void EditQuestion(EditContext context, List<Question> questions)
+        {
+            base.SetText(context.Text);
+            SetStartValue(context.StartValue);
+            SetEndValue(context.EndValue);
+
+            SetStartCaption(context.StartCaption);
+            SetEndCaption(context.EndCaption);
+
+            this.ChangeQuestionOrder(questions, context.Order);
+        }
+
+        public override void Show( Question question)
+        {
+            var temp = (SliderQuestion)question;
+            Console.WriteLine($"{temp.Text}- Order : {temp.Order}\n{temp.StartCaption}-{temp.StartValue}------------{temp.EndValue}-{temp.EndCaption}");
         }
     }
 }
