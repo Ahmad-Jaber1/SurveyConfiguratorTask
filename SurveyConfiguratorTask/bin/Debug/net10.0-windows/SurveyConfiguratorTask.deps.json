@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "SurveyConfiguratorTask/1.0.0": {
+        "runtime": {
+          "SurveyConfiguratorTask.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "SurveyConfiguratorTask/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

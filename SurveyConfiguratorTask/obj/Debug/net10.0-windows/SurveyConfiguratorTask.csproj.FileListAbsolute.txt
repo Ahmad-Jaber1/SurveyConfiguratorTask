@@ -1,0 +1,16 @@
+D:\SurveyConfiguratorTask\SurveyConfiguratorTask\bin\Debug\net10.0-windows\SurveyConfiguratorTask.exe
+D:\SurveyConfiguratorTask\SurveyConfiguratorTask\bin\Debug\net10.0-windows\SurveyConfiguratorTask.deps.json
+D:\SurveyConfiguratorTask\SurveyConfiguratorTask\bin\Debug\net10.0-windows\SurveyConfiguratorTask.runtimeconfig.json
+D:\SurveyConfiguratorTask\SurveyConfiguratorTask\bin\Debug\net10.0-windows\SurveyConfiguratorTask.dll
+D:\SurveyConfiguratorTask\SurveyConfiguratorTask\bin\Debug\net10.0-windows\SurveyConfiguratorTask.pdb
+D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.Form1.resources
+D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.csproj.GenerateResource.cache
+D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.GeneratedMSBuildEditorConfig.editorconfig
+D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.AssemblyInfoInputs.cache
+D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.AssemblyInfo.cs
+D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.csproj.CoreCompileInputs.cache
+D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.dll
+D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\refint\SurveyConfiguratorTask.dll
+D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.pdb
+D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.genruntimeconfig.cache
+D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\ref\SurveyConfiguratorTask.dll
