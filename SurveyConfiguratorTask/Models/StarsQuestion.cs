@@ -7,9 +7,14 @@ namespace SurveyConfiguratorTask.Models
     public class StarsQuestion : Question
     {
         public int StarsCount { get; private set; }
-        public StarsQuestion(string text, int count):base(text )
+        public StarsQuestion(string text, int count):base(text , TypeQuestionEnum.StarsQuestion )
         {
             SetStarsCount(count);
+        }
+        public StarsQuestion(string text , int order , int starsCount):base(text, TypeQuestionEnum.StarsQuestion)
+        {
+            SetOrder(order);
+            SetStarsCount(starsCount);
         }
 
         public void SetStarsCount(int count)

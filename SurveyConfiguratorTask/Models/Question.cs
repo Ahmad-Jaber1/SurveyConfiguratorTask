@@ -8,17 +8,28 @@ namespace SurveyConfiguratorTask.Models
     public  abstract class Question
     {
         public Guid Id { get;  }
-        public string Text { get; private set; }
-        public int Order { get; private set;  }
-        public static int OrderCount { get; private set; } = 0; 
+        public string Text { get;  set; }
+        public int Order { get;  set;  }
+        public TypeQuestionEnum TypeQuestion { get;  set; }
+        public static int OrderCount { get;  set; } = 0; 
 
 
-        public Question(string text )
+        public Question(string text , TypeQuestionEnum type)
         {
             Id = Guid.NewGuid();
             SetText(text);
-            Order = ++OrderCount ;
-           
+            Order = ++OrderCount;
+            TypeQuestion = type; 
+
+
+        }
+        public Question(string text, int order)
+        {
+            Id = Guid.NewGuid();
+            SetText(text);
+            Order = order;
+            
+
         }
         public void SetText(string text)
         {
@@ -28,6 +39,10 @@ namespace SurveyConfiguratorTask.Models
                 throw new ArgumentException($"Parameter {nameof(text)} can't be empty.", nameof(text));
 
             Text = text; 
+        }
+        protected void SetOrder(int order)
+        {
+            Order = order; 
         }
         public static void ReorderQuestions(List<Question> questions)
         {

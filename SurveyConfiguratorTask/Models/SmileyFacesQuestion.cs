@@ -7,9 +7,16 @@ namespace SurveyConfiguratorTask.Models
     public class SmileyFacesQuestion : Question
     {
         public int SmileyCount { get; private set; }
-        public SmileyFacesQuestion(string text, int count) : base(text )
+        public SmileyFacesQuestion(string text,int count) : base(text,TypeQuestionEnum.SmileyFacesQuestion )
         {
             SetSmileyCount(count);
+        }
+        public SmileyFacesQuestion(string text , int order , int count) : base(text , order )
+        {
+            
+            SetSmileyCount(count);
+            SetOrder(order);
+            TypeQuestion = TypeQuestionEnum.SmileyFacesQuestion;
         }
 
         public void SetSmileyCount(int count)

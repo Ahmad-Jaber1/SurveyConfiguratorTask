@@ -6,19 +6,37 @@ namespace SurveyConfiguratorTask.Models
 {
     public class SliderQuestion : Question
     {
-        public int StartValue { get; private set; } = 0;
-        public int EndValue { get; private set; } = 100;
-        public string StartCaption { get; private set; }
-        public string EndCaption { get; private set; }
+        public int StartValue { get;  set; } = 0;
+        public int EndValue { get;  set; } = 100;
+        public string StartCaption { get;  set; }
+        public string EndCaption { get;  set; }
 
         public SliderQuestion(string text  , int startValue, int endValue, string startCaption, string endCaption) 
-            :base(text)
+            :base(text , TypeQuestionEnum.SliderQuestion)
         { 
             
             SetStartCaption(startCaption);
             SetEndCaption(endCaption);
             SetStartValue(startValue);
             SetEndValue(endValue);
+            
+        }
+        
+        public SliderQuestion(string text , int order , int startValue , int endValue 
+            , string startCaption , string endCaption) : base(text ,  order )
+        {
+            
+            SetText(text);
+            SetOrder(order);
+            
+            TypeQuestion = TypeQuestionEnum.SliderQuestion;
+            
+            SetStartCaption(startCaption);
+            SetEndCaption(endCaption);
+            SetStartValue(startValue);
+            SetEndValue(endValue);
+            
+            
         }
 
         public void SetStartValue(int value)
@@ -40,9 +58,6 @@ namespace SurveyConfiguratorTask.Models
             }
             
             EndValue = value;
-
-             
-
 
         }
 

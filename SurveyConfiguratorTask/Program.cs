@@ -1,4 +1,6 @@
 using SurveyConfiguratorTask.Models;
+using SurveyConfiguratorTask.Repo;
+
 
 namespace SurveyConfiguratorTask
 {
@@ -12,49 +14,26 @@ namespace SurveyConfiguratorTask
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
-            ApplicationConfiguration.Initialize();
-            Application.Run(new Form1());
+            //ApplicationConfiguration.Initialize();
+            //Application.Run(new Form1());
 
-            //var q1 = new SliderQuestion("first slider", 20, 85, "start", "end");
-            //var q2 = new SmileyFacesQuestion("first smiley", 3);
-            //var q3 = new StarsQuestion("first stars", 7);
+            var questionRepo = new QuestionRepo();
+            var list = questionRepo.QuestionsLoad();
 
-            //var q4 = new SliderQuestion("second slider", 30, 75, "start2", "end2");
-            //var q5 = new SmileyFacesQuestion("second smiley", 4);
-            //var q6 = new StarsQuestion("second stars", 5);
+            foreach (var item in list) {
+                Console.WriteLine(item.Text + " " + item.Order + " " + item.TypeQuestion);
+                }
 
-            //List<Question> list = new List<Question>();
-            //list.Add(q1);
-            //list.Add(q2);
-            //list.Add(q3);
-            //list.Add(q4);
-            //list.Add(q5);
-            //list.Add(q6);
+            //var question = new StarsQuestion("forteen", 14, 3);
+            //questionRepo.AddQuestion(question);
+            questionRepo.DeleteQuestion(new("A898DE72-34DB-4AF5-A1C1-1073B269D549"));
+            Console.WriteLine("********************* \n ********************************");
+            list = questionRepo.QuestionsLoad();
+            foreach (var item in list)
+            {
+                Console.WriteLine(item.Text + " " + item.Order + " " + item.TypeQuestion);
+            }
             
-            //foreach(var item in list)
-            //{
-            //    item.Show(item);
-            //    Console.WriteLine("*******************");
-            //}
-            //Console.WriteLine("***********************************************");
-            //Console.WriteLine("***********************************************");
-            //Console.WriteLine("***********************************************");
-
-            ////q1.ChangeQuestionOrder(list, 5);
-            ////q3.DeleteQuestion(list);
-            //var context = new EditContext();
-            //context.StartValue = 50; 
-            //context.EndValue = 99;
-            //context.StartCaption = "changeStart";
-            //context.EndCaption = "changeEnd";
-            //context.Order = 3;
-            //context.Text = q1.Text;
-            //q1.EditQuestion(context,list);
-            //foreach (var item in list)
-            //{
-            //    item.Show(item);
-            //    Console.WriteLine("*******************");
-            //}
 
 
         }
