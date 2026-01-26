@@ -1,3 +1,6 @@
 <Solution>
+  <Project Path="Models/Models.csproj" Id="a79b8515-c973-4d40-9ceb-e7c252c331cd" />
+  <Project Path="Repository/Repository.csproj" Id="bf88e47c-fdd8-4b0e-9cab-e9723c665613" />
+  <Project Path="Services/Services.csproj" Id="f614323e-74b5-4551-86c3-1cc6a6356136" />
   <Project Path="SurveyConfiguratorTask/SurveyConfiguratorTask.csproj" />
 </Solution>
