@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Models;
+using Services;
+using SurveyConfiguratorTask.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,43 +13,102 @@ namespace SurveyConfiguratorTask
 {
     public partial class AddDialog : Form
     {
-        public AddDialog()
+        QuestionService service ;
+
+        public AddDialog(QuestionService service)
         {
+            this.service = service;
             InitializeComponent();
-
         }
 
-        private void sliderQuestionOption_CheckedChanged(object sender, EventArgs e)
+
+
+        private void Radio_CheckedChanged(object sender, EventArgs e)
         {
-
-            UpdateGroupBoxes();
-
-
+            sliderPanel.Enabled = sliderQuestionRadioButton.Checked;
+            smileyPanel.Enabled = smileyFacesQuestionRadioButton.Checked;
+            starsPanel.Enabled = starsQuestionRadioButton.Checked;
 
         }
 
-        private void smileyFacesQuestionOption_CheckedChanged(object sender, EventArgs e)
+        private void okAddButton_Click(object sender, EventArgs e)
         {
-            UpdateGroupBoxes();
+            var addedQuestion = new AddQuestionDto();
+            addedQuestion.Text = textQuestionTextBox.Text;
+            TypeQuestionEnum type;
+            if (sliderQuestionRadioButton.Checked)
+            {
+                addedQuestion.StartValue = (int)startValueUpDown.Value;
+                addedQuestion.EndValue = (int)endValueUpDown.Value;
+                addedQuestion.StartCaption = startCaptionTextBox.Text;
+                addedQuestion.EndCaption = endCaptionTextBox.Text;
+                type = TypeQuestionEnum.SliderQuestion;
+            }
+            else if (smileyFacesQuestionRadioButton.Checked)
+            {
+                addedQuestion.SmileyCount = (int)smileyFacesUpDown.Value;
+                type = TypeQuestionEnum.SmileyFacesQuestion;
+            }
+            else
+            {
+                addedQuestion.StarsCount = (int)starsUpDown.Value;
+                type = TypeQuestionEnum.StarsQuestion;
+            }
+
+            try
+            {
+
+                service.AddQuestionService(type, addedQuestion);
 
 
+            }
+            catch (ArgumentNullException ex)
+            {
+                MessageBox.Show(
+            ex.Message,
+            "Error",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Error
+        );
+                this.Close();
+
+
+            }
+
+            catch (ArgumentOutOfRangeException ex)
+            {
+                MessageBox.Show(
+            ex.Message,
+            "Error",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Error
+        );
+                this.Close();
+
+            }
+
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show(
+            ex.Message,
+            "Error",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Error
+        );
+                this.Close();
+
+            }
+
+
+            DialogResult = DialogResult.OK;
+            this.Close();
 
         }
 
-        private void starsQuestionOption_CheckedChanged(object sender, EventArgs e)
+        private void CancelAddButton_Click(object sender, EventArgs e)
         {
-            UpdateGroupBoxes();
-
-
+            DialogResult = DialogResult.Cancel;
+            this.Close();
         }
-
-        private void UpdateGroupBoxes()
-        {
-            sliderGroupBox.Enabled = sliderQuestionOption.Checked;
-            smileyFacesGroupBox.Enabled = smileyFacesQuestionOption.Checked;
-            starsGroupBox.Enabled = starsQuestionOption.Checked;
-        }
-
-        
     }
 }

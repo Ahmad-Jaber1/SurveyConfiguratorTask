@@ -16,11 +16,27 @@ namespace SurveyConfiguratorTask
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
-            //ApplicationConfiguration.Initialize();
-            //Application.Run(new Form1());
+            //var temp = new AddQuestionDto { Text = "one", SmileyCount = 3 };
+            //var temp2 = new AddQuestionDto { Text = "two", SmileyCount = 4 };
+
+            //var service = new QuestionService();
+            //var question = service.GetQuestionService(new("CB7BF528-D20F-4BBD-87A4-BCDCB5C7A502"));
+            //question.Show(question);
+            //service.AddQuestionService(TypeQuestionEnum.SmileyFacesQuestion, temp);
+            //service.AddQuestionService(TypeQuestionEnum.SmileyFacesQuestion, temp2);
+            ApplicationConfiguration.Initialize();
+            Application.Run(new MainForm());
+
+
+
 
             //var repo = new QuestionRepo();
             //var list = repo.QuestionsLoad();
+            ////var question = new StarsQuestion("one", 1, 3);
+            ////var question2 = new StarsQuestion("two", 2, 3);
+
+
+
             //foreach (var item in list)
             //{
             //    item.Show(item);
@@ -63,17 +79,17 @@ namespace SurveyConfiguratorTask
             //var y =new Guid(x.ToString());
             //Console.WriteLine(y);
 
-            QuestionService service = new QuestionService();
-            //var temp = new AddQuestionDto { Text ="YES I EDIT IT" , SmileyCount = 3 };
-            var temp = new EditContext { Text = "YES I EDIT IT", SmileyCount = 3  , Order = 3};
-            //service.AddQuestionService(TypeQuestionEnum.SmileyFacesQuestion,temp);
-            //service.DeleteQuestionService(new("DCD02F8C-90B5-48F5-81D4-AE7947AB4220"));
-            service.EditQuestionService(new("74EA93DE-377D-4F39-934D-291CBF2641BE"), temp);
-            //service.EditOrder();
-            foreach (var question in service.GetQuestionsList())
-            {
-                question.Show(question);
-            }
+            //QuestionService service = new QuestionService();
+            ////var temp = new AddQuestionDto { Text ="YES I EDIT IT" , SmileyCount = 3 };
+            //var temp = new EditContext { Text = "YES I EDIT IT", SmileyCount = 3  , Order = 3};
+            ////service.AddQuestionService(TypeQuestionEnum.SmileyFacesQuestion,temp);
+            ////service.DeleteQuestionService(new("DCD02F8C-90B5-48F5-81D4-AE7947AB4220"));
+            //service.EditQuestionService(new("74EA93DE-377D-4F39-934D-291CBF2641BE"), temp);
+            ////service.EditOrder();
+            //foreach (var question in service.GetQuestionsList())
+            //{
+            //    question.Show(question);
+            //}
 
         }
     }

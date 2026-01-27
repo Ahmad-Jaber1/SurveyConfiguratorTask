@@ -47,7 +47,7 @@ namespace Services
             
 
         }
-
+        
         public void DeleteQuestionService(Guid id)
         {
             repo.DeleteQuestion(id);
@@ -59,15 +59,7 @@ namespace Services
                     break; 
                 }
             }
-            questions.Sort();
-            var ids = new List<Guid>();
-            var orders = new List<int>();
-            foreach(var question in questions)
-            {
-                ids.Add(question.Id);
-                orders.Add(question.Order);
-            }
-            repo.EditOrder(ids , orders);
+            EditOrder();
         }
         public void EditQuestionService(Guid id ,EditContext editContext)
         {
@@ -128,13 +120,28 @@ namespace Services
                 orders.Add(i + 1);
                 questions[i].Order = i+1;
             }
-            repo.EditOrder(ids , orders);
-            //QuestionsLoadService();
+            if (repo.GetCount() > 0)
+                repo.EditOrder(ids, orders);
         }
         public List<Question> GetQuestionsList()
         {
             return questions; 
         }
+        public Question GetQuestionService(Guid id)
+        {
+            
+            
+            foreach (var q in questions)
+            {
+                if (q.Id == id)
+                    return q; 
+            }
+            return null; 
+        }
 
+        public int GetCountService()
+        {
+            return repo.GetCount();
+        }
     }
 }

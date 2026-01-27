@@ -28,347 +28,328 @@
         /// </summary>
         private void InitializeComponent()
         {
-            questionTypeGroupBox = new GroupBox();
-            starsQuestionOption = new RadioButton();
-            smileyFacesQuestionOption = new RadioButton();
-            sliderQuestionOption = new RadioButton();
-            label1 = new Label();
-            starsGroupBox = new GroupBox();
-            starsUpDown = new NumericUpDown();
-            countStarsLabel = new Label();
-            smileyFacesGroupBox = new GroupBox();
-            smileyFacesUpDown = new NumericUpDown();
-            coumtsmileyFacesLabel = new Label();
-            sliderGroupBox = new GroupBox();
-            endValueUpDown = new NumericUpDown();
-            startValueUpDown = new NumericUpDown();
+            typeQuestionGroup = new GroupBox();
+            starsQuestionRadioButton = new RadioButton();
+            smileyFacesQuestionRadioButton = new RadioButton();
+            sliderQuestionRadioButton = new RadioButton();
+            textPanel = new Panel();
+            textQuestionTextBox = new TextBox();
+            questionTextLabel = new Label();
+            sliderPanel = new Panel();
             endCaptionTextBox = new TextBox();
             startCaptionTextBox = new TextBox();
-            endValueLabel = new Label();
-            startValueLabel = new Label();
+            endValueUpDown = new NumericUpDown();
+            startValueUpDown = new NumericUpDown();
             endCaptionLabel = new Label();
             startCaptionLabel = new Label();
-            generalQuestionGroupBox = new GroupBox();
-            textQuestionLabel = new Label();
-            orderQuestionUpDown = new NumericUpDown();
-            textQuestionTextBox = new TextBox();
-            orderQuestionLabel = new Label();
-            questionTypeGroupBox.SuspendLayout();
-            starsGroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)starsUpDown).BeginInit();
-            smileyFacesGroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)smileyFacesUpDown).BeginInit();
-            sliderGroupBox.SuspendLayout();
+            endValueLabel = new Label();
+            startValueLabel = new Label();
+            smileyPanel = new Panel();
+            smileyFacesUpDown = new NumericUpDown();
+            smileyFacesCountLabel = new Label();
+            starsPanel = new Panel();
+            starsUpDown = new NumericUpDown();
+            starsCountLabel = new Label();
+            CancelAddButton = new Button();
+            okAddButton = new Button();
+            typeQuestionGroup.SuspendLayout();
+            textPanel.SuspendLayout();
+            sliderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)endValueUpDown).BeginInit();
             ((System.ComponentModel.ISupportInitialize)startValueUpDown).BeginInit();
-            generalQuestionGroupBox.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)orderQuestionUpDown).BeginInit();
+            smileyPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)smileyFacesUpDown).BeginInit();
+            starsPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)starsUpDown).BeginInit();
             SuspendLayout();
             // 
-            // questionTypeGroupBox
+            // typeQuestionGroup
             // 
-            questionTypeGroupBox.Controls.Add(starsQuestionOption);
-            questionTypeGroupBox.Controls.Add(smileyFacesQuestionOption);
-            questionTypeGroupBox.Controls.Add(sliderQuestionOption);
-            questionTypeGroupBox.Controls.Add(label1);
-            questionTypeGroupBox.Location = new Point(53, 39);
-            questionTypeGroupBox.Name = "questionTypeGroupBox";
-            questionTypeGroupBox.Size = new Size(307, 169);
-            questionTypeGroupBox.TabIndex = 70;
-            questionTypeGroupBox.TabStop = false;
-            questionTypeGroupBox.Text = "Question Type ";
+            typeQuestionGroup.Controls.Add(starsQuestionRadioButton);
+            typeQuestionGroup.Controls.Add(smileyFacesQuestionRadioButton);
+            typeQuestionGroup.Controls.Add(sliderQuestionRadioButton);
+            typeQuestionGroup.Location = new Point(12, 12);
+            typeQuestionGroup.Name = "typeQuestionGroup";
+            typeQuestionGroup.Size = new Size(560, 97);
+            typeQuestionGroup.TabIndex = 0;
+            typeQuestionGroup.TabStop = false;
+            typeQuestionGroup.Text = "Type of quetion";
             // 
-            // starsQuestionOption
+            // starsQuestionRadioButton
             // 
-            starsQuestionOption.AutoSize = true;
-            starsQuestionOption.Location = new Point(17, 112);
-            starsQuestionOption.Name = "starsQuestionOption";
-            starsQuestionOption.Size = new Size(101, 19);
-            starsQuestionOption.TabIndex = 68;
-            starsQuestionOption.TabStop = true;
-            starsQuestionOption.Text = "Stars Question";
-            starsQuestionOption.UseVisualStyleBackColor = true;
-            starsQuestionOption.CheckedChanged += starsQuestionOption_CheckedChanged;
+            starsQuestionRadioButton.AutoSize = true;
+            starsQuestionRadioButton.Location = new Point(6, 72);
+            starsQuestionRadioButton.Name = "starsQuestionRadioButton";
+            starsQuestionRadioButton.Size = new Size(101, 19);
+            starsQuestionRadioButton.TabIndex = 2;
+            starsQuestionRadioButton.TabStop = true;
+            starsQuestionRadioButton.Text = "Stars Question";
+            starsQuestionRadioButton.UseVisualStyleBackColor = true;
+            starsQuestionRadioButton.CheckedChanged += Radio_CheckedChanged;
             // 
-            // smileyFacesQuestionOption
+            // smileyFacesQuestionRadioButton
             // 
-            smileyFacesQuestionOption.AutoSize = true;
-            smileyFacesQuestionOption.Location = new Point(17, 87);
-            smileyFacesQuestionOption.Name = "smileyFacesQuestionOption";
-            smileyFacesQuestionOption.Size = new Size(143, 19);
-            smileyFacesQuestionOption.TabIndex = 67;
-            smileyFacesQuestionOption.TabStop = true;
-            smileyFacesQuestionOption.Text = "Smiley Faces Question";
-            smileyFacesQuestionOption.UseVisualStyleBackColor = true;
-            smileyFacesQuestionOption.CheckedChanged += smileyFacesQuestionOption_CheckedChanged;
+            smileyFacesQuestionRadioButton.AutoSize = true;
+            smileyFacesQuestionRadioButton.Location = new Point(6, 47);
+            smileyFacesQuestionRadioButton.Name = "smileyFacesQuestionRadioButton";
+            smileyFacesQuestionRadioButton.Size = new Size(141, 19);
+            smileyFacesQuestionRadioButton.TabIndex = 1;
+            smileyFacesQuestionRadioButton.TabStop = true;
+            smileyFacesQuestionRadioButton.Text = "Smiley faces Question";
+            smileyFacesQuestionRadioButton.UseVisualStyleBackColor = true;
+            smileyFacesQuestionRadioButton.CheckedChanged += Radio_CheckedChanged;
             // 
-            // sliderQuestionOption
+            // sliderQuestionRadioButton
             // 
-            sliderQuestionOption.AutoSize = true;
-            sliderQuestionOption.Location = new Point(17, 62);
-            sliderQuestionOption.Name = "sliderQuestionOption";
-            sliderQuestionOption.Size = new Size(105, 19);
-            sliderQuestionOption.TabIndex = 66;
-            sliderQuestionOption.TabStop = true;
-            sliderQuestionOption.Text = "Slider Question";
-            sliderQuestionOption.UseVisualStyleBackColor = true;
-            sliderQuestionOption.CheckedChanged += sliderQuestionOption_CheckedChanged;
+            sliderQuestionRadioButton.AutoSize = true;
+            sliderQuestionRadioButton.Location = new Point(6, 22);
+            sliderQuestionRadioButton.Name = "sliderQuestionRadioButton";
+            sliderQuestionRadioButton.Size = new Size(105, 19);
+            sliderQuestionRadioButton.TabIndex = 0;
+            sliderQuestionRadioButton.TabStop = true;
+            sliderQuestionRadioButton.Text = "Slider Question";
+            sliderQuestionRadioButton.UseVisualStyleBackColor = true;
+            sliderQuestionRadioButton.CheckedChanged += Radio_CheckedChanged;
             // 
-            // label1
+            // textPanel
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 18F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label1.Location = new Point(6, 19);
-            label1.Name = "label1";
-            label1.Size = new Size(231, 32);
-            label1.TabIndex = 65;
-            label1.Text = "Enter Question Type";
+            textPanel.Controls.Add(textQuestionTextBox);
+            textPanel.Controls.Add(questionTextLabel);
+            textPanel.Location = new Point(12, 128);
+            textPanel.Name = "textPanel";
+            textPanel.Size = new Size(560, 49);
+            textPanel.TabIndex = 1;
             // 
-            // starsGroupBox
+            // textQuestionTextBox
             // 
-            starsGroupBox.Controls.Add(starsUpDown);
-            starsGroupBox.Controls.Add(countStarsLabel);
-            starsGroupBox.Enabled = false;
-            starsGroupBox.Location = new Point(53, 388);
-            starsGroupBox.Name = "starsGroupBox";
-            starsGroupBox.Size = new Size(307, 55);
-            starsGroupBox.TabIndex = 69;
-            starsGroupBox.TabStop = false;
-            starsGroupBox.Text = "Stars Question";
+            textQuestionTextBox.Location = new Point(95, 13);
+            textQuestionTextBox.Name = "textQuestionTextBox";
+            textQuestionTextBox.Size = new Size(455, 23);
+            textQuestionTextBox.TabIndex = 1;
             // 
-            // starsUpDown
+            // questionTextLabel
             // 
-            starsUpDown.Location = new Point(227, 15);
-            starsUpDown.Maximum = new decimal(new int[] { 5, 0, 0, 0 });
-            starsUpDown.Name = "starsUpDown";
-            starsUpDown.Size = new Size(40, 23);
-            starsUpDown.TabIndex = 60;
+            questionTextLabel.AutoSize = true;
+            questionTextLabel.Location = new Point(6, 16);
+            questionTextLabel.Name = "questionTextLabel";
+            questionTextLabel.Size = new Size(83, 15);
+            questionTextLabel.TabIndex = 0;
+            questionTextLabel.Text = "Question text :";
             // 
-            // countStarsLabel
+            // sliderPanel
             // 
-            countStarsLabel.AutoSize = true;
-            countStarsLabel.Location = new Point(6, 19);
-            countStarsLabel.Name = "countStarsLabel";
-            countStarsLabel.Size = new Size(141, 15);
-            countStarsLabel.TabIndex = 59;
-            countStarsLabel.Text = "Number of stars question";
-            // 
-            // smileyFacesGroupBox
-            // 
-            smileyFacesGroupBox.Controls.Add(smileyFacesUpDown);
-            smileyFacesGroupBox.Controls.Add(coumtsmileyFacesLabel);
-            smileyFacesGroupBox.Enabled = false;
-            smileyFacesGroupBox.Location = new Point(53, 333);
-            smileyFacesGroupBox.Name = "smileyFacesGroupBox";
-            smileyFacesGroupBox.Size = new Size(307, 45);
-            smileyFacesGroupBox.TabIndex = 68;
-            smileyFacesGroupBox.TabStop = false;
-            smileyFacesGroupBox.Text = "Smiley Faces Question";
-            // 
-            // smileyFacesUpDown
-            // 
-            smileyFacesUpDown.Location = new Point(227, 17);
-            smileyFacesUpDown.Maximum = new decimal(new int[] { 5, 0, 0, 0 });
-            smileyFacesUpDown.Name = "smileyFacesUpDown";
-            smileyFacesUpDown.Size = new Size(40, 23);
-            smileyFacesUpDown.TabIndex = 59;
-            // 
-            // coumtsmileyFacesLabel
-            // 
-            coumtsmileyFacesLabel.AutoSize = true;
-            coumtsmileyFacesLabel.Location = new Point(6, 19);
-            coumtsmileyFacesLabel.Name = "coumtsmileyFacesLabel";
-            coumtsmileyFacesLabel.Size = new Size(181, 15);
-            coumtsmileyFacesLabel.TabIndex = 58;
-            coumtsmileyFacesLabel.Text = "Number of smiley faces question";
-            // 
-            // sliderGroupBox
-            // 
-            sliderGroupBox.Controls.Add(endValueUpDown);
-            sliderGroupBox.Controls.Add(startValueUpDown);
-            sliderGroupBox.Controls.Add(endCaptionTextBox);
-            sliderGroupBox.Controls.Add(startCaptionTextBox);
-            sliderGroupBox.Controls.Add(endValueLabel);
-            sliderGroupBox.Controls.Add(startValueLabel);
-            sliderGroupBox.Controls.Add(endCaptionLabel);
-            sliderGroupBox.Controls.Add(startCaptionLabel);
-            sliderGroupBox.Enabled = false;
-            sliderGroupBox.Location = new Point(441, 227);
-            sliderGroupBox.Name = "sliderGroupBox";
-            sliderGroupBox.Size = new Size(311, 216);
-            sliderGroupBox.TabIndex = 67;
-            sliderGroupBox.TabStop = false;
-            sliderGroupBox.Text = "Slider Question";
-            // 
-            // endValueUpDown
-            // 
-            endValueUpDown.Location = new Point(122, 159);
-            endValueUpDown.Maximum = new decimal(new int[] { 5, 0, 0, 0 });
-            endValueUpDown.Name = "endValueUpDown";
-            endValueUpDown.Size = new Size(40, 23);
-            endValueUpDown.TabIndex = 59;
-            // 
-            // startValueUpDown
-            // 
-            startValueUpDown.Location = new Point(122, 122);
-            startValueUpDown.Maximum = new decimal(new int[] { 5, 0, 0, 0 });
-            startValueUpDown.Name = "startValueUpDown";
-            startValueUpDown.Size = new Size(40, 23);
-            startValueUpDown.TabIndex = 58;
+            sliderPanel.Controls.Add(endCaptionTextBox);
+            sliderPanel.Controls.Add(startCaptionTextBox);
+            sliderPanel.Controls.Add(endValueUpDown);
+            sliderPanel.Controls.Add(startValueUpDown);
+            sliderPanel.Controls.Add(endCaptionLabel);
+            sliderPanel.Controls.Add(startCaptionLabel);
+            sliderPanel.Controls.Add(endValueLabel);
+            sliderPanel.Controls.Add(startValueLabel);
+            sliderPanel.Location = new Point(12, 193);
+            sliderPanel.Name = "sliderPanel";
+            sliderPanel.Size = new Size(560, 174);
+            sliderPanel.TabIndex = 2;
             // 
             // endCaptionTextBox
             // 
-            endCaptionTextBox.Location = new Point(83, 74);
+            endCaptionTextBox.Location = new Point(95, 146);
             endCaptionTextBox.Name = "endCaptionTextBox";
-            endCaptionTextBox.Size = new Size(217, 23);
-            endCaptionTextBox.TabIndex = 57;
+            endCaptionTextBox.Size = new Size(455, 23);
+            endCaptionTextBox.TabIndex = 7;
             // 
             // startCaptionTextBox
             // 
-            startCaptionTextBox.Location = new Point(83, 37);
+            startCaptionTextBox.Location = new Point(95, 105);
             startCaptionTextBox.Name = "startCaptionTextBox";
-            startCaptionTextBox.Size = new Size(217, 23);
-            startCaptionTextBox.TabIndex = 56;
+            startCaptionTextBox.Size = new Size(455, 23);
+            startCaptionTextBox.TabIndex = 6;
             // 
-            // endValueLabel
+            // endValueUpDown
             // 
-            endValueLabel.AutoSize = true;
-            endValueLabel.Location = new Point(1, 161);
-            endValueLabel.Name = "endValueLabel";
-            endValueLabel.Size = new Size(58, 15);
-            endValueLabel.TabIndex = 55;
-            endValueLabel.Text = "End Value";
+            endValueUpDown.Location = new Point(95, 68);
+            endValueUpDown.Name = "endValueUpDown";
+            endValueUpDown.Size = new Size(120, 23);
+            endValueUpDown.TabIndex = 5;
             // 
-            // startValueLabel
+            // startValueUpDown
             // 
-            startValueLabel.AutoSize = true;
-            startValueLabel.Location = new Point(1, 130);
-            startValueLabel.Name = "startValueLabel";
-            startValueLabel.Size = new Size(62, 15);
-            startValueLabel.TabIndex = 54;
-            startValueLabel.Text = "Start Value";
+            startValueUpDown.Location = new Point(95, 20);
+            startValueUpDown.Name = "startValueUpDown";
+            startValueUpDown.Size = new Size(120, 23);
+            startValueUpDown.TabIndex = 4;
             // 
             // endCaptionLabel
             // 
             endCaptionLabel.AutoSize = true;
-            endCaptionLabel.Location = new Point(1, 75);
+            endCaptionLabel.Location = new Point(6, 149);
             endCaptionLabel.Name = "endCaptionLabel";
-            endCaptionLabel.Size = new Size(72, 15);
-            endCaptionLabel.TabIndex = 53;
-            endCaptionLabel.Text = "End Caption";
+            endCaptionLabel.Size = new Size(78, 15);
+            endCaptionLabel.TabIndex = 3;
+            endCaptionLabel.Text = "End Caption :";
             // 
             // startCaptionLabel
             // 
             startCaptionLabel.AutoSize = true;
-            startCaptionLabel.Location = new Point(1, 40);
+            startCaptionLabel.Location = new Point(6, 108);
             startCaptionLabel.Name = "startCaptionLabel";
-            startCaptionLabel.Size = new Size(76, 15);
-            startCaptionLabel.TabIndex = 52;
-            startCaptionLabel.Text = "Start Caption";
+            startCaptionLabel.Size = new Size(82, 15);
+            startCaptionLabel.TabIndex = 2;
+            startCaptionLabel.Text = "Start Caption :";
             // 
-            // generalQuestionGroupBox
+            // endValueLabel
             // 
-            generalQuestionGroupBox.Controls.Add(textQuestionLabel);
-            generalQuestionGroupBox.Controls.Add(orderQuestionUpDown);
-            generalQuestionGroupBox.Controls.Add(textQuestionTextBox);
-            generalQuestionGroupBox.Controls.Add(orderQuestionLabel);
-            generalQuestionGroupBox.Location = new Point(53, 227);
-            generalQuestionGroupBox.Name = "generalQuestionGroupBox";
-            generalQuestionGroupBox.Size = new Size(307, 100);
-            generalQuestionGroupBox.TabIndex = 66;
-            generalQuestionGroupBox.TabStop = false;
-            generalQuestionGroupBox.Text = "General Question";
+            endValueLabel.AutoSize = true;
+            endValueLabel.Location = new Point(6, 70);
+            endValueLabel.Name = "endValueLabel";
+            endValueLabel.Size = new Size(58, 15);
+            endValueLabel.TabIndex = 1;
+            endValueLabel.Text = "End value";
             // 
-            // textQuestionLabel
+            // startValueLabel
             // 
-            textQuestionLabel.AutoSize = true;
-            textQuestionLabel.Location = new Point(6, 33);
-            textQuestionLabel.Name = "textQuestionLabel";
-            textQuestionLabel.Size = new Size(91, 15);
-            textQuestionLabel.TabIndex = 46;
-            textQuestionLabel.Text = "Text of question";
+            startValueLabel.AutoSize = true;
+            startValueLabel.Location = new Point(6, 22);
+            startValueLabel.Name = "startValueLabel";
+            startValueLabel.Size = new Size(62, 15);
+            startValueLabel.TabIndex = 0;
+            startValueLabel.Text = "Start value";
             // 
-            // orderQuestionUpDown
+            // smileyPanel
             // 
-            orderQuestionUpDown.Location = new Point(180, 61);
-            orderQuestionUpDown.Maximum = new decimal(new int[] { 5, 0, 0, 0 });
-            orderQuestionUpDown.Name = "orderQuestionUpDown";
-            orderQuestionUpDown.Size = new Size(40, 23);
-            orderQuestionUpDown.TabIndex = 49;
+            smileyPanel.Controls.Add(smileyFacesUpDown);
+            smileyPanel.Controls.Add(smileyFacesCountLabel);
+            smileyPanel.Location = new Point(12, 384);
+            smileyPanel.Name = "smileyPanel";
+            smileyPanel.Size = new Size(560, 51);
+            smileyPanel.TabIndex = 3;
             // 
-            // textQuestionTextBox
+            // smileyFacesUpDown
             // 
-            textQuestionTextBox.Location = new Point(103, 28);
-            textQuestionTextBox.Multiline = true;
-            textQuestionTextBox.Name = "textQuestionTextBox";
-            textQuestionTextBox.Size = new Size(198, 23);
-            textQuestionTextBox.TabIndex = 48;
+            smileyFacesUpDown.Location = new Point(95, 17);
+            smileyFacesUpDown.Maximum = new decimal(new int[] { 5, 0, 0, 0 });
+            smileyFacesUpDown.Minimum = new decimal(new int[] { 2, 0, 0, 0 });
+            smileyFacesUpDown.Name = "smileyFacesUpDown";
+            smileyFacesUpDown.Size = new Size(120, 23);
+            smileyFacesUpDown.TabIndex = 5;
+            smileyFacesUpDown.Value = new decimal(new int[] { 2, 0, 0, 0 });
             // 
-            // orderQuestionLabel
+            // smileyFacesCountLabel
             // 
-            orderQuestionLabel.AutoSize = true;
-            orderQuestionLabel.Location = new Point(6, 63);
-            orderQuestionLabel.Name = "orderQuestionLabel";
-            orderQuestionLabel.Size = new Size(100, 15);
-            orderQuestionLabel.TabIndex = 47;
-            orderQuestionLabel.Text = "Order of question";
+            smileyFacesCountLabel.AutoSize = true;
+            smileyFacesCountLabel.Location = new Point(6, 19);
+            smileyFacesCountLabel.Name = "smileyFacesCountLabel";
+            smileyFacesCountLabel.Size = new Size(72, 15);
+            smileyFacesCountLabel.TabIndex = 3;
+            smileyFacesCountLabel.Text = "Smiley faces";
             // 
-            // AddDialog
+            // starsPanel
+            // 
+            starsPanel.Controls.Add(starsUpDown);
+            starsPanel.Controls.Add(starsCountLabel);
+            starsPanel.Location = new Point(12, 453);
+            starsPanel.Name = "starsPanel";
+            starsPanel.Size = new Size(560, 51);
+            starsPanel.TabIndex = 4;
+            // 
+            // starsUpDown
+            // 
+            starsUpDown.Location = new Point(95, 17);
+            starsUpDown.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
+            starsUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            starsUpDown.Name = "starsUpDown";
+            starsUpDown.Size = new Size(120, 23);
+            starsUpDown.TabIndex = 5;
+            starsUpDown.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
+            // starsCountLabel
+            // 
+            starsCountLabel.AutoSize = true;
+            starsCountLabel.Location = new Point(6, 19);
+            starsCountLabel.Name = "starsCountLabel";
+            starsCountLabel.Size = new Size(32, 15);
+            starsCountLabel.TabIndex = 3;
+            starsCountLabel.Text = "Stars";
+            // 
+            // CancelAddButton
+            // 
+            CancelAddButton.Location = new Point(458, 589);
+            CancelAddButton.Name = "CancelAddButton";
+            CancelAddButton.Size = new Size(114, 51);
+            CancelAddButton.TabIndex = 5;
+            CancelAddButton.Text = "Cancel";
+            CancelAddButton.UseVisualStyleBackColor = true;
+            CancelAddButton.Click += CancelAddButton_Click;
+            // 
+            // okAddButton
+            // 
+            okAddButton.Location = new Point(338, 589);
+            okAddButton.Name = "okAddButton";
+            okAddButton.Size = new Size(114, 51);
+            okAddButton.TabIndex = 6;
+            okAddButton.Text = "OK";
+            okAddButton.UseVisualStyleBackColor = true;
+            okAddButton.Click += okAddButton_Click;
+            // 
+            // addDialog
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(856, 482);
-            Controls.Add(questionTypeGroupBox);
-            Controls.Add(starsGroupBox);
-            Controls.Add(smileyFacesGroupBox);
-            Controls.Add(sliderGroupBox);
-            Controls.Add(generalQuestionGroupBox);
-            Name = "AddDialog";
+            ClientSize = new Size(584, 661);
+            Controls.Add(okAddButton);
+            Controls.Add(CancelAddButton);
+            Controls.Add(starsPanel);
+            Controls.Add(smileyPanel);
+            Controls.Add(sliderPanel);
+            Controls.Add(textPanel);
+            Controls.Add(typeQuestionGroup);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
+            Name = "addDialog";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "AddDialog";
-            questionTypeGroupBox.ResumeLayout(false);
-            questionTypeGroupBox.PerformLayout();
-            starsGroupBox.ResumeLayout(false);
-            starsGroupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)starsUpDown).EndInit();
-            smileyFacesGroupBox.ResumeLayout(false);
-            smileyFacesGroupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)smileyFacesUpDown).EndInit();
-            sliderGroupBox.ResumeLayout(false);
-            sliderGroupBox.PerformLayout();
+            typeQuestionGroup.ResumeLayout(false);
+            typeQuestionGroup.PerformLayout();
+            textPanel.ResumeLayout(false);
+            textPanel.PerformLayout();
+            sliderPanel.ResumeLayout(false);
+            sliderPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)endValueUpDown).EndInit();
             ((System.ComponentModel.ISupportInitialize)startValueUpDown).EndInit();
-            generalQuestionGroupBox.ResumeLayout(false);
-            generalQuestionGroupBox.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)orderQuestionUpDown).EndInit();
+            smileyPanel.ResumeLayout(false);
+            smileyPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)smileyFacesUpDown).EndInit();
+            starsPanel.ResumeLayout(false);
+            starsPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)starsUpDown).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
-        private GroupBox questionTypeGroupBox;
-        private RadioButton starsQuestionOption;
-        private RadioButton smileyFacesQuestionOption;
-        private RadioButton sliderQuestionOption;
-        private Label label1;
-        private GroupBox starsGroupBox;
-        private NumericUpDown starsUpDown;
-        private Label countStarsLabel;
-        private GroupBox smileyFacesGroupBox;
-        private NumericUpDown smileyFacesUpDown;
-        private Label coumtsmileyFacesLabel;
-        private GroupBox sliderGroupBox;
+        private GroupBox typeQuestionGroup;
+        private RadioButton starsQuestionRadioButton;
+        private RadioButton smileyFacesQuestionRadioButton;
+        private RadioButton sliderQuestionRadioButton;
+        private Panel textPanel;
+        private Label questionTextLabel;
+        private TextBox textQuestionTextBox;
+        private Panel sliderPanel;
         private NumericUpDown endValueUpDown;
         private NumericUpDown startValueUpDown;
-        private TextBox endCaptionTextBox;
-        private TextBox startCaptionTextBox;
-        private Label endValueLabel;
-        private Label startValueLabel;
         private Label endCaptionLabel;
         private Label startCaptionLabel;
-        private GroupBox generalQuestionGroupBox;
-        private Label textQuestionLabel;
-        private NumericUpDown orderQuestionUpDown;
-        private TextBox textQuestionTextBox;
-        private Label orderQuestionLabel;
+        private Label endValueLabel;
+        private Label startValueLabel;
+        private TextBox endCaptionTextBox;
+        private TextBox startCaptionTextBox;
+        private Panel smileyPanel;
+        private NumericUpDown smileyFacesUpDown;
+        private Label smileyFacesCountLabel;
+        private Panel starsPanel;
+        private NumericUpDown starsUpDown;
+        private Label starsCountLabel;
+        private Button CancelAddButton;
+        private Button okAddButton;
     }
 }

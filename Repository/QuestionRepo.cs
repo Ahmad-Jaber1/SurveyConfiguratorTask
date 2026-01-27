@@ -7,7 +7,7 @@ using System.Text;
 
 namespace SurveyConfiguratorTask.Repo
 {
-    public class QuestionRepo 
+    public class QuestionRepo
     {
         public List<Question> Questions { get; set; }
         public List<Question> QuestionsLoad()
@@ -355,6 +355,89 @@ namespace SurveyConfiguratorTask.Repo
             }
             return questionCount;
         }
+        public Question GetQuestion(Guid id)
+        {
 
-    }
+            Questions = new List<Question>();
+            var connectionString = ConfigurationManager.
+                ConnectionStrings["DbConnectionString"].ConnectionString;
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                using (var cmd = connection.CreateCommand())
+                {
+                    
+                    try
+                    {
+                        cmd.CommandText = "SELECT * FROM Questions WHERE Id =@Id";
+                        cmd.Parameters.Add("@Id", System.Data.SqlDbType.UniqueIdentifier).Value = id;
+
+                        connection.Open();
+                        var rdr = cmd.ExecuteReader();
+                        rdr.Read();
+                        Question question = null;
+
+                        switch ((TypeQuestionEnum)rdr["QuestionType"])
+                        {
+                            case TypeQuestionEnum.SliderQuestion:
+                                connection.Close();
+                                cmd.CommandText = "SELECT Questions.*,SliderQuestion.* FROM Questions INNER JOIN SliderQuestion  ON Questions.Id = @Id WHERE Questions.Id = @Id;";
+                                connection.Open();
+
+                                rdr = cmd.ExecuteReader();
+                                rdr.Read();
+                                question = new SliderQuestion(
+                                    (Guid)rdr["Id"],
+                                    (string)rdr["QuestionText"],
+                                    (int)rdr["QuestionOrder"],
+                                    (int)rdr["StartValue"],
+                                    (int)rdr["EndQuestion"],
+                                    (string)rdr["StartCaption"],
+                                    (string)rdr["EndCaption"]
+                                    );
+                                break;
+                            case TypeQuestionEnum.SmileyFacesQuestion:
+                                connection.Close();
+
+                                cmd.CommandText = "SELECT Questions.*,SmileyFacesQuestion.* FROM Questions INNER JOIN SmileyFacesQuestion  ON Questions.Id= @Id WHERE Questions.Id = @Id;";
+                                connection.Open();
+
+                                rdr = cmd.ExecuteReader();
+                                rdr.Read();
+                                question = new SmileyFacesQuestion(
+                                    (Guid)rdr["Id"],
+                                    (string)rdr["QuestionText"],
+                                    (int)rdr["QuestionOrder"],
+                                    (int)rdr["SmileyCount"]
+                                    );
+                                break; 
+                            case TypeQuestionEnum.StarsQuestion:
+                                connection.Close();
+
+                                cmd.CommandText = "SELECT Questions.*,StarsQuestion.* FROM Questions INNER JOIN StarsQuestion  ON  Questions.Id= @Id   WHERE Questions.Id = @Id;";
+                                connection.Open();
+
+                                rdr = cmd.ExecuteReader();
+                                rdr.Read();
+                                question = new StarsQuestion(
+                                    (Guid)rdr["Id"],
+                                    (string)rdr["QuestionText"],
+                                    (int)rdr["QuestionOrder"],
+                                    (int)rdr["StarsCount"]
+                                    );
+                                break;
+                        }
+                        return question; 
+                    }
+                    catch (Exception ex) 
+                    { 
+                        throw new Exception (ex.Message);   
+                    }
+                }
+
+            } 
+        } 
+    } 
+
+    
 }
