@@ -5,24 +5,27 @@ using System.Text;
 
 namespace SurveyConfiguratorTask.Models
 {
+    /// <summary>
+    /// Represent general info about question object .
+    /// </summary>
+
     public  abstract class Question : IComparable<Question>
     {
         public Guid Id { get;  }
         public string Text { get;  set; }
         public int Order { get;  set;  }
         public TypeQuestionEnum TypeQuestion { get;  set; }
-        public static int OrderCount { get;  set; } = 0; 
 
 
+        //Create question object with new unique identifier.
         public Question(string text , int order,TypeQuestionEnum type)
         {
             Id = Guid.NewGuid();
             SetText(text);
             Order = order;
             TypeQuestion = type; 
-
-
         }
+        //Initializes a Question object from an existing data source.
         public Question(Guid id, string text, int order)
         {
             Id = id; 
@@ -32,6 +35,7 @@ namespace SurveyConfiguratorTask.Models
         }
         public void SetText(string text)
         {
+            //Text must not be null or empty.
             if (text is null)
                 throw new ArgumentNullException(nameof(text), $"Parameter {nameof(text)} must not be null. Please provide a valid value.");
             if (text == string.Empty)
@@ -40,20 +44,14 @@ namespace SurveyConfiguratorTask.Models
             Text = text; 
         }
         protected void SetOrder(int order)
-        {
+        { 
             Order = order; 
         }
-        public static void ReorderQuestions(List<Question> questions)
-        {
-            foreach (var iteam in questions)
-            {
-                iteam.Order = questions.IndexOf(iteam) + 1;
-            }
-        }
-
-        public abstract void EditQuestion(EditContext context, List<Question> questions);
+        
+        
         public abstract void Show( Question question);
 
+        //For sort question list based on order.
         int IComparable<Question>.CompareTo(Question other)
         {
             return Order.CompareTo(other.Order);

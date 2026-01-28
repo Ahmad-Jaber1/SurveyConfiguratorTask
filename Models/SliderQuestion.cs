@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SurveyConfiguratorTask.Models
 {
+    /// <summary>
+    /// Represent information type of question : slider .
+    /// </summary>
     public class SliderQuestion : Question
     {
         public int StartValue { get;  set; } = 0;
@@ -11,6 +15,7 @@ namespace SurveyConfiguratorTask.Models
         public string StartCaption { get;  set; }
         public string EndCaption { get;  set; }
 
+        //Create SliderQuestion object with new unique identifier.
         public SliderQuestion(string text  , int order,int startValue, int endValue, string startCaption, string endCaption) 
             :base(text , order,TypeQuestionEnum.SliderQuestion)
         { 
@@ -21,25 +26,20 @@ namespace SurveyConfiguratorTask.Models
             SetEndValue(endValue);
             
         }
-        
+        //Initializes a SliderQuestion object from an existing data source.
         public SliderQuestion(Guid id,string text , int order , int startValue , int endValue 
             , string startCaption , string endCaption) : base(id, text ,  order )
         {
-             
-            
-            
             TypeQuestion = TypeQuestionEnum.SliderQuestion;
-            
             SetStartCaption(startCaption);
             SetEndCaption(endCaption);
             SetStartValue(startValue);
-            SetEndValue(endValue);
-            
-            
+            SetEndValue(endValue); 
         }
 
         public void SetStartValue(int value)
         {
+            //Start value must not be negative or greater than end value.
             if (value < 0 || value >= EndValue)
             {
                 throw new ArgumentOutOfRangeException(nameof(value) , $"{nameof(StartValue)} must be between 0 and {EndValue-1}.");
@@ -50,7 +50,7 @@ namespace SurveyConfiguratorTask.Models
 
         public void SetEndValue(int value)
         {
-            
+            //End value must not be grater than 100 or less than start value.
             if (value <= StartValue || value > 100)
             {
                 throw new ArgumentOutOfRangeException(nameof(value), $"{nameof(EndValue)} must be between {StartValue+1} and 100.");
@@ -62,7 +62,7 @@ namespace SurveyConfiguratorTask.Models
 
         public void SetStartCaption(string caption)
         {
-            
+            //Caption must not be null or empty.
             if (caption is null)
                 throw new ArgumentNullException(nameof(caption), $"Parameter {nameof(caption)} must not be null. Please provide a valid value.");
             if (caption == string.Empty)
@@ -73,6 +73,7 @@ namespace SurveyConfiguratorTask.Models
 
         public void SetEndCaption(string caption)
         {
+            //Caption must not be null or empty.
             if (caption is null)
                 throw new ArgumentNullException(nameof(caption), $"Parameter {nameof(caption)} must not be null. Please provide a valid value.");
             if (caption == string.Empty)
@@ -82,17 +83,7 @@ namespace SurveyConfiguratorTask.Models
             
         }
 
-        public override void EditQuestion(EditContext context, List<Question> questions)
-        {
-            base.SetText(context.Text);
-            SetStartValue(context.StartValue);
-            SetEndValue(context.EndValue);
-
-            SetStartCaption(context.StartCaption);
-            SetEndCaption(context.EndCaption);
-
-            this.ChangeQuestionOrder(questions, context.Order);
-        }
+        
 
         public override void Show(Question question)
         {

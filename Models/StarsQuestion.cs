@@ -4,14 +4,22 @@ using System.Text;
 
 namespace SurveyConfiguratorTask.Models
 {
+    /// <summary>
+    /// Represent information type of question : Stars .
+    /// </summary>
     public class StarsQuestion : Question
     {
         public int StarsCount { get; private set; }
-        public StarsQuestion(string text, int order,int count):base(text ,  order,TypeQuestionEnum.StarsQuestion )
+
+        //Create StarsQuestion object with new unique identifier.
+        public StarsQuestion(string text, int order,int count)
+            :base(text ,  order,TypeQuestionEnum.StarsQuestion )
         {
             SetStarsCount(count);
         }
-        public StarsQuestion(Guid id,string text , int order , int starsCount):base(id , text , order)
+        //Initializes a StarsQuestion object from an existing data source.
+        public StarsQuestion(Guid id,string text , int order , int starsCount)
+            :base(id , text , order)
         {
             TypeQuestion = TypeQuestionEnum.StarsQuestion;
             SetStarsCount(starsCount);
@@ -19,6 +27,7 @@ namespace SurveyConfiguratorTask.Models
 
         public void SetStarsCount(int count)
         {
+            //StarsCount must not be less than 1 or greater than 10
             if (count <= 0 || count > 10)
             {
                 throw new ArgumentOutOfRangeException(nameof(count), $"Value must be between 1 and 10.");
@@ -26,12 +35,7 @@ namespace SurveyConfiguratorTask.Models
             StarsCount = count;
         }
 
-        public override void  EditQuestion(EditContext context, List<Question> questions)
-        {
-            base.SetText(context.Text);
-            SetStarsCount(context.StarsCount);
-            this.ChangeQuestionOrder(questions, context.Order);
-        }
+        
         public override void Show(Question question)
         {
             var temp = (StarsQuestion)question;

@@ -1,4 +1,6 @@
+using Microsoft.Extensions.Logging;
 using Models;
+using Serilog;
 using Services;
 using SurveyConfiguratorTask.Models;
 using SurveyConfiguratorTask.Repo;
@@ -24,10 +26,16 @@ namespace SurveyConfiguratorTask
             //question.Show(question);
             //service.AddQuestionService(TypeQuestionEnum.SmileyFacesQuestion, temp);
             //service.AddQuestionService(TypeQuestionEnum.SmileyFacesQuestion, temp2);
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Error()
+                .WriteTo.File("logs\\app_log.txt"
+                , outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss} [{Level}] {Message}{NewLine}{Exception}")
+                .CreateLogger();
+                
             ApplicationConfiguration.Initialize();
             Application.Run(new MainForm());
 
-
+            
 
 
             //var repo = new QuestionRepo();

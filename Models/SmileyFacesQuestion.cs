@@ -4,14 +4,22 @@ using System.Text;
 
 namespace SurveyConfiguratorTask.Models
 {
+    /// <summary>
+    /// Represent information type of question : Smiley Faces .
+    /// </summary>
     public class SmileyFacesQuestion : Question
     {
         public int SmileyCount { get; private set; }
-        public SmileyFacesQuestion(string text,int order,int count) : base(text, order,TypeQuestionEnum.SmileyFacesQuestion )
+
+        //Create SmileyFacesQuestion object with new unique identifier.
+        public SmileyFacesQuestion(string text,int order,int count) 
+            : base(text, order,TypeQuestionEnum.SmileyFacesQuestion )
         {
             SetSmileyCount(count);
         }
-        public SmileyFacesQuestion(Guid id, string text , int order , int count) : base(id, text , order )
+        //Initializes a SmileyFacesQuestion object from an existing data source.
+        public SmileyFacesQuestion(Guid id, string text , int order , int count) 
+            : base(id, text , order )
         {
             
             SetSmileyCount(count);
@@ -22,7 +30,7 @@ namespace SurveyConfiguratorTask.Models
         public void SetSmileyCount(int count)
         {
             
-
+            //SmileyCount must not be less than 2 or greater than 5 
             if (count < 2 || count > 5)
             {
                 throw new ArgumentOutOfRangeException(nameof(count), $"Value must be between 2 and 5.");
@@ -32,12 +40,7 @@ namespace SurveyConfiguratorTask.Models
 
         }
 
-        public override void EditQuestion(EditContext context, List<Question> questions)
-        {
-            base.SetText(context.Text);
-            SetSmileyCount(context.SmileyCount);
-            this.ChangeQuestionOrder(questions, context.Order);
-        }
+        
 
         public override void Show(Question question)
         {

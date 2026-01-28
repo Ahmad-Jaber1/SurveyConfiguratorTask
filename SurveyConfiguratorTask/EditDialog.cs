@@ -93,21 +93,21 @@ namespace SurveyConfiguratorTask
 
             }
 
-             
-            if(edit.Order > service.GetCountService())
-            {
-                MessageBox.Show(
-            "Order value is invalid.",
-            "Validation Error",
-            MessageBoxButtons.OK,
-            MessageBoxIcon.Error
-            );
-                this.Close(); 
-                return;
-            }
-
             try
             {
+                if (edit.Order > service.GetCountService())
+            {
+                MessageBox.Show(
+                "Order value is invalid.",
+                "Validation Error",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error
+                );
+                    return; 
+                
+            }
+
+            
 
                 service.EditQuestionService(question.Id, edit);
 
@@ -115,12 +115,12 @@ namespace SurveyConfiguratorTask
             catch(ArgumentNullException ex)
             {
                 MessageBox.Show(
-            ex.Message,
-            "Error",
-            MessageBoxButtons.OK,
-            MessageBoxIcon.Error
-        );
-                this.Close();
+                ex.Message,
+                "Error",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error
+                );
+               
 
 
             }
@@ -128,25 +128,34 @@ namespace SurveyConfiguratorTask
             catch (ArgumentOutOfRangeException ex)
             {
                 MessageBox.Show(
-            ex.Message,
-            "Error",
-            MessageBoxButtons.OK,
-            MessageBoxIcon.Error
-        );
-                this.Close();
+                ex.Message,
+                "Error",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error
+                );
+                
 
             }
 
             catch (ArgumentException ex)
             {
                 MessageBox.Show(
-            ex.Message,
-            "Error",
-            MessageBoxButtons.OK,
-            MessageBoxIcon.Error
-        );
-                this.Close();
+                ex.Message,
+                "Error",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error
+                );
+                
 
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(
+                "An unexpected error occurred. Please try again.",
+                "Error",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error
+                );
             }
 
             DialogResult = DialogResult.OK;

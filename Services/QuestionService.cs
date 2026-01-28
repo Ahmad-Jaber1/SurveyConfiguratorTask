@@ -1,9 +1,12 @@
-﻿using Models;
+﻿using Microsoft.Extensions.Logging;
+using Models;
+using Serilog;
 using SurveyConfiguratorTask.Models;
 using SurveyConfiguratorTask.Repo;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace Services
@@ -12,6 +15,7 @@ namespace Services
     {
         QuestionRepo repo = new();
         List<Question> questions = new();
+        
         public QuestionService()
         {
             questions = QuestionsLoadService();
@@ -19,109 +23,180 @@ namespace Services
 
         public List<Question> QuestionsLoadService()
         {
-            questions = repo.QuestionsLoad();
-            questions.Sort();
-            return questions;
+            try
+            {
+                questions = repo.QuestionsLoad();
+                if (questions is not null & questions.Count > 0)
+                    questions.Sort();
+                
+                return questions;
+            }
+            catch (Exception ex) 
+            {
+                Log.Error(ex, "Error occurred while loading the question list.");
+                throw; 
+            }
+        
         }
         public void AddQuestionService(TypeQuestionEnum type , AddQuestionDto questionDto)
         {
-            var questionCount = repo.GetCount();
-            Question question =null;
-            switch ((int)type)
+            try
             {
-                 
-                case 0:
-                    question = new SliderQuestion(questionDto.Text, questionCount + 1, questionDto.StartValue
-                        , questionDto.EndValue, questionDto.StartCaption, questionDto.EndCaption);
-                    break;
-                case 1:
-                    question = new SmileyFacesQuestion(questionDto.Text, questionCount + 1, questionDto.SmileyCount);
-                    break;
-                case 2:
-                    question = new StarsQuestion(questionDto.Text, questionCount + 1, questionDto.StarsCount);
-                    break;
+                if (questionDto is null)
+                    throw new ArgumentNullException("Question data cannot be null.");
+                int questionCount = repo.GetCount();
 
+
+                Question question = null;
+                switch ((int)type)
+                {
+
+                    case 0:
+                        question = new SliderQuestion(questionDto.Text, questionCount + 1, questionDto.StartValue
+                            , questionDto.EndValue, questionDto.StartCaption, questionDto.EndCaption);
+                        break;
+                    case 1:
+                        question = new SmileyFacesQuestion(questionDto.Text, questionCount + 1, questionDto.SmileyCount);
+                        break;
+                    case 2:
+                        question = new StarsQuestion(questionDto.Text, questionCount + 1, questionDto.StarsCount);
+                        break;
+                    _:
+                        throw new ArgumentOutOfRangeException(nameof(type), "The selected question type is not supported.");
+                        break;
+
+                }
+                questions.Add(question);
+                repo.AddQuestion(question);
+               
             }
-            questions.Add(question);
-            repo.AddQuestion(question);
             
-
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error occurred while adding a question of type {Type}", (TypeQuestionEnum)type);
+                throw;
+            }
         }
         
         public void DeleteQuestionService(Guid id)
         {
-            repo.DeleteQuestion(id);
-            foreach(var question in questions)
+            try
             {
-                if(question.Id == id)
+                Question deletedQuestion = null; 
+                foreach ( var question in questions)
                 {
-                    questions.Remove(question);
-                    break; 
+                    if (question.Id == id)
+                    {
+                        questions.Remove(question);
+                        repo.DeleteQuestion(id);
+                        EditOrder();
+                        deletedQuestion = question;
+                        break;
+                    }
+                   
                 }
+                if (deletedQuestion is null)
+                    throw new KeyNotFoundException("Question not found.");
+                
             }
-            EditOrder();
+            catch (KeyNotFoundException ex)
+            {
+                Log.Error(ex, "Attempted to delete a question that does not exist. Id: {Id}", id);
+                
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error occurred while deleting a question with Id {Id}", id);
+                
+                throw;
+            }
         }
         public void EditQuestionService(Guid id ,EditContext editContext)
         {
-            Question question = null; 
-            foreach (var item in questions)
-            {
-                if (item.Id == id)
-                {
-                    question = item;
-                }
-            }
-            Question questionEdit = null; 
-            switch ((int)question.TypeQuestion)
-            {
 
-                case 0:
+            try
+            {
+                if (editContext is null)
+                    throw new ArgumentNullException("Question data cannot be null.");
+
+                Question question = null;
+                foreach (var item in questions)
+                {
+                    if (item.Id == id)
+                    {
+                        question = item;
+                    }
+                }
+                if (question is null)
+                    throw new KeyNotFoundException("Question not found.");
+
+                Question questionEdit = null;
+                switch ((int)question.TypeQuestion)
+                {
+
+                    case 0:
+
+                        questionEdit = new SliderQuestion(question.Id, editContext.Text, editContext.Order == 0 ? question.Order : editContext.Order, editContext.StartValue
+                            , editContext.EndValue, editContext.StartCaption, editContext.EndCaption);
+                        break;
+                    case 1:
+                        questionEdit = new SmileyFacesQuestion(question.Id, editContext.Text, editContext.Order == 0 ? question.Order : editContext.Order, editContext.SmileyCount);
+                        break;
+                    case 2:
+                        questionEdit = new StarsQuestion(question.Id, editContext.Text, editContext.Order == 0 ? question.Order : editContext.Order, editContext.StarsCount);
+                        break;
                      
-                    questionEdit = new SliderQuestion(question.Id , editContext.Text , editContext.Order == 0 ? question.Order : editContext.Order , editContext.StartValue
-                        ,editContext.EndValue ,editContext.StartCaption , editContext.EndCaption );
-                    break;
-                case 1:
-                    questionEdit = new SmileyFacesQuestion(question.Id, editContext.Text, editContext.Order == 0 ? question.Order : editContext.Order, editContext.SmileyCount);
-                    break;
-                case 2:
-                    questionEdit = new StarsQuestion(question.Id,editContext.Text, editContext.Order == 0 ? question.Order : editContext.Order, editContext.StarsCount);
-                    break;
 
-            }
-            questions.Remove(question);
-            questions.Insert(questionEdit.Order -1 , questionEdit);
-            repo.EditQuestion(questionEdit);
-            if(editContext.Order != 0)
-            {
-                var ids = new List<Guid>();
-                var orders = new List<int>();
-                
-                for(int i = 0; i < questions.Count; i++)
-                {
-                    ids.Add(questions[i].Id);
-                    orders.Add(i+1);
-                    questions[i].Order = i+1;
                 }
-                repo.EditOrder(ids, orders);
+                if(questionEdit.Order > GetCountService())
+                {
+                    throw new IndexOutOfRangeException("Order value is invalid.");
+                }
+                questions.Remove(question);
+                questions.Insert(questionEdit.Order - 1, questionEdit);
+                repo.EditQuestion(questionEdit);
+                if (editContext.Order != 0)
+                {
+                    EditOrder();
+                }
+                
             }
-            questions.Sort();
-            
+            catch (KeyNotFoundException ex)
+            {
+                Log.Error(ex, "Attempted to edit a question that does not exist. Id: {0}", id);
+                throw; 
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error occurred while editing a question with Id {Id}", id);
+                throw; 
+            }
+
         }
 
         public void EditOrder()
         {
-            questions.Sort();
-            var ids = new List<Guid>();
-            var orders = new List<int>();
-
-            for (int i = 0; i < questions.Count; i++)
+            try
             {
-                ids.Add(questions[i].Id);
-                orders.Add(i + 1);
-                questions[i].Order = i+1;
+                questions.Sort();
+                var ids = new List<Guid>();
+                var orders = new List<int>();
+
+                for (int i = 0; i < questions.Count; i++)
+                {
+                    ids.Add(questions[i].Id);
+                    orders.Add(i + 1);
+                    questions[i].Order = i + 1;
+                }
+                if (repo.GetCount() > 0)
+                    repo.EditOrder(ids, orders);
             }
-            if (repo.GetCount() > 0)
-                repo.EditOrder(ids, orders);
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error occurred while editing the order of questions.");
+                throw;
+            }
         }
         public List<Question> GetQuestionsList()
         {
@@ -129,19 +204,35 @@ namespace Services
         }
         public Question GetQuestionService(Guid id)
         {
-            
-            
-            foreach (var q in questions)
+
+
+            try
             {
-                if (q.Id == id)
-                    return q; 
+                foreach (var q in questions)
+                {
+                    if (q.Id == id)
+                        return q;
+                }
+                throw new KeyNotFoundException("Question not found.");
             }
-            return null; 
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error occurred while retrieving the question with Id {Id}", id);
+                throw;
+            }
         }
 
         public int GetCountService()
         {
-            return repo.GetCount();
+            try
+            {
+                return repo.GetCount();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error occurred while retrieving the question count from the repository.");
+                throw;
+            }
         }
     }
 }

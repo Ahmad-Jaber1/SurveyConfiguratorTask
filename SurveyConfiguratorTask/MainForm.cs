@@ -42,7 +42,29 @@ namespace SurveyConfiguratorTask
                 if (DialogResult.OK == result)
                 {
                     Question question = (Question)QuestionList.SelectedItem;
-                    service.DeleteQuestionService(question.Id);
+                    try
+                    {
+                        service.DeleteQuestionService(question.Id);
+                    }
+                    catch (KeyNotFoundException ex)
+                    {
+                        MessageBox.Show(
+                        ex.Message,
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                        );
+                        
+                    }
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show(
+                        "An unexpected error occurred. Please try again.",
+                        "Error",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                        );
+                    }
 
                     MainForm_Load(sender, e);
                 }
@@ -88,39 +110,63 @@ namespace SurveyConfiguratorTask
             TypeQuestionEnum type = question.TypeQuestion;
             questionTextValue.Text = question.Text;
             questionOrderValue.Text = question.Order.ToString();
-            switch (type)
+            try
             {
-                case TypeQuestionEnum.SliderQuestion:
-                    var slider = (SliderQuestion)service.GetQuestionService(question.Id);
-                    startValueValue.Text = slider.StartValue.ToString();
-                    endValueValue.Text = slider.EndValue.ToString();
-                    startCaptionValue.Text = slider.StartCaption;
-                    endCaptionValue.Text = slider.EndCaption;
+                switch (type)
+                {
+                    case TypeQuestionEnum.SliderQuestion:
+                        var slider = (SliderQuestion)service.GetQuestionService(question.Id);
+                        startValueValue.Text = slider.StartValue.ToString();
+                        endValueValue.Text = slider.EndValue.ToString();
+                        startCaptionValue.Text = slider.StartCaption;
+                        endCaptionValue.Text = slider.EndCaption;
 
-                    questionTypeValue.Text = "Slider Question";
-                    sliderPanel.Visible = true;
-
-
-                    break;
-                case TypeQuestionEnum.SmileyFacesQuestion:
-                    var smiley = (SmileyFacesQuestion)service.GetQuestionService(question.Id);
-                    smileyCountValue.Text = smiley.SmileyCount.ToString();
-                    questionTypeValue.Text = "Smiley Faces Question";
-                    smileyPanel.Visible = true;
+                        questionTypeValue.Text = "Slider Question";
+                        sliderPanel.Visible = true;
 
 
+                        break;
+                    case TypeQuestionEnum.SmileyFacesQuestion:
+                        var smiley = (SmileyFacesQuestion)service.GetQuestionService(question.Id);
+                        smileyCountValue.Text = smiley.SmileyCount.ToString();
+                        questionTypeValue.Text = "Smiley Faces Question";
+                        smileyPanel.Visible = true;
 
 
-                    break;
-                case TypeQuestionEnum.StarsQuestion:
-                    var stars = (StarsQuestion)service.GetQuestionService(question.Id);
-                    starsCountValue.Text = stars.StarsCount.ToString();
-                    questionTypeValue.Text = "Stars Question";
-                    starsPanel.Visible = true;
 
 
-                    break;
+                        break;
+                    case TypeQuestionEnum.StarsQuestion:
+                        var stars = (StarsQuestion)service.GetQuestionService(question.Id);
+                        starsCountValue.Text = stars.StarsCount.ToString();
+                        questionTypeValue.Text = "Stars Question";
+                        starsPanel.Visible = true;
+
+
+                        break;
+                }
             }
+            catch (KeyNotFoundException ex)
+            {
+                MessageBox.Show(
+                ex.Message,
+                "Error",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error
+                );
+                
+            }
+
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                "An unexpected error occurred. Please try again.",
+                "Error",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error
+                );
+            }
+
 
         }
 

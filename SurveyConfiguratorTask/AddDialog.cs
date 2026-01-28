@@ -1,4 +1,5 @@
 ﻿using Models;
+using Serilog;
 using Services;
 using SurveyConfiguratorTask.Models;
 using System;
@@ -57,48 +58,51 @@ namespace SurveyConfiguratorTask
 
             try
             {
-
                 service.AddQuestionService(type, addedQuestion);
-
-
             }
             catch (ArgumentNullException ex)
             {
                 MessageBox.Show(
-            ex.Message,
-            "Error",
-            MessageBoxButtons.OK,
-            MessageBoxIcon.Error
-        );
-                this.Close();
-
-
+                            ex.Message,
+                            "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                                );
+                
             }
 
             catch (ArgumentOutOfRangeException ex)
             {
                 MessageBox.Show(
-            ex.Message,
-            "Error",
-            MessageBoxButtons.OK,
-            MessageBoxIcon.Error
-        );
-                this.Close();
-
+                            ex.Message,
+                            "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
+                
             }
 
             catch (ArgumentException ex)
             {
                 MessageBox.Show(
-            ex.Message,
-            "Error",
-            MessageBoxButtons.OK,
-            MessageBoxIcon.Error
-        );
-                this.Close();
-
+                            ex.Message,
+                            "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
+                
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(
+                            "An unexpected error occurred. Please try again.",
+                            "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
             }
 
+            
 
             DialogResult = DialogResult.OK;
             this.Close();

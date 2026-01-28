@@ -1,0 +1,51 @@
+2026-01-28 12:21:59 [Error] It add new question "testlog"
+2026-01-28 12:38:01 [Error] Error occurred while loading the question list.
+System.Exception: I destroy it hahahahahah
+   at Services.QuestionService.QuestionsLoadService() in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 31
+2026-01-28 12:54:06 [Error] Error occurred while adding a question of type StarsQuestion
+System.Exception: I distroy youuuuuuu
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 71
+2026-01-28 14:58:09 [Error] Error occurred while adding a question of type SliderQuestion
+System.ArgumentException: Parameter text can't be empty. (Parameter 'text')
+   at SurveyConfiguratorTask.Models.Question.SetText(String text) in D:\SurveyConfiguratorTask\Models\Question.cs:line 38
+   at SurveyConfiguratorTask.Models.Question..ctor(String text, Int32 order, TypeQuestionEnum type) in D:\SurveyConfiguratorTask\Models\Question.cs:line 20
+   at SurveyConfiguratorTask.Models.SliderQuestion..ctor(String text, Int32 order, Int32 startValue, Int32 endValue, String startCaption, String endCaption) in D:\SurveyConfiguratorTask\Models\SliderQuestion.cs:line 15
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 55
+2026-01-28 14:58:19 [Error] Error occurred while adding a question of type SliderQuestion
+System.ArgumentException: Parameter caption can't be empty. (Parameter 'caption')
+   at SurveyConfiguratorTask.Models.SliderQuestion.SetStartCaption(String caption) in D:\SurveyConfiguratorTask\Models\SliderQuestion.cs:line 69
+   at SurveyConfiguratorTask.Models.SliderQuestion..ctor(String text, Int32 order, Int32 startValue, Int32 endValue, String startCaption, String endCaption) in D:\SurveyConfiguratorTask\Models\SliderQuestion.cs:line 18
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 55
+2026-01-28 14:58:32 [Error] Error occurred while adding a question of type SliderQuestion
+System.ArgumentOutOfRangeException: EndValue must be between 1 and 100. (Parameter 'value')
+   at SurveyConfiguratorTask.Models.SliderQuestion.SetEndValue(Int32 value) in D:\SurveyConfiguratorTask\Models\SliderQuestion.cs:line 56
+   at SurveyConfiguratorTask.Models.SliderQuestion..ctor(String text, Int32 order, Int32 startValue, Int32 endValue, String startCaption, String endCaption) in D:\SurveyConfiguratorTask\Models\SliderQuestion.cs:line 21
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 55
+2026-01-28 14:58:48 [Error] Error occurred while editing a question with Id 61ab92e6-93d6-446c-99a1-421f93f12334
+System.ArgumentException: Parameter text can't be empty. (Parameter 'text')
+   at SurveyConfiguratorTask.Models.Question.SetText(String text) in D:\SurveyConfiguratorTask\Models\Question.cs:line 38
+   at SurveyConfiguratorTask.Models.Question..ctor(Guid id, String text, Int32 order) in D:\SurveyConfiguratorTask\Models\Question.cs:line 29
+   at SurveyConfiguratorTask.Models.StarsQuestion..ctor(Guid id, String text, Int32 order, Int32 starsCount) in D:\SurveyConfiguratorTask\Models\StarsQuestion.cs:line 14
+   at Services.QuestionService.EditQuestionService(Guid id, EditContext editContext) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 147
+2026-01-28 14:58:56 [Error] Error occurred while editing a question with Id 61ab92e6-93d6-446c-99a1-421f93f12334
+System.ArgumentOutOfRangeException: Index must be within the bounds of the List. (Parameter 'index')
+   at System.Collections.Generic.List`1.Insert(Int32 index, T item)
+   at Services.QuestionService.EditQuestionService(Guid id, EditContext editContext) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 153
+2026-01-28 14:59:12 [Error] Error occurred while editing a question with Id 5bfdea41-6e42-43be-8066-fae3f6b11caf
+System.ArgumentOutOfRangeException: Index must be within the bounds of the List. (Parameter 'index')
+   at System.Collections.Generic.List`1.Insert(Int32 index, T item)
+   at Services.QuestionService.EditQuestionService(Guid id, EditContext editContext) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 153
+2026-01-28 15:03:34 [Error] Error occurred while editing a question with Id 13300494-dc2e-458d-9cb1-82abe597d060
+System.ArgumentOutOfRangeException: Index must be within the bounds of the List. (Parameter 'index')
+   at System.Collections.Generic.List`1.Insert(Int32 index, T item)
+   at Services.QuestionService.EditQuestionService(Guid id, EditContext editContext) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 153
+2026-01-28 15:16:59 [Error] Error occurred while adding a question of type SliderQuestion
+System.ArgumentException: Parameter caption can't be empty. (Parameter 'caption')
+   at SurveyConfiguratorTask.Models.SliderQuestion.SetStartCaption(String caption) in D:\SurveyConfiguratorTask\Models\SliderQuestion.cs:line 69
+   at SurveyConfiguratorTask.Models.SliderQuestion..ctor(String text, Int32 order, Int32 startValue, Int32 endValue, String startCaption, String endCaption) in D:\SurveyConfiguratorTask\Models\SliderQuestion.cs:line 18
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 55
+2026-01-28 15:45:05 [Error] Error occurred while adding a question of type SliderQuestion
+System.ArgumentOutOfRangeException: EndValue must be between 51 and 100. (Parameter 'value')
+   at SurveyConfiguratorTask.Models.SliderQuestion.SetEndValue(Int32 value) in D:\SurveyConfiguratorTask\Models\SliderQuestion.cs:line 56
+   at SurveyConfiguratorTask.Models.SliderQuestion..ctor(String text, Int32 order, Int32 startValue, Int32 endValue, String startCaption, String endCaption) in D:\SurveyConfiguratorTask\Models\SliderQuestion.cs:line 26
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 55
