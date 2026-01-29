@@ -48,6 +48,9 @@ namespace Services
 
 
                 Question question = null;
+                //Create new question in local variable .
+                //becasue each type of question has different fields
+                //, we try to determine what type of question the user trying to add .
                 switch ((int)type)
                 {
 
@@ -66,8 +69,11 @@ namespace Services
                         break;
 
                 }
+                
                 questions.Add(question);
+                //Add new question to database.
                 repo.AddQuestion(question);
+                repo.UpdateLastModified();
                
             }
             
@@ -89,8 +95,11 @@ namespace Services
                     {
                         questions.Remove(question);
                         repo.DeleteQuestion(id);
+                        // Reorder questions to maintain consistent ordering after deletion
                         EditOrder();
                         deletedQuestion = question;
+                        repo.UpdateLastModified();
+
                         break;
                     }
                    
@@ -149,18 +158,25 @@ namespace Services
                      
 
                 }
-                if(questionEdit.Order > GetCountService())
+                // Validate that the user-selected order does not exceed the total number of questions
+
+                if (questionEdit.Order > GetCountService() || questionEdit.Order <0)
                 {
                     throw new IndexOutOfRangeException("Order value is invalid.");
                 }
+                 
                 questions.Remove(question);
                 questions.Insert(questionEdit.Order - 1, questionEdit);
+
                 repo.EditQuestion(questionEdit);
+                // Reorder all questions only when the question's order has been changed
                 if (editContext.Order != 0)
                 {
                     EditOrder();
                 }
-                
+                repo.UpdateLastModified();
+
+
             }
             catch (KeyNotFoundException ex)
             {
@@ -190,7 +206,11 @@ namespace Services
                     questions[i].Order = i + 1;
                 }
                 if (repo.GetCount() > 0)
+                {
                     repo.EditOrder(ids, orders);
+                    repo.UpdateLastModified();
+
+                }
             }
             catch (Exception ex)
             {
@@ -204,14 +224,12 @@ namespace Services
         }
         public Question GetQuestionService(Guid id)
         {
-
-
             try
             {
-                foreach (var q in questions)
+                foreach (var question in questions)
                 {
-                    if (q.Id == id)
-                        return q;
+                    if (question.Id == id)
+                        return question;
                 }
                 throw new KeyNotFoundException("Question not found.");
             }
@@ -234,5 +252,20 @@ namespace Services
                 throw;
             }
         }
+
+        public DateTime GetLastModifiedService()
+        {
+            try
+            {
+                return repo.GetLastModified();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error occurred while retrieving the last modified from the repository.");
+                throw;
+            }
+        }
+
+        
     }
 }

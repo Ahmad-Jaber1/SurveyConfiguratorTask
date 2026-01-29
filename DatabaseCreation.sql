@@ -35,3 +35,9 @@ StarsCount INT  NOT NULL CHECK(StarsCount BETWEEN 1 AND 10)
         ON DELETE CASCADE
 )
 
+CREATE TABLE DatabaseChangeTracker (
+LastModified DATETIME2 NOT NULL
+)
+
+INSERT INTO DatabaseChangeTracker (LastModified) VALUES (SYSDATETIME());
+

@@ -13,6 +13,9 @@ namespace SurveyConfiguratorTask
     public partial class MainForm : Form
     {
         QuestionService service = new();
+        DateTime dateTime = DateTime.Now;
+        bool isRunning = true;
+        Thread checkForUpdate;
 
         public MainForm()
         {
@@ -20,14 +23,28 @@ namespace SurveyConfiguratorTask
             InitializeComponent();
 
         }
-
+        private void CreateCheckThread()
+        {
+            checkForUpdate = new Thread(CheckForUpdates);
+            checkForUpdate.IsBackground = true;
+            checkForUpdate.Start();
+        }
         private void MainForm_Load(object sender, EventArgs e)
         {
+            if (checkForUpdate == null)
+            {
+                CreateCheckThread();
+            }
+            ReloadMainForm();
+
+        }
+        private void ReloadMainForm()
+        {
+
             var list = service.GetQuestionsList();
             QuestionList.DataSource = null;
             QuestionList.DataSource = list;
             QuestionList.DisplayMember = "Text";
-
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
@@ -54,9 +71,9 @@ namespace SurveyConfiguratorTask
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error
                         );
-                        
+
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         MessageBox.Show(
                         "An unexpected error occurred. Please try again.",
@@ -65,8 +82,8 @@ namespace SurveyConfiguratorTask
                         MessageBoxIcon.Error
                         );
                     }
-
-                    MainForm_Load(sender, e);
+                    //Force UI rebinding so the latest question data is displayed
+                    ReloadMainForm();
                 }
             }
 
@@ -79,7 +96,9 @@ namespace SurveyConfiguratorTask
 
             if (DialogResult.OK == addDialog.ShowDialog())
             {
-                MainForm_Load(sender, e);
+                //Force UI rebinding so the latest question data is displayed
+                ReloadMainForm();
+
             }
         }
 
@@ -92,7 +111,9 @@ namespace SurveyConfiguratorTask
                 EditDialog editDialog = new EditDialog(service, question);
                 if (DialogResult.OK == editDialog.ShowDialog())
                 {
-                    MainForm_Load(sender, e);
+                    //Force UI rebinding so the latest question data is displayed
+                    ReloadMainForm();
+
                 }
             }
         }
@@ -102,16 +123,17 @@ namespace SurveyConfiguratorTask
             starsPanel.Visible = false;
             sliderPanel.Visible = false;
             smileyPanel.Visible = false;
-            generalPanel.Visible = true;
+            generalPanel.Visible = false;
 
 
-            Question question = (Question)QuestionList.SelectedItem;
-            if (question is null) return;
-            TypeQuestionEnum type = question.TypeQuestion;
-            questionTextValue.Text = question.Text;
-            questionOrderValue.Text = question.Order.ToString();
+
             try
             {
+                Question question = (Question)QuestionList.SelectedItem;
+                if (question is null) return;
+                TypeQuestionEnum type = question.TypeQuestion;
+                questionTextValue.Text = question.Text;
+                questionOrderValue.Text = question.Order.ToString();
                 switch (type)
                 {
                     case TypeQuestionEnum.SliderQuestion:
@@ -122,6 +144,8 @@ namespace SurveyConfiguratorTask
                         endCaptionValue.Text = slider.EndCaption;
 
                         questionTypeValue.Text = "Slider Question";
+                        generalPanel.Visible = true;
+
                         sliderPanel.Visible = true;
 
 
@@ -131,6 +155,8 @@ namespace SurveyConfiguratorTask
                         smileyCountValue.Text = smiley.SmileyCount.ToString();
                         questionTypeValue.Text = "Smiley Faces Question";
                         smileyPanel.Visible = true;
+                        generalPanel.Visible = true;
+
 
 
 
@@ -141,6 +167,8 @@ namespace SurveyConfiguratorTask
                         starsCountValue.Text = stars.StarsCount.ToString();
                         questionTypeValue.Text = "Stars Question";
                         starsPanel.Visible = true;
+                        generalPanel.Visible = true;
+
 
 
                         break;
@@ -154,7 +182,7 @@ namespace SurveyConfiguratorTask
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error
                 );
-                
+
             }
 
             catch (Exception ex)
@@ -168,6 +196,33 @@ namespace SurveyConfiguratorTask
             }
 
 
+        }
+
+        private void CheckForUpdates()
+        {
+            DateTime lastModifyOnDatabase;
+
+            while (isRunning)
+            {
+                lastModifyOnDatabase = service.GetLastModifiedService();
+                if (lastModifyOnDatabase != dateTime)
+                {
+                    dateTime = lastModifyOnDatabase;
+
+                    service.QuestionsLoadService();
+
+                    Invoke(() =>
+                    {
+                        ReloadMainForm();
+                    });
+                }
+                Thread.Sleep(3000);
+            }
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            isRunning = false;
         }
 
         

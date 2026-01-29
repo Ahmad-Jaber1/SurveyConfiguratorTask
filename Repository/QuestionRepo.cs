@@ -12,7 +12,7 @@ namespace SurveyConfiguratorTask.Repo
     {
         public List<Question> Questions { get; set; }
 
-        
+
         public List<Question> QuestionsLoad()
         {
             //Get ConnectionString 
@@ -22,98 +22,98 @@ namespace SurveyConfiguratorTask.Repo
 
 
             //Create and manage connection with database . 
-                using (var connection = new SqlConnection(connectionString))
+            using (var connection = new SqlConnection(connectionString))
+            {
+                using (var cmd = connection.CreateCommand())
                 {
-                    using (var cmd = connection.CreateCommand())
+                    //Load slider questions from database .
+                    cmd.CommandText = "SELECT Questions.Id,Questions.QuestionText , Questions.QuestionOrder " +
+
+                        ", SliderQuestion.StartValue , SliderQuestion.EndValue , SliderQuestion.StartCaption " +
+                        ", SliderQuestion.EndCaption FROM Questions " +
+                        "INNER JOIN SliderQuestion ON Questions.Id = SliderQuestion.Id ";
+
+
+
+                    connection.Open();
+                    var rdr = cmd.ExecuteReader();
+                    // Representing loaded data onto a local variable 
+                    while (rdr.Read())
                     {
-                        //Load slider questions from database .
-                        cmd.CommandText = "SELECT Questions.Id,Questions.QuestionText , Questions.QuestionOrder " +
+                        Questions.Add(
+                            new SliderQuestion
+                            (
+                                 new Guid(rdr["Id"].ToString()),
+                                 rdr["QuestionText"].ToString(),
+                                 Convert.ToInt32(rdr["QuestionOrder"]),
+                                  Convert.ToInt32(rdr["StartValue"]),
+                                 Convert.ToInt32(rdr["EndValue"]),
+                                 rdr["StartCaption"].ToString(),
+                                 rdr["EndCaption"].ToString()
+                            )
+                            );
 
-                            ", SliderQuestion.StartValue , SliderQuestion.EndValue , SliderQuestion.StartCaption " +
-                            ", SliderQuestion.EndCaption FROM Questions " +
-                            "INNER JOIN SliderQuestion ON Questions.Id = SliderQuestion.Id ";
-
-                        
-
-                            connection.Open();
-                            var rdr = cmd.ExecuteReader();
-                            // Representing loaded data onto a local variable 
-                            while (rdr.Read())
-                            {
-                                Questions.Add(
-                                    new SliderQuestion
-                                    (
-                                         new Guid(rdr["Id"].ToString()),
-                                         rdr["QuestionText"].ToString(),
-                                         Convert.ToInt32(rdr["QuestionOrder"]),
-                                          Convert.ToInt32(rdr["StartValue"]),
-                                         Convert.ToInt32(rdr["EndValue"]),
-                                         rdr["StartCaption"].ToString(),
-                                         rdr["EndCaption"].ToString()
-                                    )
-                                    );
-
-                            }
-                            connection.Close();
-
-                        //Load smiley faces questions from database .
-
-                        cmd.CommandText = "SELECT Questions.Id,Questions.QuestionText , Questions.QuestionOrder " +
-
-                            ", SmileyFacesQuestion.SmileyCount " +
-                            " FROM Questions " +
-                            "INNER JOIN SmileyFacesQuestion ON Questions.Id = SmileyFacesQuestion.Id ";
-
-                            connection.Open();
-
-                            rdr = cmd.ExecuteReader();
-                            // Representing loaded data onto a local variable 
-                            
-                            while (rdr.Read())
-                            {
-                                Questions.Add(new SmileyFacesQuestion(
-                                    new Guid(rdr["Id"].ToString()),
-                                    rdr["QuestionText"].ToString(),
-                                    Convert.ToInt32(rdr["QuestionOrder"]),
-                                    Convert.ToInt32(rdr["SmileyCount"])
-
-                                    ));
-                            }
-                            connection.Close();
-                            //Load  stars questions from database .
-                            cmd.CommandText = "SELECT Questions.Id,Questions.QuestionText , Questions.QuestionOrder " +
-
-                            ", StarsQuestion.StarsCount " +
-                            " FROM Questions " +
-                            "INNER JOIN StarsQuestion ON Questions.Id = StarsQuestion.Id ";
-
-                            connection.Open();
-
-                            rdr = cmd.ExecuteReader();
-                            // Representing loaded data onto a local variable 
-
-                            while (rdr.Read())
-                            {
-                                Questions.Add(new StarsQuestion(
-                                    new Guid(rdr["Id"].ToString()),
-                                    rdr["QuestionText"].ToString(),
-                                    Convert.ToInt32(rdr["QuestionOrder"]),
-                                    Convert.ToInt32(rdr["StarsCount"])
-
-                                    ));
-                            }
-                            connection.Close();
-
-
-                        
-                        
-
-                        return Questions;
                     }
+                    connection.Close();
 
+                    //Load smiley faces questions from database .
+
+                    cmd.CommandText = "SELECT Questions.Id,Questions.QuestionText , Questions.QuestionOrder " +
+
+                        ", SmileyFacesQuestion.SmileyCount " +
+                        " FROM Questions " +
+                        "INNER JOIN SmileyFacesQuestion ON Questions.Id = SmileyFacesQuestion.Id ";
+
+                    connection.Open();
+
+                    rdr = cmd.ExecuteReader();
+                    // Representing loaded data onto a local variable 
+
+                    while (rdr.Read())
+                    {
+                        Questions.Add(new SmileyFacesQuestion(
+                            new Guid(rdr["Id"].ToString()),
+                            rdr["QuestionText"].ToString(),
+                            Convert.ToInt32(rdr["QuestionOrder"]),
+                            Convert.ToInt32(rdr["SmileyCount"])
+
+                            ));
+                    }
+                    connection.Close();
+                    //Load  stars questions from database .
+                    cmd.CommandText = "SELECT Questions.Id,Questions.QuestionText , Questions.QuestionOrder " +
+
+                    ", StarsQuestion.StarsCount " +
+                    " FROM Questions " +
+                    "INNER JOIN StarsQuestion ON Questions.Id = StarsQuestion.Id ";
+
+                    connection.Open();
+
+                    rdr = cmd.ExecuteReader();
+                    // Representing loaded data onto a local variable 
+
+                    while (rdr.Read())
+                    {
+                        Questions.Add(new StarsQuestion(
+                            new Guid(rdr["Id"].ToString()),
+                            rdr["QuestionText"].ToString(),
+                            Convert.ToInt32(rdr["QuestionOrder"]),
+                            Convert.ToInt32(rdr["StarsCount"])
+
+                            ));
+                    }
+                    connection.Close();
+
+
+
+
+
+                    return Questions;
                 }
-            
-            
+
+            }
+
+
         }
 
         public void AddQuestion(Question question)
@@ -130,7 +130,7 @@ namespace SurveyConfiguratorTask.Repo
                 using (var trans = connection.BeginTransaction())
                 {
                     using (var cmd = connection.CreateCommand())
-                    { 
+                    {
                         //Add object as general question in database
                         cmd.CommandText = "INSERT INTO Questions (Id , QuestionText , QuestionOrder , QuestionType)" +
                             " values(@Id , @QuestionText , @QuestionOrder , @QuestionType)";
@@ -184,11 +184,12 @@ namespace SurveyConfiguratorTask.Repo
                             trans.Commit();
 
                             connection.Close();
+
                         }
                         catch (Exception ex)
                         {
                             trans.Rollback();
-                            throw ;
+                            throw;
                         }
 
                     }
@@ -207,12 +208,12 @@ namespace SurveyConfiguratorTask.Repo
                     cmd.CommandText = "DELETE FROM Questions WHERE Id = @Id";
                     cmd.Parameters.Add("@Id", System.Data.SqlDbType.UniqueIdentifier).Value = Id;
 
-                    
-                        connection.Open();
-                        cmd.ExecuteNonQuery();
 
-                    
-                    
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+
+
+
                 }
 
 
@@ -283,7 +284,7 @@ namespace SurveyConfiguratorTask.Repo
                     catch (Exception ex)
                     {
                         trans.Rollback();
-                        throw ;
+                        throw;
                     }
                 }
 
@@ -302,7 +303,7 @@ namespace SurveyConfiguratorTask.Repo
                 {
                     try
                     {
-                        //edit order of all questions based on order in local list .
+                        //edit order of all questions based on indexes in local list .
                         using (var cmd = connection.CreateCommand())
                         {
                             var stb = new StringBuilder();
@@ -336,7 +337,7 @@ namespace SurveyConfiguratorTask.Repo
             }
         }
 
-        
+
 
         public int GetCount()
         {
@@ -352,13 +353,13 @@ namespace SurveyConfiguratorTask.Repo
                     cmd.CommandText = "SELECT COUNT(Id) FROM Questions";
 
 
-                    
-                        connection.Open();
-                        var rdr = cmd.ExecuteReader();
-                        rdr.Read();
-                        questionCount = Convert.ToInt32(rdr[0]);
 
-                    
+                    connection.Open();
+                    var rdr = cmd.ExecuteReader();
+                    rdr.Read();
+                    questionCount = Convert.ToInt32(rdr[0]);
+
+
                 }
 
 
@@ -377,72 +378,115 @@ namespace SurveyConfiguratorTask.Repo
             {
                 using (var cmd = connection.CreateCommand())
                 {
-                    
-                    
-                        cmd.CommandText = "SELECT * FROM Questions WHERE Id =@Id";
-                        cmd.Parameters.Add("@Id", System.Data.SqlDbType.UniqueIdentifier).Value = id;
 
-                        connection.Open();
-                        var rdr = cmd.ExecuteReader();
-                        rdr.Read();
-                        Question question = null;
 
-                        switch ((TypeQuestionEnum)rdr["QuestionType"])
-                        {
-                            case TypeQuestionEnum.SliderQuestion:
-                                connection.Close();
-                                cmd.CommandText = "SELECT Questions.*,SliderQuestion.* FROM Questions INNER JOIN SliderQuestion  ON Questions.Id = @Id WHERE Questions.Id = @Id;";
-                                connection.Open();
+                    cmd.CommandText = "SELECT * FROM Questions WHERE Id =@Id";
+                    cmd.Parameters.Add("@Id", System.Data.SqlDbType.UniqueIdentifier).Value = id;
 
-                                rdr = cmd.ExecuteReader();
-                                rdr.Read();
-                                question = new SliderQuestion(
-                                    (Guid)rdr["Id"],
-                                    (string)rdr["QuestionText"],
-                                    (int)rdr["QuestionOrder"],
-                                    (int)rdr["StartValue"],
-                                    (int)rdr["EndQuestion"],
-                                    (string)rdr["StartCaption"],
-                                    (string)rdr["EndCaption"]
-                                    );
-                                break;
-                            case TypeQuestionEnum.SmileyFacesQuestion:
-                                connection.Close();
+                    connection.Open();
+                    var rdr = cmd.ExecuteReader();
+                    rdr.Read();
+                    Question question = null;
 
-                                cmd.CommandText = "SELECT Questions.*,SmileyFacesQuestion.* FROM Questions INNER JOIN SmileyFacesQuestion  ON Questions.Id= @Id WHERE Questions.Id = @Id;";
-                                connection.Open();
+                    switch ((TypeQuestionEnum)rdr["QuestionType"])
+                    {
+                        case TypeQuestionEnum.SliderQuestion:
+                            connection.Close();
+                            cmd.CommandText = "SELECT Questions.*,SliderQuestion.* FROM Questions INNER JOIN SliderQuestion  ON Questions.Id = @Id WHERE Questions.Id = @Id;";
+                            connection.Open();
 
-                                rdr = cmd.ExecuteReader();
-                                rdr.Read();
-                                question = new SmileyFacesQuestion(
-                                    (Guid)rdr["Id"],
-                                    (string)rdr["QuestionText"],
-                                    (int)rdr["QuestionOrder"],
-                                    (int)rdr["SmileyCount"]
-                                    );
-                                break; 
-                            case TypeQuestionEnum.StarsQuestion:
-                                connection.Close();
+                            rdr = cmd.ExecuteReader();
+                            rdr.Read();
+                            question = new SliderQuestion(
+                                (Guid)rdr["Id"],
+                                (string)rdr["QuestionText"],
+                                (int)rdr["QuestionOrder"],
+                                (int)rdr["StartValue"],
+                                (int)rdr["EndQuestion"],
+                                (string)rdr["StartCaption"],
+                                (string)rdr["EndCaption"]
+                                );
+                            break;
+                        case TypeQuestionEnum.SmileyFacesQuestion:
+                            connection.Close();
 
-                                cmd.CommandText = "SELECT Questions.*,StarsQuestion.* FROM Questions INNER JOIN StarsQuestion  ON  Questions.Id= @Id   WHERE Questions.Id = @Id;";
-                                connection.Open();
+                            cmd.CommandText = "SELECT Questions.*,SmileyFacesQuestion.* FROM Questions INNER JOIN SmileyFacesQuestion  ON Questions.Id= @Id WHERE Questions.Id = @Id;";
+                            connection.Open();
 
-                                rdr = cmd.ExecuteReader();
-                                rdr.Read();
-                                question = new StarsQuestion(
-                                    (Guid)rdr["Id"],
-                                    (string)rdr["QuestionText"],
-                                    (int)rdr["QuestionOrder"],
-                                    (int)rdr["StarsCount"]
-                                    );
-                                break;
-                        }
-                        return question; 
-                   
+                            rdr = cmd.ExecuteReader();
+                            rdr.Read();
+                            question = new SmileyFacesQuestion(
+                                (Guid)rdr["Id"],
+                                (string)rdr["QuestionText"],
+                                (int)rdr["QuestionOrder"],
+                                (int)rdr["SmileyCount"]
+                                );
+                            break;
+                        case TypeQuestionEnum.StarsQuestion:
+                            connection.Close();
+
+                            cmd.CommandText = "SELECT Questions.*,StarsQuestion.* FROM Questions INNER JOIN StarsQuestion  ON  Questions.Id= @Id   WHERE Questions.Id = @Id;";
+                            connection.Open();
+
+                            rdr = cmd.ExecuteReader();
+                            rdr.Read();
+                            question = new StarsQuestion(
+                                (Guid)rdr["Id"],
+                                (string)rdr["QuestionText"],
+                                (int)rdr["QuestionOrder"],
+                                (int)rdr["StarsCount"]
+                                );
+                            break;
+                    }
+                    return question;
+
                 }
 
-            } 
-        } 
+            }
+        }
+
+        public DateTime GetLastModified()
+        {
+            Questions = new List<Question>();
+            var connectionString = ConfigurationManager.
+                ConnectionStrings["DbConnectionString"].ConnectionString;
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                using (var cmd = connection.CreateCommand())
+                {
+
+
+                    cmd.CommandText = "SELECT * FROM DatabaseChangeTracker";
+
+                    connection.Open();
+                    var rdr =cmd.ExecuteReader();
+                    rdr.Read();
+                    DateTime lastModified = (DateTime)rdr[0];
+
+                    return lastModified;
+                }
+
+
+            }
+        }
+
+        public void UpdateLastModified()
+        {
+            Questions = new List<Question>();
+            var connectionString = ConfigurationManager.
+                ConnectionStrings["DbConnectionString"].ConnectionString;
+
+            using (var connection = new SqlConnection(connectionString))
+            {
+                using (var cmd = connection.CreateCommand())
+                {
+                    cmd.CommandText = "UPDATE DatabaseChangeTracker SET LastModified = SYSDATETIME();";
+                    connection.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     } 
 
     
