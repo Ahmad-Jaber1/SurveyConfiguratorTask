@@ -337,8 +337,6 @@ namespace SurveyConfiguratorTask.Repo
             }
         }
 
-
-
         public int GetCount()
         {
             var connectionString = ConfigurationManager.
