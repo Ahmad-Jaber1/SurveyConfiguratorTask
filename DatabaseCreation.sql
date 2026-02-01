@@ -1,5 +1,7 @@
 CREATE DATABASE SurveyConfigrator 
+Go
 USE SurveyConfigrator
+Go
 
 CREATE TABLE Questions(
 Id uniqueidentifier PRIMARY KEY , 
@@ -11,7 +13,7 @@ QuestionType INT NOT NULL
 CREATE TABLE SliderQuestion (
 Id  uniqueidentifier PRIMARY KEY , 
 StartValue INT  NOT NULL CHECK(StartValue BETWEEN 0 and 99) , 
-EndValue INT NOT NULL CHECK(EndValue BETWEEN 0 and 99),
+EndValue INT NOT NULL CHECK(EndValue BETWEEN 1 and 100),
 StartCaption VARCHAR(MAX) NOT NULL , 
 EndCaption VARCHAR(MAX) NOT NULL
 CONSTRAINT FK_SliderQuestion_Questions
