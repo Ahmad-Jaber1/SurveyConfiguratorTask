@@ -541,6 +541,16 @@
         "runtime": {
           "bin/placeholder/Models.dll": {}
         }
+      },
+      "Shared/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/Shared.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Shared.dll": {}
+        }
       }
     }
   },
@@ -1339,12 +1349,18 @@
       "type": "project",
       "path": "../Models/Models.csproj",
       "msbuildProject": "../Models/Models.csproj"
+    },
+    "Shared/1.0.0": {
+      "type": "project",
+      "path": "../Shared/Shared.csproj",
+      "msbuildProject": "../Shared/Shared.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net10.0": [
       "Microsoft.Data.SqlClient >= 6.1.4",
       "Models >= 1.0.0",
+      "Shared >= 1.0.0",
       "System.Configuration.ConfigurationManager >= 10.0.2"
     ]
   },
@@ -1382,6 +1398,9 @@
           "projectReferences": {
             "D:\\SurveyConfiguratorTask\\Models\\Models.csproj": {
               "projectPath": "D:\\SurveyConfiguratorTask\\Models\\Models.csproj"
+            },
+            "D:\\SurveyConfiguratorTask\\Shared\\Shared.csproj": {
+              "projectPath": "D:\\SurveyConfiguratorTask\\Shared\\Shared.csproj"
             }
           }
         }

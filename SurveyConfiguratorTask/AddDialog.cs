@@ -19,7 +19,10 @@ namespace SurveyConfiguratorTask
         public AddDialog(QuestionService service)
         {
             this.service = service;
+            //Add Try here 
             InitializeComponent();
+            orderUpDown.Value = service.GetCountService() + 1;
+
         }
 
 
@@ -36,6 +39,7 @@ namespace SurveyConfiguratorTask
         {
             var addedQuestion = new AddQuestionDto();
             addedQuestion.Text = textQuestionTextBox.Text;
+            addedQuestion.Order = (int)orderUpDown.Value;
             TypeQuestionEnum type;
             if (sliderQuestionRadioButton.Checked)
             {
@@ -58,7 +62,19 @@ namespace SurveyConfiguratorTask
 
             try
             {
+                if (addedQuestion.Order > service.GetCountService() + 1 || addedQuestion.Order <= 0)
+                {
+                    MessageBox.Show(
+                    "Order value is invalid.",
+                    "Validation Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                    );
+                    return;
+
+                }
                 service.AddQuestionService(type, addedQuestion);
+                DialogResult = DialogResult.OK;
             }
             catch (ArgumentNullException ex)
             {
@@ -101,11 +117,12 @@ namespace SurveyConfiguratorTask
                             MessageBoxIcon.Error
                         );
             }
+            
 
             
 
-            DialogResult = DialogResult.OK;
-            this.Close();
+            
+            
 
         }
 

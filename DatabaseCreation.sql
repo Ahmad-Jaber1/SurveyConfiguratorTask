@@ -1,15 +1,24 @@
-CREATE DATABASE SurveyConfigrator 
+
+IF NOT EXISTS (SELECT 1 FROM sys.databases WHERE name = 'SurveyConfigrator')
+BEGIN
+    CREATE DATABASE SurveyConfigrator
+END;
 Go
 USE SurveyConfigrator
 Go
 
+IF NOT EXISTS (SELECT 1 FROM sys.tables WHERE name = 'Questions')
+BEGIN
 CREATE TABLE Questions(
 Id uniqueidentifier PRIMARY KEY , 
 QuestionText VARCHAR(MAX) NOT NULL,
 QuestionOrder INT NOT NULL, 
 QuestionType INT NOT NULL
 )
+END;
 
+IF NOT EXISTS (SELECT 1 FROM sys.tables WHERE name = 'SliderQuestion')
+BEGIN
 CREATE TABLE SliderQuestion (
 Id  uniqueidentifier PRIMARY KEY , 
 StartValue INT  NOT NULL CHECK(StartValue BETWEEN 0 and 99) , 
@@ -20,7 +29,10 @@ CONSTRAINT FK_SliderQuestion_Questions
         FOREIGN KEY (Id) REFERENCES Questions(Id)
         ON DELETE CASCADE
 )
+END;
 
+IF NOT EXISTS (SELECT 1 FROM sys.tables WHERE name = 'SmileyFacesQuestion')
+BEGIN
 CREATE TABLE SmileyFacesQuestion (
 Id  uniqueidentifier PRIMARY KEY , 
 SmileyCount INT  NOT NULL CHECK(SmileyCount BETWEEN 2 AND 5) 
@@ -28,7 +40,10 @@ CONSTRAINT FK_SmileyFacesQuestion_Questions
         FOREIGN KEY (Id) REFERENCES Questions(Id)
         ON DELETE CASCADE
 )
+END
 
+IF NOT EXISTS (SELECT 1 FROM sys.tables WHERE name = 'StarsQuestion')
+BEGIN
 CREATE TABLE StarsQuestion (
 Id  uniqueidentifier PRIMARY KEY , 
 StarsCount INT  NOT NULL CHECK(StarsCount BETWEEN 1 AND 10) 
@@ -37,9 +52,13 @@ StarsCount INT  NOT NULL CHECK(StarsCount BETWEEN 1 AND 10)
         ON DELETE CASCADE
 )
 
+END;
+
+IF NOT EXISTS (SELECT 1 FROM sys.tables WHERE name = 'DatabaseChangeTracker')
+BEGIN
 CREATE TABLE DatabaseChangeTracker (
 LastModified DATETIME2 NOT NULL
 )
 
 INSERT INTO DatabaseChangeTracker (LastModified) VALUES (SYSDATETIME());
-
+END

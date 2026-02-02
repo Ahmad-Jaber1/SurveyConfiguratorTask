@@ -580,6 +580,7 @@
         "dependencies": {
           "Microsoft.Data.SqlClient": "6.1.4",
           "Models": "1.0.0",
+          "Shared": "1.0.0",
           "System.Configuration.ConfigurationManager": "10.0.2"
         },
         "compile": {
@@ -587,6 +588,16 @@
         },
         "runtime": {
           "bin/placeholder/Repository.dll": {}
+        }
+      },
+      "Shared/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "compile": {
+          "bin/placeholder/Shared.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Shared.dll": {}
         }
       }
     }
@@ -1442,6 +1453,11 @@
       "type": "project",
       "path": "../Repository/Repository.csproj",
       "msbuildProject": "../Repository/Repository.csproj"
+    },
+    "Shared/1.0.0": {
+      "type": "project",
+      "path": "../Shared/Shared.csproj",
+      "msbuildProject": "../Shared/Shared.csproj"
     }
   },
   "projectFileDependencyGroups": {

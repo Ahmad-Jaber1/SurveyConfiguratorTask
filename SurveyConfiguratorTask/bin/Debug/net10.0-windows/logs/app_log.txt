@@ -1,0 +1,319 @@
+2026-02-02 11:06:28.182 | Error | 
+"Message    : Error occurred while editing a question with Id "2aa55884-baaf-407b-9a6b-53471781b679"
+" +"Exception  :
+" +"System.ArgumentException: Parameter text can't be empty. (Parameter 'text')
+   at SurveyConfiguratorTask.Models.Question.SetText(String text) in D:\SurveyConfiguratorTask\Models\Question.cs:line 42
+   at SurveyConfiguratorTask.Models.Question..ctor(Guid id, String text, Int32 order) in D:\SurveyConfiguratorTask\Models\Question.cs:line 32
+   at SurveyConfiguratorTask.Models.StarsQuestion..ctor(Guid id, String text, Int32 order, Int32 starsCount) in D:\SurveyConfiguratorTask\Models\StarsQuestion.cs:line 22
+   at Services.QuestionService.EditQuestionService(Guid id, EditContext editContext) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 156
+
+" +"============================================================
+2026-02-02 11:08:51.964 | Error | 
+Message    : Error occurred while editing a question with Id "86c68059-07a5-49a8-8563-20959044fd91"
+Exception  :
+System.ArgumentException: Parameter text can't be empty. (Parameter 'text')
+   at SurveyConfiguratorTask.Models.Question.SetText(String text) in D:\SurveyConfiguratorTask\Models\Question.cs:line 42
+   at SurveyConfiguratorTask.Models.Question..ctor(Guid id, String text, Int32 order) in D:\SurveyConfiguratorTask\Models\Question.cs:line 32
+   at SurveyConfiguratorTask.Models.StarsQuestion..ctor(Guid id, String text, Int32 order, Int32 starsCount) in D:\SurveyConfiguratorTask\Models\StarsQuestion.cs:line 22
+   at Services.QuestionService.EditQuestionService(Guid id, EditContext editContext) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 156
+
+============================================================
+2026-02-02 11:09:25.639 | Error | 
+Message    : Error occurred while editing a question with Id "86c68059-07a5-49a8-8563-20959044fd91"
+Exception  :
+System.ArgumentException: Parameter text can't be empty. (Parameter 'text')
+   at SurveyConfiguratorTask.Models.Question.SetText(String text) in D:\SurveyConfiguratorTask\Models\Question.cs:line 42
+   at SurveyConfiguratorTask.Models.Question..ctor(Guid id, String text, Int32 order) in D:\SurveyConfiguratorTask\Models\Question.cs:line 32
+   at SurveyConfiguratorTask.Models.StarsQuestion..ctor(Guid id, String text, Int32 order, Int32 starsCount) in D:\SurveyConfiguratorTask\Models\StarsQuestion.cs:line 22
+   at Services.QuestionService.EditQuestionService(Guid id, EditContext editContext) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 156
+
+============================================================
+2026-02-02 11:09:42.814 | Error | 
+Message    : Error occurred while editing a question with Id "86c68059-07a5-49a8-8563-20959044fd91"
+Exception  :
+System.ArgumentException: Parameter text can't be empty. (Parameter 'text')
+   at SurveyConfiguratorTask.Models.Question.SetText(String text) in D:\SurveyConfiguratorTask\Models\Question.cs:line 42
+   at SurveyConfiguratorTask.Models.Question..ctor(Guid id, String text, Int32 order) in D:\SurveyConfiguratorTask\Models\Question.cs:line 32
+   at SurveyConfiguratorTask.Models.StarsQuestion..ctor(Guid id, String text, Int32 order, Int32 starsCount) in D:\SurveyConfiguratorTask\Models\StarsQuestion.cs:line 22
+   at Services.QuestionService.EditQuestionService(Guid id, EditContext editContext) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 156
+
+============================================================
+2026-02-02 11:10:36.632 | Error | 
+Message    : Error occurred while editing a question with Id "86c68059-07a5-49a8-8563-20959044fd91"
+Exception  :
+System.ArgumentException: Parameter text can't be empty. (Parameter 'text')
+   at SurveyConfiguratorTask.Models.Question.SetText(String text) in D:\SurveyConfiguratorTask\Models\Question.cs:line 42
+   at SurveyConfiguratorTask.Models.Question..ctor(Guid id, String text, Int32 order) in D:\SurveyConfiguratorTask\Models\Question.cs:line 32
+   at SurveyConfiguratorTask.Models.StarsQuestion..ctor(Guid id, String text, Int32 order, Int32 starsCount) in D:\SurveyConfiguratorTask\Models\StarsQuestion.cs:line 22
+   at Services.QuestionService.EditQuestionService(Guid id, EditContext editContext) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 156
+
+============================================================
+2026-02-02 11:11:19.621 | Error | 
+Message    : Error occurred while editing a question with Id "86c68059-07a5-49a8-8563-20959044fd91"
+Exception  :
+System.ArgumentException: Parameter text can't be empty. (Parameter 'text')
+   at SurveyConfiguratorTask.Models.Question.SetText(String text) in D:\SurveyConfiguratorTask\Models\Question.cs:line 42
+   at SurveyConfiguratorTask.Models.Question..ctor(Guid id, String text, Int32 order) in D:\SurveyConfiguratorTask\Models\Question.cs:line 32
+   at SurveyConfiguratorTask.Models.StarsQuestion..ctor(Guid id, String text, Int32 order, Int32 starsCount) in D:\SurveyConfiguratorTask\Models\StarsQuestion.cs:line 22
+   at Services.QuestionService.EditQuestionService(Guid id, EditContext editContext) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 156
+
+============================================================
+2026-02-02 12:12:16.452 | Error | 
+Message    : Error occurred while adding a question of type "SliderQuestion"
+Exception  :
+System.ArgumentException: Parameter text can't be empty. (Parameter 'text')
+   at SurveyConfiguratorTask.Models.Question.SetText(String text) in D:\SurveyConfiguratorTask\Models\Question.cs:line 42
+   at SurveyConfiguratorTask.Models.Question..ctor(String text, Int32 order, TypeQuestionEnum type) in D:\SurveyConfiguratorTask\Models\Question.cs:line 24
+   at SurveyConfiguratorTask.Models.SliderQuestion..ctor(String text, Int32 order, Int32 startValue, Int32 endValue, String startCaption, String endCaption) in D:\SurveyConfiguratorTask\Models\SliderQuestion.cs:line 20
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 58
+
+============================================================
+2026-02-02 12:12:19.959 | Error | 
+Message    : Error occurred while adding a question of type "SliderQuestion"
+Exception  :
+System.ArgumentException: Parameter text can't be empty. (Parameter 'text')
+   at SurveyConfiguratorTask.Models.Question.SetText(String text) in D:\SurveyConfiguratorTask\Models\Question.cs:line 42
+   at SurveyConfiguratorTask.Models.Question..ctor(String text, Int32 order, TypeQuestionEnum type) in D:\SurveyConfiguratorTask\Models\Question.cs:line 24
+   at SurveyConfiguratorTask.Models.SliderQuestion..ctor(String text, Int32 order, Int32 startValue, Int32 endValue, String startCaption, String endCaption) in D:\SurveyConfiguratorTask\Models\SliderQuestion.cs:line 20
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 58
+
+============================================================
+2026-02-02 12:21:54.199 | Error | 
+Message    : Error occurred while loading the question list.
+Exception  :
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'SliderQuestion'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, SqlCommand command, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader()
+   at SurveyConfiguratorTask.Repo.QuestionRepo.SliderQuestionsLoad(String connectionString) in D:\SurveyConfiguratorTask\Repository\QuestionRepo.cs:line 53
+   at SurveyConfiguratorTask.Repo.QuestionRepo.QuestionsLoad() in D:\SurveyConfiguratorTask\Repository\QuestionRepo.cs:line 29
+   at Services.QuestionService.QuestionsLoadService() in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 28
+ClientConnectionId:58839827-0962-47da-9ef6-749ca0d87c16
+Error Number:207,State:1,Class:16
+
+============================================================
+2026-02-02 12:22:23.430 | Error | 
+Message    : Error occurred while loading the question list.
+Exception  :
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'SliderQuestion'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, SqlCommand command, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader()
+   at SurveyConfiguratorTask.Repo.QuestionRepo.SliderQuestionsLoad(String connectionString) in D:\SurveyConfiguratorTask\Repository\QuestionRepo.cs:line 53
+   at SurveyConfiguratorTask.Repo.QuestionRepo.QuestionsLoad() in D:\SurveyConfiguratorTask\Repository\QuestionRepo.cs:line 29
+   at Services.QuestionService.QuestionsLoadService() in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 28
+ClientConnectionId:7299dfe3-371f-4441-8005-6909ac508bc7
+Error Number:207,State:1,Class:16
+
+============================================================
+2026-02-02 12:22:46.626 | Error | 
+Message    : Error occurred while loading the question list.
+Exception  :
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'SliderQuestion'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, SqlCommand command, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader()
+   at SurveyConfiguratorTask.Repo.QuestionRepo.SliderQuestionsLoad(String connectionString) in D:\SurveyConfiguratorTask\Repository\QuestionRepo.cs:line 53
+   at SurveyConfiguratorTask.Repo.QuestionRepo.QuestionsLoad() in D:\SurveyConfiguratorTask\Repository\QuestionRepo.cs:line 29
+   at Services.QuestionService.QuestionsLoadService() in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 28
+ClientConnectionId:5c13ac38-a0e3-441c-886b-1401789b2468
+Error Number:207,State:1,Class:16
+
+============================================================
+2026-02-02 12:23:55.572 | Error | 
+Message    : Error occurred while loading the question list.
+Exception  :
+Microsoft.Data.SqlClient.SqlException (0x80131904): Invalid column name 'SliderQuestion'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, SqlCommand command, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlDataReader.TryConsumeMetaData()
+   at Microsoft.Data.SqlClient.SqlDataReader.get_MetaData()
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader(CommandBehavior behavior)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteReader()
+   at SurveyConfiguratorTask.Repo.QuestionRepo.SliderQuestionsLoad(String connectionString) in D:\SurveyConfiguratorTask\Repository\QuestionRepo.cs:line 53
+   at SurveyConfiguratorTask.Repo.QuestionRepo.QuestionsLoad() in D:\SurveyConfiguratorTask\Repository\QuestionRepo.cs:line 29
+   at Services.QuestionService.QuestionsLoadService() in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 28
+ClientConnectionId:ea53e4ec-7a7a-4b4a-8dc1-6236ea49bb88
+Error Number:207,State:1,Class:16
+
+============================================================
+2026-02-02 14:16:09.573 | Error | 
+Message    : Error occurred while adding a question of type "SliderQuestion"
+Exception  :
+Microsoft.Data.SqlClient.SqlException (0x80131904): The variable name '@EndCaption' has already been declared. Variable names must be unique within a query batch or stored procedure.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, SqlCommand command, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String methodName)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at SurveyConfiguratorTask.Repo.QuestionRepo.AddQuestion(Question question) in D:\SurveyConfiguratorTask\Repository\QuestionRepo.cs:line 219
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 75
+ClientConnectionId:20a2a61c-5661-4380-a8ed-dda3ec730e7d
+Error Number:134,State:1,Class:15
+
+============================================================
+2026-02-02 14:17:38.243 | Error | 
+Message    : Error occurred while adding a question of type "SliderQuestion"
+Exception  :
+Microsoft.Data.SqlClient.SqlException (0x80131904): The variable name '@EndCaption' has already been declared. Variable names must be unique within a query batch or stored procedure.
+Must declare the scalar variable "@EndValue".
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, SqlCommand command, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String methodName)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at SurveyConfiguratorTask.Repo.QuestionRepo.AddQuestion(Question question) in D:\SurveyConfiguratorTask\Repository\QuestionRepo.cs:line 219
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 75
+ClientConnectionId:6042c1b8-ea15-4aa4-888c-42cbcb599416
+Error Number:134,State:1,Class:15
+
+============================================================
+2026-02-02 14:18:44.545 | Error | 
+Message    : Error occurred while adding a question of type "SliderQuestion"
+Exception  :
+System.ArgumentException: Parameter caption can't be empty. (Parameter 'caption')
+   at SurveyConfiguratorTask.Models.SliderQuestion.SetStartCaption(String caption) in D:\SurveyConfiguratorTask\Models\SliderQuestion.cs:line 69
+   at SurveyConfiguratorTask.Models.SliderQuestion..ctor(String text, Int32 order, Int32 startValue, Int32 endValue, String startCaption, String endCaption) in D:\SurveyConfiguratorTask\Models\SliderQuestion.cs:line 23
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 58
+
+============================================================
+2026-02-02 14:29:08.683 | Error | 
+Message    : Error occurred while editing a question with Id "922dffe9-6bb5-43ab-9a30-cc8c04dab52b"
+Exception  :
+Microsoft.Data.SqlClient.SqlException (0x80131904): Incorrect syntax near 'SliderQuestion'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, SqlCommand command, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String methodName)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at SurveyConfiguratorTask.Repo.QuestionRepo.EditQuestion(Question question) in D:\SurveyConfiguratorTask\Repository\QuestionRepo.cs:line 319
+   at Services.QuestionService.EditQuestionService(Guid id, EditContext editContext) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 171
+ClientConnectionId:006cfa1f-38b0-4d63-a50a-eb9e645a2da6
+Error Number:102,State:1,Class:15
+
+============================================================
+2026-02-02 14:30:40.332 | Error | 
+Message    : Error occurred while editing a question with Id "922dffe9-6bb5-43ab-9a30-cc8c04dab52b"
+Exception  :
+Microsoft.Data.SqlClient.SqlException (0x80131904): Incorrect syntax near 'SliderQuestion'.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, SqlCommand command, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String methodName)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at SurveyConfiguratorTask.Repo.QuestionRepo.EditQuestion(Question question) in D:\SurveyConfiguratorTask\Repository\QuestionRepo.cs:line 319
+   at Services.QuestionService.EditQuestionService(Guid id, EditContext editContext) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 171
+ClientConnectionId:006cfa1f-38b0-4d63-a50a-eb9e645a2da6
+Error Number:102,State:1,Class:15
+
+============================================================
+2026-02-02 14:32:07.540 | Error | 
+Message    : Error occurred while editing a question with Id "922dffe9-6bb5-43ab-9a30-cc8c04dab52b"
+Exception  :
+Microsoft.Data.SqlClient.SqlException (0x80131904): Must declare the scalar variable "@EndCaptionWHERE".
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, SqlCommand command, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String methodName)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at SurveyConfiguratorTask.Repo.QuestionRepo.EditQuestion(Question question) in D:\SurveyConfiguratorTask\Repository\QuestionRepo.cs:line 319
+   at Services.QuestionService.EditQuestionService(Guid id, EditContext editContext) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 171
+ClientConnectionId:618ae2cf-c802-4291-a1ff-4c4ffc75cfd0
+Error Number:137,State:2,Class:15
+
+============================================================
+2026-02-02 15:25:56.054 | Error | 
+Message    : Error occurred while adding a question of type "StarsQuestion"
+Exception  :
+System.IndexOutOfRangeException: Order value is invalid.
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 76
+
+============================================================
+2026-02-02 15:25:59.221 | Error | 
+Message    : Error occurred while adding a question of type "StarsQuestion"
+Exception  :
+System.IndexOutOfRangeException: Order value is invalid.
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 76
+
+============================================================
+2026-02-02 15:27:58.920 | Error | 
+Message    : Error occurred while adding a question of type "StarsQuestion"
+Exception  :
+System.IndexOutOfRangeException: Order value is invalid.
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 76
+
+============================================================
+2026-02-02 15:28:07.987 | Error | 
+Message    : Error occurred while adding a question of type "StarsQuestion"
+Exception  :
+System.IndexOutOfRangeException: Order value is invalid.
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 76
+
+============================================================
+2026-02-02 15:28:17.461 | Error | 
+Message    : Error occurred while adding a question of type "StarsQuestion"
+Exception  :
+System.IndexOutOfRangeException: Order value is invalid.
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 76
+
+============================================================
+2026-02-02 15:28:18.588 | Error | 
+Message    : Error occurred while adding a question of type "StarsQuestion"
+Exception  :
+System.IndexOutOfRangeException: Order value is invalid.
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 76
+
+============================================================

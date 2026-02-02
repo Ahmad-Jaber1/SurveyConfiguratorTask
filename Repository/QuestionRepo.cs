@@ -1,37 +1,51 @@
 ﻿using Microsoft.Data.SqlClient;
+using Shared;
 using SurveyConfiguratorTask.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
+using System.Runtime.Intrinsics.Arm;
 using System.Text;
 
 namespace SurveyConfiguratorTask.Repo
 {
     public class QuestionRepo
     {
+        private readonly string _connectionString;
         public List<Question> Questions { get; set; }
+        public QuestionRepo()
+        {
+             _connectionString = ConfigurationManager.ConnectionStrings["DbConnectionString"].ConnectionString;
+        }
 
 
         public List<Question> QuestionsLoad()
         {
-            //Get ConnectionString 
+            
             Questions = new List<Question>();
-            var connectionString = ConfigurationManager.
-                ConnectionStrings["DbConnectionString"].ConnectionString;
+            
+            //Load questions
+            SliderQuestionsLoad(_connectionString);
+            SmileyQuestionsLoad(_connectionString);
+            StarsQuestionsLoad(_connectionString);
 
+            return Questions;
+        }
 
+        public void SliderQuestionsLoad (string connectionString){
+            
             //Create and manage connection with database . 
             using (var connection = new SqlConnection(connectionString))
             {
                 using (var cmd = connection.CreateCommand())
                 {
                     //Load slider questions from database .
-                    cmd.CommandText = "SELECT Questions.Id,Questions.QuestionText , Questions.QuestionOrder " +
-
-                        ", SliderQuestion.StartValue , SliderQuestion.EndValue , SliderQuestion.StartCaption " +
-                        ", SliderQuestion.EndCaption FROM Questions " +
-                        "INNER JOIN SliderQuestion ON Questions.Id = SliderQuestion.Id ";
+                    cmd.CommandText = $"SELECT {QuestionsTable.SelectColumns}" +
+                        $" ,{SliderTable.SelectColumns} " +
+                        $"FROM {QuestionsTable.TableName} " +
+                        $"INNER JOIN {SliderTable.TableName} ON " +
+                        $"{QuestionsTable.TableName}.{QuestionsTable.Id} = {SliderTable.TableName}.{SliderTable.Id} ";
 
 
 
@@ -43,86 +57,97 @@ namespace SurveyConfiguratorTask.Repo
                         Questions.Add(
                             new SliderQuestion
                             (
-                                 new Guid(rdr["Id"].ToString()),
-                                 rdr["QuestionText"].ToString(),
-                                 Convert.ToInt32(rdr["QuestionOrder"]),
-                                  Convert.ToInt32(rdr["StartValue"]),
-                                 Convert.ToInt32(rdr["EndValue"]),
-                                 rdr["StartCaption"].ToString(),
-                                 rdr["EndCaption"].ToString()
+                                 new Guid(rdr[QuestionsTable.Id].ToString()),
+                                 rdr[QuestionsTable.QuestionText].ToString(),
+                                 Convert.ToInt32(rdr[QuestionsTable.QuestionOrder]),
+                                  Convert.ToInt32(rdr[SliderTable.StartValue]),
+                                 Convert.ToInt32(rdr[SliderTable.EndValue]),
+                                 rdr[SliderTable.StartCaption].ToString(),
+                                 rdr[SliderTable.EndValue].ToString()
                             )
                             );
 
                     }
                     connection.Close();
+                }
+            }
+        }
 
+        public void SmileyQuestionsLoad(string connectionString)
+        {
+        
+            //Create and manage connection with database . 
+            using (var connection = new SqlConnection(connectionString))
+            {
+                using (var cmd = connection.CreateCommand())
+                {
                     //Load smiley faces questions from database .
 
-                    cmd.CommandText = "SELECT Questions.Id,Questions.QuestionText , Questions.QuestionOrder " +
-
-                        ", SmileyFacesQuestion.SmileyCount " +
-                        " FROM Questions " +
-                        "INNER JOIN SmileyFacesQuestion ON Questions.Id = SmileyFacesQuestion.Id ";
+                    cmd.CommandText = $"SELECT {QuestionsTable.SelectColumns}" +
+                        $",{SmileyFacesTable.SelectColumns}" +
+                        $" FROM {QuestionsTable.TableName} " +
+                        $"INNER JOIN {SmileyFacesTable.TableName} ON" +
+                        $" {QuestionsTable.TableName}.{QuestionsTable.Id} = {SmileyFacesTable.TableName}.{SmileyFacesTable.Id} ";
 
                     connection.Open();
 
-                    rdr = cmd.ExecuteReader();
+                    var rdr = cmd.ExecuteReader();
                     // Representing loaded data onto a local variable 
 
                     while (rdr.Read())
                     {
-                        Questions.Add(new SmileyFacesQuestion(
-                            new Guid(rdr["Id"].ToString()),
-                            rdr["QuestionText"].ToString(),
-                            Convert.ToInt32(rdr["QuestionOrder"]),
-                            Convert.ToInt32(rdr["SmileyCount"])
+                        Questions.Add(new Models.SmileyFacesQuestion(
+                            new Guid(rdr[QuestionsTable.Id].ToString()),
+                            rdr[QuestionsTable.QuestionText].ToString(),
+                            Convert.ToInt32(rdr[QuestionsTable.QuestionOrder]),
+                            Convert.ToInt32(rdr[SmileyFacesTable.SmileyCount])
 
                             ));
                     }
                     connection.Close();
-                    //Load  stars questions from database .
-                    cmd.CommandText = "SELECT Questions.Id,Questions.QuestionText , Questions.QuestionOrder " +
+                }
+            }
+        }
 
-                    ", StarsQuestion.StarsCount " +
-                    " FROM Questions " +
-                    "INNER JOIN StarsQuestion ON Questions.Id = StarsQuestion.Id ";
+        public void StarsQuestionsLoad(string connectionString)
+        {
+            //Create and manage connection with database . 
+            using (var connection = new SqlConnection(connectionString))
+            {
+                using (var cmd = connection.CreateCommand())
+                {
+                    //Load  stars questions from database .
+                    cmd.CommandText = $"SELECT {QuestionsTable.SelectColumns} " +
+                    $", {StarsTable.SelectColumns} " +
+                    $" FROM {QuestionsTable.TableName} " +
+                    $"INNER JOIN StarsQuestion ON " +
+                    $"{QuestionsTable.TableName}.{QuestionsTable.Id} = {StarsTable.TableName}.{StarsTable.Id} ";
 
                     connection.Open();
 
-                    rdr = cmd.ExecuteReader();
+                    var rdr = cmd.ExecuteReader();
                     // Representing loaded data onto a local variable 
 
                     while (rdr.Read())
                     {
                         Questions.Add(new StarsQuestion(
-                            new Guid(rdr["Id"].ToString()),
-                            rdr["QuestionText"].ToString(),
-                            Convert.ToInt32(rdr["QuestionOrder"]),
-                            Convert.ToInt32(rdr["StarsCount"])
+                            new Guid(rdr[QuestionsTable.Id].ToString()),
+                            rdr[QuestionsTable.QuestionText].ToString(),
+                            Convert.ToInt32(rdr[QuestionsTable.QuestionOrder]),
+                            Convert.ToInt32(rdr[StarsTable.StarsCount])
 
                             ));
                     }
                     connection.Close();
-
-
-
-
-
-                    return Questions;
                 }
-
             }
-
-
         }
 
         public void AddQuestion(Question question)
         {
-            //Get connection string 
-            var connectionString = ConfigurationManager.
-                ConnectionStrings["DbConnectionString"].ConnectionString;
+            
             //Create and manage conneciton with database .
-            using (var connection = new SqlConnection(connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
 
                 connection.Open();
@@ -132,12 +157,15 @@ namespace SurveyConfiguratorTask.Repo
                     using (var cmd = connection.CreateCommand())
                     {
                         //Add object as general question in database
-                        cmd.CommandText = "INSERT INTO Questions (Id , QuestionText , QuestionOrder , QuestionType)" +
-                            " values(@Id , @QuestionText , @QuestionOrder , @QuestionType)";
-                        cmd.Parameters.Add("@Id", System.Data.SqlDbType.UniqueIdentifier).Value = question.Id;
-                        cmd.Parameters.Add("@QuestionText", System.Data.SqlDbType.VarChar).Value = question.Text;
-                        cmd.Parameters.Add("@QuestionOrder", System.Data.SqlDbType.Int).Value = question.Order;
-                        cmd.Parameters.Add("@QuestionType", System.Data.SqlDbType.Int).Value = (int)question.TypeQuestion;
+                        cmd.CommandText = $"INSERT INTO {QuestionsTable.TableName} ({QuestionsTable.Id} " +
+                            $", {QuestionsTable.QuestionText} " +
+                            $", {QuestionsTable.QuestionOrder} " +
+                            $", {QuestionsTable.QuestionType})" +
+                            $" values(@{QuestionsTable.Id} , @{QuestionsTable.QuestionText} , @{QuestionsTable.QuestionOrder} , @{QuestionsTable.QuestionType})";
+                        cmd.Parameters.Add($"@{QuestionsTable.Id}", System.Data.SqlDbType.UniqueIdentifier).Value = question.Id;
+                        cmd.Parameters.Add($"@{QuestionsTable.QuestionText}", System.Data.SqlDbType.VarChar).Value = question.Text;
+                        cmd.Parameters.Add($"@{QuestionsTable.QuestionOrder}", System.Data.SqlDbType.Int).Value = question.Order;
+                        cmd.Parameters.Add($"@{QuestionsTable.QuestionType}", System.Data.SqlDbType.Int).Value = (int)question.TypeQuestion;
                         cmd.Transaction = trans;
                         try
                         {
@@ -150,32 +178,40 @@ namespace SurveyConfiguratorTask.Repo
                             {
                                 case 0:
                                     var sliderQuestion = (SliderQuestion)question;
-                                    cmd.CommandText = "INSERT INTO SliderQuestion " +
-                                        "(Id , StartValue , EndValue , StartCaption , EndCaption)" +
-                                        "values (@Id , @StartValue , @EndValue , @StartCaption , @EndCaption)";
-                                    cmd.Parameters.Add("@StartValue", System.Data.SqlDbType.Int).Value = sliderQuestion.StartValue;
-                                    cmd.Parameters.Add("@EndValue", System.Data.SqlDbType.Int).Value = sliderQuestion.EndValue;
-                                    cmd.Parameters.Add("@StartCaption", System.Data.SqlDbType.VarChar).Value = sliderQuestion.StartCaption;
-                                    cmd.Parameters.Add("@EndCaption", System.Data.SqlDbType.VarChar).Value = sliderQuestion.EndCaption;
+                                    cmd.CommandText = $"INSERT INTO {SliderTable.TableName} " +
+                                        $"({SliderTable.Id} " +
+                                        $", {SliderTable.StartValue} " +
+                                        $", {SliderTable.EndValue} " +
+                                        $", {SliderTable.StartCaption} " +
+                                        $", {SliderTable.EndCaption})" +
+                                        $"values (@{SliderTable.Id} " +
+                                        $", @{SliderTable.StartValue} " +
+                                        $", @{SliderTable.EndValue} " +
+                                        $", @{SliderTable.StartCaption} " +
+                                        $", @{SliderTable.EndCaption})";
+                                    cmd.Parameters.Add($"@{SliderTable.StartValue}", System.Data.SqlDbType.Int).Value = sliderQuestion.StartValue;
+                                    cmd.Parameters.Add($"@{SliderTable.EndValue}", System.Data.SqlDbType.Int).Value = sliderQuestion.EndValue;
+                                    cmd.Parameters.Add($"@{SliderTable.StartCaption}", System.Data.SqlDbType.VarChar).Value = sliderQuestion.StartCaption;
+                                    cmd.Parameters.Add($"@{SliderTable.EndCaption}", System.Data.SqlDbType.VarChar).Value = sliderQuestion.EndCaption;
 
 
 
                                     break;
 
                                 case 1:
-                                    var smileyFaceQuestion = (SmileyFacesQuestion)question;
-                                    cmd.CommandText = "INSERT INTO SmileyFacesQuestion" +
-                                        "(Id , SmileyCount) values" +
-                                        "(@Id , @SmileCount)";
-                                    cmd.Parameters.Add("@SmileCount", System.Data.SqlDbType.Int).Value = smileyFaceQuestion.SmileyCount;
+                                    var smileyFaceQuestion = (Models.SmileyFacesQuestion)question;
+                                    cmd.CommandText = $"INSERT INTO {SmileyFacesTable.TableName}" +
+                                        $"({SmileyFacesTable.Id} , {SmileyFacesTable.SmileyCount}) values" +
+                                        $"(@{SmileyFacesTable.Id} , @{SmileyFacesTable.SmileyCount})";
+                                    cmd.Parameters.Add($"@{SmileyFacesTable.SmileyCount}", System.Data.SqlDbType.Int).Value = smileyFaceQuestion.SmileyCount;
                                     break;
 
                                 case 2:
                                     var starsQuestion = (StarsQuestion)question;
-                                    cmd.CommandText = "INSERT INTO StarsQuestion" +
-                                        "(Id , StarsCount) values" +
-                                        "(@Id , @StarsCount)";
-                                    cmd.Parameters.Add("@StarsCount", System.Data.SqlDbType.Int).Value = starsQuestion.StarsCount;
+                                    cmd.CommandText = $"INSERT INTO {StarsTable.TableName}" +
+                                        $"({StarsTable.Id} , {StarsTable.StarsCount}) values" +
+                                        $"(@{StarsTable.Id} , @{StarsTable.StarsCount})";
+                                    cmd.Parameters.Add($"@{StarsTable.StarsCount}", System.Data.SqlDbType.Int).Value = starsQuestion.StarsCount;
                                     break;
 
                             }
@@ -199,14 +235,13 @@ namespace SurveyConfiguratorTask.Repo
 
         public void DeleteQuestion(Guid Id)
         {
-            var connectionString = ConfigurationManager.
-                ConnectionStrings["DbConnectionString"].ConnectionString;
-            using (var connection = new SqlConnection(connectionString))
+            
+            using (var connection = new SqlConnection(_connectionString))
             {
                 using (var cmd = connection.CreateCommand())
                 {
-                    cmd.CommandText = "DELETE FROM Questions WHERE Id = @Id";
-                    cmd.Parameters.Add("@Id", System.Data.SqlDbType.UniqueIdentifier).Value = Id;
+                    cmd.CommandText = $"DELETE FROM {QuestionsTable.TableName} WHERE {QuestionsTable.Id} = @{QuestionsTable.Id}";
+                    cmd.Parameters.Add($"@{QuestionsTable.Id}", System.Data.SqlDbType.UniqueIdentifier).Value = Id;
 
 
                     connection.Open();
@@ -222,9 +257,8 @@ namespace SurveyConfiguratorTask.Repo
 
         public void EditQuestion(Question question)
         {
-            var connectionString = ConfigurationManager.
-                ConnectionStrings["DbConnectionString"].ConnectionString;
-            using (var connection = new SqlConnection(connectionString))
+           
+            using (var connection = new SqlConnection(_connectionString))
             {
                 connection.Open();
 
@@ -236,9 +270,11 @@ namespace SurveyConfiguratorTask.Repo
                         using (var cmd = connection.CreateCommand())
                         {
                             //edit object data in general question table in database 
-                            cmd.CommandText = "UPDATE Questions SET QuestionText = @Text WHERE Questions.Id = @Id";
-                            cmd.Parameters.Add("@Id", System.Data.SqlDbType.UniqueIdentifier).Value = question.Id;
-                            cmd.Parameters.Add("@Text", System.Data.SqlDbType.VarChar).Value = question.Text;
+                            cmd.CommandText = $"UPDATE {QuestionsTable.TableName} " +
+                                $"SET {QuestionsTable.QuestionText} = @{QuestionsTable.QuestionText} " +
+                                $"WHERE {QuestionsTable.TableName}.{QuestionsTable.Id} = @{QuestionsTable.Id}";
+                            cmd.Parameters.Add($"@{QuestionsTable.Id}", System.Data.SqlDbType.UniqueIdentifier).Value = question.Id;
+                            cmd.Parameters.Add($"@{QuestionsTable.QuestionText}", System.Data.SqlDbType.VarChar).Value = question.Text;
                             cmd.Transaction = trans;
                             cmd.ExecuteNonQuery();
 
@@ -246,30 +282,36 @@ namespace SurveyConfiguratorTask.Repo
                             switch ((int)question.TypeQuestion)
                             {
                                 case 0:
-                                    cmd.CommandText = "UPDATE SliderQuestion SET StartValue = @StartValue ," +
-                                        "EndValue = @EndValue , StartCaption =@StartCaption , EndCaption =EndCaption" +
-                                        "WHERE SliderQuestion.Id = @Id ";
+                                    cmd.CommandText = $"UPDATE {SliderTable.TableName} " +
+                                        $"SET {SliderTable.StartValue} = @{SliderTable.StartValue} ," +
+                                        $"{SliderTable.EndValue} = @{SliderTable.EndValue} " +
+                                        $", {SliderTable.StartCaption} =@{SliderTable.StartCaption} " +
+                                        $", {SliderTable.EndCaption} = @{SliderTable.EndCaption}" +
+                                        $" WHERE {SliderTable.TableName}.{SliderTable.Id} = @{SliderTable.Id} ";
+
                                     var sliderQuestion = (SliderQuestion)question;
-                                    cmd.Parameters.Add("@StartValue", System.Data.SqlDbType.Int).Value = sliderQuestion.StartValue;
-                                    cmd.Parameters.Add("@EndValue", System.Data.SqlDbType.Int).Value = sliderQuestion.EndValue;
-                                    cmd.Parameters.Add("@StartCaption", System.Data.SqlDbType.VarChar).Value = sliderQuestion.StartCaption;
-                                    cmd.Parameters.Add("@EndCaption", System.Data.SqlDbType.VarChar).Value = sliderQuestion.EndCaption;
+                                    cmd.Parameters.Add($"@{SliderTable.StartValue}", System.Data.SqlDbType.Int).Value = sliderQuestion.StartValue;
+                                    cmd.Parameters.Add($"@{SliderTable.EndValue}", System.Data.SqlDbType.Int).Value = sliderQuestion.EndValue;
+                                    cmd.Parameters.Add($"@{SliderTable.StartCaption}", System.Data.SqlDbType.VarChar).Value = sliderQuestion.StartCaption;
+                                    cmd.Parameters.Add($"@{SliderTable.EndCaption}", System.Data.SqlDbType.VarChar).Value = sliderQuestion.EndCaption;
 
 
 
                                     break;
                                 case 1:
-                                    cmd.CommandText = "UPDATE SmileyFacesQuestion SET SmileyCount = @SmileyCount " +
-                                        "WHERE SmileyFacesQuestion.Id = @Id ";
-                                    var smileyFaceQuestion = (SmileyFacesQuestion)question;
-                                    cmd.Parameters.Add("@SmileyCount", System.Data.SqlDbType.Int).Value = smileyFaceQuestion.SmileyCount;
+                                    cmd.CommandText = $"UPDATE {SmileyFacesTable.TableName} " +
+                                        $"SET {SmileyFacesTable.SmileyCount} = @{SmileyFacesTable.SmileyCount} " +
+                                        $"WHERE {SmileyFacesTable.TableName}.{SmileyFacesTable.Id} = @{SmileyFacesTable.Id} ";
+                                    var smileyFaceQuestion = (Models.SmileyFacesQuestion)question;
+                                    cmd.Parameters.Add($"@{SmileyFacesTable.SmileyCount}", System.Data.SqlDbType.Int).Value = smileyFaceQuestion.SmileyCount;
 
                                     break;
                                 case 2:
-                                    cmd.CommandText = "UPDATE StarsQuestion SET StarsCount = @StarsCount " +
-                                        "WHERE StarsQuestion.Id = @Id ";
+                                    cmd.CommandText = $"UPDATE {StarsTable.TableName} " +
+                                        $"SET {StarsTable.StarsCount} = @{StarsTable.StarsCount} " +
+                                        $"WHERE {StarsTable.TableName}.{StarsTable.Id} = @{StarsTable.Id} ";
                                     var starsQuestion = (StarsQuestion)question;
-                                    cmd.Parameters.Add("@StarsCount", System.Data.SqlDbType.Int).Value = starsQuestion.StarsCount;
+                                    cmd.Parameters.Add($"@{StarsTable.StarsCount}", System.Data.SqlDbType.Int).Value = starsQuestion.StarsCount;
 
                                     break;
 
@@ -292,9 +334,8 @@ namespace SurveyConfiguratorTask.Repo
         }
         public void EditOrder(List<Guid> ids, List<int> orders)
         {
-            var connectionString = ConfigurationManager.
-                ConnectionStrings["DbConnectionString"].ConnectionString;
-            using (var connection = new SqlConnection(connectionString))
+            
+            using (var connection = new SqlConnection(_connectionString))
             {
 
                 connection.Open();
@@ -307,12 +348,12 @@ namespace SurveyConfiguratorTask.Repo
                         using (var cmd = connection.CreateCommand())
                         {
                             var stb = new StringBuilder();
-                            stb.Append("UPDATE Questions SET QuestionOrder = CASE Id ");
+                            stb.Append($"UPDATE {QuestionsTable.TableName} SET {QuestionsTable.QuestionOrder} = CASE {QuestionsTable.Id} ");
                             for (int i = 0; i < ids.Count; i++)
                             {
                                 stb.Append($"WHEN '{ids[i]}' THEN {orders[i]}\n");
                             }
-                            stb.Append("\n END WHERE Id IN (");
+                            stb.Append($"\n END WHERE {QuestionsTable.Id} IN (");
 
                             for (int i = 0; i < ids.Count - 1; i++)
                                 stb.Append($"'{ids[i]}',");
@@ -339,16 +380,14 @@ namespace SurveyConfiguratorTask.Repo
 
         public int GetCount()
         {
-            var connectionString = ConfigurationManager.
-                ConnectionStrings["DbConnectionString"].ConnectionString;
-            int questionCount;
 
+            int questionCount; 
             // Get count of question in database 
-            using (var connection = new SqlConnection(connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 using (var cmd = connection.CreateCommand())
                 {
-                    cmd.CommandText = "SELECT COUNT(Id) FROM Questions";
+                    cmd.CommandText = $"SELECT COUNT({QuestionsTable.Id}) FROM Questions";
 
 
 
@@ -367,72 +406,78 @@ namespace SurveyConfiguratorTask.Repo
         public Question GetQuestion(Guid id)
         {
 
-            Questions = new List<Question>();
-            var connectionString = ConfigurationManager.
-                ConnectionStrings["DbConnectionString"].ConnectionString;
+            
+            
 
             //Get question object (general and specific type information ) based on Id 
-            using (var connection = new SqlConnection(connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 using (var cmd = connection.CreateCommand())
                 {
 
 
-                    cmd.CommandText = "SELECT * FROM Questions WHERE Id =@Id";
-                    cmd.Parameters.Add("@Id", System.Data.SqlDbType.UniqueIdentifier).Value = id;
+                    cmd.CommandText = $"SELECT * FROM {QuestionsTable.TableName} WHERE {QuestionsTable.Id} =@{QuestionsTable.Id}";
+                    cmd.Parameters.Add($"@{QuestionsTable.Id}", System.Data.SqlDbType.UniqueIdentifier).Value = id;
 
                     connection.Open();
                     var rdr = cmd.ExecuteReader();
                     rdr.Read();
                     Question question = null;
 
-                    switch ((TypeQuestionEnum)rdr["QuestionType"])
+                    switch ((TypeQuestionEnum)rdr[QuestionsTable.QuestionType])
                     {
                         case TypeQuestionEnum.SliderQuestion:
                             connection.Close();
-                            cmd.CommandText = "SELECT Questions.*,SliderQuestion.* FROM Questions INNER JOIN SliderQuestion  ON Questions.Id = @Id WHERE Questions.Id = @Id;";
+                            cmd.CommandText = $"SELECT {QuestionsTable.TableName}.*,{SliderTable.TableName}.* " +
+                                $"FROM {QuestionsTable.TableName} INNER JOIN {SliderTable.TableName}  " +
+                                $"ON {QuestionsTable.TableName}.{QuestionsTable.Id} = @{QuestionsTable.Id} " +
+                                $"WHERE {QuestionsTable.TableName}.{QuestionsTable.Id} = @{QuestionsTable.Id};";
                             connection.Open();
 
                             rdr = cmd.ExecuteReader();
                             rdr.Read();
                             question = new SliderQuestion(
-                                (Guid)rdr["Id"],
-                                (string)rdr["QuestionText"],
-                                (int)rdr["QuestionOrder"],
-                                (int)rdr["StartValue"],
-                                (int)rdr["EndQuestion"],
-                                (string)rdr["StartCaption"],
-                                (string)rdr["EndCaption"]
+                                (Guid)rdr[QuestionsTable.Id],
+                                (string)rdr[QuestionsTable.QuestionText],
+                                (int)rdr[QuestionsTable.QuestionOrder],
+                                (int)rdr[SliderTable.StartValue],
+                                (int)rdr[SliderTable.EndValue],
+                                (string)rdr[SliderTable.StartCaption],
+                                (string)rdr[SliderTable.EndCaption]
                                 );
                             break;
                         case TypeQuestionEnum.SmileyFacesQuestion:
                             connection.Close();
 
-                            cmd.CommandText = "SELECT Questions.*,SmileyFacesQuestion.* FROM Questions INNER JOIN SmileyFacesQuestion  ON Questions.Id= @Id WHERE Questions.Id = @Id;";
+                            cmd.CommandText = $"SELECT {QuestionsTable.TableName}.*,{SmileyFacesTable.TableName}.* FROM {QuestionsTable.TableName} " +
+                                $"INNER JOIN {SmileyFacesTable.TableName}  ON {QuestionsTable.TableName}.{QuestionsTable.Id}= @{QuestionsTable.Id} " +
+                                $"WHERE {QuestionsTable.TableName}.{QuestionsTable.Id} = @{QuestionsTable.Id};";
                             connection.Open();
 
                             rdr = cmd.ExecuteReader();
                             rdr.Read();
-                            question = new SmileyFacesQuestion(
-                                (Guid)rdr["Id"],
-                                (string)rdr["QuestionText"],
-                                (int)rdr["QuestionOrder"],
-                                (int)rdr["SmileyCount"]
+                            question = new Models.SmileyFacesQuestion(
+                                (Guid)rdr[QuestionsTable.Id],
+                                (string)rdr[QuestionsTable.QuestionText],
+                                (int)rdr[QuestionsTable.QuestionOrder],
+                                (int)rdr[SmileyFacesTable.SmileyCount]
                                 );
                             break;
                         case TypeQuestionEnum.StarsQuestion:
                             connection.Close();
 
-                            cmd.CommandText = "SELECT Questions.*,StarsQuestion.* FROM Questions INNER JOIN StarsQuestion  ON  Questions.Id= @Id   WHERE Questions.Id = @Id;";
+                            cmd.CommandText = $"SELECT {QuestionsTable.TableName}.*,{StarsTable.TableName}.* FROM {QuestionsTable.TableName} " +
+                                $"INNER JOIN {StarsTable.TableName}  ON  {QuestionsTable.TableName}.{QuestionsTable.Id}= @{QuestionsTable.Id}" +
+                                $"   WHERE {QuestionsTable.TableName}.{QuestionsTable.Id} = @{QuestionsTable.Id};";
                             connection.Open();
 
                             rdr = cmd.ExecuteReader();
                             rdr.Read();
                             question = new StarsQuestion(
-                                (Guid)rdr["Id"],
-                                (string)rdr["QuestionText"],
-                                (int)rdr["QuestionOrder"],
-                                (int)rdr["StarsCount"]
+                                (Guid)rdr[QuestionsTable.Id],
+                                (string)rdr[QuestionsTable.QuestionText],
+                                (int)rdr[QuestionsTable.QuestionOrder],
+                                (int)rdr[StarsTable.StarsCount]
                                 );
                             break;
                     }
@@ -446,16 +491,15 @@ namespace SurveyConfiguratorTask.Repo
         public DateTime GetLastModified()
         {
             Questions = new List<Question>();
-            var connectionString = ConfigurationManager.
-                ConnectionStrings["DbConnectionString"].ConnectionString;
+           
 
-            using (var connection = new SqlConnection(connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 using (var cmd = connection.CreateCommand())
                 {
 
 
-                    cmd.CommandText = "SELECT * FROM DatabaseChangeTracker";
+                    cmd.CommandText = $"SELECT * FROM {DatabaseChangeTrackerTable.TableName}";
 
                     connection.Open();
                     var rdr =cmd.ExecuteReader();
@@ -472,19 +516,19 @@ namespace SurveyConfiguratorTask.Repo
         public void UpdateLastModified()
         {
             Questions = new List<Question>();
-            var connectionString = ConfigurationManager.
-                ConnectionStrings["DbConnectionString"].ConnectionString;
+            
 
-            using (var connection = new SqlConnection(connectionString))
+            using (var connection = new SqlConnection(_connectionString))
             {
                 using (var cmd = connection.CreateCommand())
                 {
-                    cmd.CommandText = "UPDATE DatabaseChangeTracker SET LastModified = SYSDATETIME();";
+                    cmd.CommandText = $"UPDATE {DatabaseChangeTrackerTable.TableName} SET {DatabaseChangeTrackerTable.LastModified}= SYSDATETIME();";
                     connection.Open();
                     cmd.ExecuteNonQuery();
                 }
             }
         }
+        
     } 
 
     

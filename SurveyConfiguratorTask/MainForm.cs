@@ -97,6 +97,7 @@ namespace SurveyConfiguratorTask
             if (DialogResult.OK == addDialog.ShowDialog())
             {
                 //Force UI rebinding so the latest question data is displayed
+                
                 ReloadMainForm();
 
             }

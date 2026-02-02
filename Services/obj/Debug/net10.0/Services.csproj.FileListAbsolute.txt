@@ -16,3 +16,5 @@ D:\SurveyConfiguratorTask\Services\obj\Debug\net10.0\Services.dll
 D:\SurveyConfiguratorTask\Services\obj\Debug\net10.0\refint\Services.dll
 D:\SurveyConfiguratorTask\Services\obj\Debug\net10.0\Services.pdb
 D:\SurveyConfiguratorTask\Services\obj\Debug\net10.0\ref\Services.dll
+D:\SurveyConfiguratorTask\Services\bin\Debug\net10.0\Shared.dll
+D:\SurveyConfiguratorTask\Services\bin\Debug\net10.0\Shared.pdb

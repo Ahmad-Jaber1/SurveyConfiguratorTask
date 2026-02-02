@@ -10,6 +10,7 @@
         "dependencies": {
           "Microsoft.Data.SqlClient": "6.1.4",
           "Models": "1.0.0",
+          "Shared": "1.0.0",
           "System.Configuration.ConfigurationManager": "10.0.2"
         },
         "runtime": {
@@ -402,6 +403,14 @@
             "fileVersion": "1.0.0.0"
           }
         }
+      },
+      "Shared/1.0.0": {
+        "runtime": {
+          "Shared.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
       }
     }
   },
@@ -601,6 +610,11 @@
       "hashPath": "system.security.cryptography.protecteddata.10.0.2.nupkg.sha512"
     },
     "Models/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Shared/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

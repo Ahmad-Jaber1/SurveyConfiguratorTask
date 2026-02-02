@@ -110,9 +110,11 @@ namespace SurveyConfiguratorTask
             
 
                 service.EditQuestionService(question.Id, edit);
+                DialogResult = DialogResult.OK;
+
 
             }
-            catch(ArgumentNullException ex)
+            catch (ArgumentNullException ex)
             {
                 MessageBox.Show(
                 ex.Message,
@@ -158,8 +160,7 @@ namespace SurveyConfiguratorTask
                 );
             }
 
-            DialogResult = DialogResult.OK;
-            this.Close();
+            
         }
 
         private void CancelAddButton_Click(object sender, EventArgs e)

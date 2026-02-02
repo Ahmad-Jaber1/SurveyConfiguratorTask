@@ -55,22 +55,36 @@ namespace Services
                 {
 
                     case 0:
-                        question = new SliderQuestion(questionDto.Text, questionCount + 1, questionDto.StartValue
+                        question = new SliderQuestion(questionDto.Text, questionDto.Order, questionDto.StartValue
                             , questionDto.EndValue, questionDto.StartCaption, questionDto.EndCaption);
                         break;
                     case 1:
-                        question = new SmileyFacesQuestion(questionDto.Text, questionCount + 1, questionDto.SmileyCount);
+                        question = new SmileyFacesQuestion(questionDto.Text, questionDto.Order, questionDto.SmileyCount);
                         break;
                     case 2:
-                        question = new StarsQuestion(questionDto.Text, questionCount + 1, questionDto.StarsCount);
+                        question = new StarsQuestion(questionDto.Text, questionDto.Order, questionDto.StarsCount);
                         break;
                     _:
                         throw new ArgumentOutOfRangeException(nameof(type), "The selected question type is not supported.");
                         break;
 
                 }
+                // Validate that the user-selected order does not exceed the total number of questions
+
+                if (questionDto.Order > GetCountService()+1 || questionDto.Order < 0)
+                {
+                    throw new IndexOutOfRangeException("Order value is invalid.");
+                }
+
                 
-                questions.Add(question);
+                questions.Insert(questionDto.Order - 1, question);
+
+                if (questionDto.Order != questionCount+1 )
+                {
+                    EditOrder();
+                }
+
+                
                 //Add new question to database.
                 repo.AddQuestion(question);
                 repo.UpdateLastModified();
