@@ -7,6 +7,7 @@ using System.Configuration;
 using System.Diagnostics;
 using System.Runtime.Intrinsics.Arm;
 using System.Text;
+using Serilog;
 
 namespace SurveyConfiguratorTask.Repo
 {
@@ -143,116 +144,165 @@ namespace SurveyConfiguratorTask.Repo
             }
         }
 
-        public void AddQuestion(Question question)
+        public Result AddQuestion(Question question)
         {
-            
-            //Create and manage conneciton with database .
-            using (var connection = new SqlConnection(_connectionString))
+            Result result = new Result();
+            try
             {
-
-                connection.Open();
-
-                using (var trans = connection.BeginTransaction())
+                //Create and manage conneciton with database .
+                using (var connection = new SqlConnection(_connectionString))
                 {
-                    using (var cmd = connection.CreateCommand())
+
+                    connection.Open();
+
+                    using (var trans = connection.BeginTransaction())
                     {
-                        //Add object as general question in database
-                        cmd.CommandText = $"INSERT INTO {QuestionsTable.TableName} ({QuestionsTable.Id} " +
-                            $", {QuestionsTable.QuestionText} " +
-                            $", {QuestionsTable.QuestionOrder} " +
-                            $", {QuestionsTable.QuestionType})" +
-                            $" values(@{QuestionsTable.Id} , @{QuestionsTable.QuestionText} , @{QuestionsTable.QuestionOrder} , @{QuestionsTable.QuestionType})";
-                        cmd.Parameters.Add($"@{QuestionsTable.Id}", System.Data.SqlDbType.UniqueIdentifier).Value = question.Id;
-                        cmd.Parameters.Add($"@{QuestionsTable.QuestionText}", System.Data.SqlDbType.VarChar).Value = question.Text;
-                        cmd.Parameters.Add($"@{QuestionsTable.QuestionOrder}", System.Data.SqlDbType.Int).Value = question.Order;
-                        cmd.Parameters.Add($"@{QuestionsTable.QuestionType}", System.Data.SqlDbType.Int).Value = (int)question.TypeQuestion;
-                        cmd.Transaction = trans;
                         try
                         {
-
-
-                            cmd.ExecuteNonQuery();
-
-                            //Add object as specific type question in database .
-                            switch ((int)question.TypeQuestion)
+                            using (var cmd = connection.CreateCommand())
                             {
-                                case 0:
-                                    var sliderQuestion = (SliderQuestion)question;
-                                    cmd.CommandText = $"INSERT INTO {SliderTable.TableName} " +
-                                        $"({SliderTable.Id} " +
-                                        $", {SliderTable.StartValue} " +
-                                        $", {SliderTable.EndValue} " +
-                                        $", {SliderTable.StartCaption} " +
-                                        $", {SliderTable.EndCaption})" +
-                                        $"values (@{SliderTable.Id} " +
-                                        $", @{SliderTable.StartValue} " +
-                                        $", @{SliderTable.EndValue} " +
-                                        $", @{SliderTable.StartCaption} " +
-                                        $", @{SliderTable.EndCaption})";
-                                    cmd.Parameters.Add($"@{SliderTable.StartValue}", System.Data.SqlDbType.Int).Value = sliderQuestion.StartValue;
-                                    cmd.Parameters.Add($"@{SliderTable.EndValue}", System.Data.SqlDbType.Int).Value = sliderQuestion.EndValue;
-                                    cmd.Parameters.Add($"@{SliderTable.StartCaption}", System.Data.SqlDbType.VarChar).Value = sliderQuestion.StartCaption;
-                                    cmd.Parameters.Add($"@{SliderTable.EndCaption}", System.Data.SqlDbType.VarChar).Value = sliderQuestion.EndCaption;
+                                //Add object as general question in database
+                                cmd.CommandText = $"INSERT INTO {QuestionsTable.TableName} ({QuestionsTable.Id} " +
+                                    $", {QuestionsTable.QuestionText} " +
+                                    $", {QuestionsTable.QuestionOrder} " +
+                                    $", {QuestionsTable.QuestionType})" +
+                                    $" values(@{QuestionsTable.Id} , @{QuestionsTable.QuestionText} , @{QuestionsTable.QuestionOrder} , @{QuestionsTable.QuestionType})";
+                                cmd.Parameters.Add($"@{QuestionsTable.Id}", System.Data.SqlDbType.UniqueIdentifier).Value = question.Id;
+                                cmd.Parameters.Add($"@{QuestionsTable.QuestionText}", System.Data.SqlDbType.VarChar).Value = question.Text;
+                                cmd.Parameters.Add($"@{QuestionsTable.QuestionOrder}", System.Data.SqlDbType.Int).Value = question.Order;
+                                cmd.Parameters.Add($"@{QuestionsTable.QuestionType}", System.Data.SqlDbType.Int).Value = (int)question.TypeQuestion;
+                                cmd.Transaction = trans;
 
 
 
-                                    break;
+                                cmd.ExecuteNonQuery();
 
-                                case 1:
-                                    var smileyFaceQuestion = (Models.SmileyFacesQuestion)question;
-                                    cmd.CommandText = $"INSERT INTO {SmileyFacesTable.TableName}" +
-                                        $"({SmileyFacesTable.Id} , {SmileyFacesTable.SmileyCount}) values" +
-                                        $"(@{SmileyFacesTable.Id} , @{SmileyFacesTable.SmileyCount})";
-                                    cmd.Parameters.Add($"@{SmileyFacesTable.SmileyCount}", System.Data.SqlDbType.Int).Value = smileyFaceQuestion.SmileyCount;
-                                    break;
+                                //Add object as specific type question in database .
+                                switch ((int)question.TypeQuestion)
+                                {
+                                    case 0:
+                                        var sliderQuestion = (SliderQuestion)question;
+                                        cmd.CommandText = $"INSERT INTO {SliderTable.TableName} " +
+                                            $"({SliderTable.Id} " +
+                                            $", {SliderTable.StartValue} " +
+                                            $", {SliderTable.EndValue} " +
+                                            $", {SliderTable.StartCaption} " +
+                                            $", {SliderTable.EndCaption})" +
+                                            $"values (@{SliderTable.Id} " +
+                                            $", @{SliderTable.StartValue} " +
+                                            $", @{SliderTable.EndValue} " +
+                                            $", @{SliderTable.StartCaption} " +
+                                            $", @{SliderTable.EndCaption})";
+                                        cmd.Parameters.Add($"@{SliderTable.StartValue}", System.Data.SqlDbType.Int).Value = sliderQuestion.StartValue;
+                                        cmd.Parameters.Add($"@{SliderTable.EndValue}", System.Data.SqlDbType.Int).Value = sliderQuestion.EndValue;
+                                        cmd.Parameters.Add($"@{SliderTable.StartCaption}", System.Data.SqlDbType.VarChar).Value = sliderQuestion.StartCaption;
+                                        cmd.Parameters.Add($"@{SliderTable.EndCaption}", System.Data.SqlDbType.VarChar).Value = sliderQuestion.EndCaption;
 
-                                case 2:
-                                    var starsQuestion = (StarsQuestion)question;
-                                    cmd.CommandText = $"INSERT INTO {StarsTable.TableName}" +
-                                        $"({StarsTable.Id} , {StarsTable.StarsCount}) values" +
-                                        $"(@{StarsTable.Id} , @{StarsTable.StarsCount})";
-                                    cmd.Parameters.Add($"@{StarsTable.StarsCount}", System.Data.SqlDbType.Int).Value = starsQuestion.StarsCount;
-                                    break;
+
+
+                                        break;
+
+                                    case 1:
+                                        var smileyFaceQuestion = (SmileyFacesQuestion)question;
+                                        cmd.CommandText = $"INSERT INTO {SmileyFacesTable.TableName}" +
+                                            $"({SmileyFacesTable.Id} , {SmileyFacesTable.SmileyCount}) values" +
+                                            $"(@{SmileyFacesTable.Id} , @{SmileyFacesTable.SmileyCount})";
+                                        cmd.Parameters.Add($"@{SmileyFacesTable.SmileyCount}", System.Data.SqlDbType.Int).Value = smileyFaceQuestion.SmileyCount;
+                                        break;
+
+                                    case 2:
+                                        var starsQuestion = (StarsQuestion)question;
+                                        cmd.CommandText = $"INSERT INTO {StarsTable.TableName}" +
+                                            $"({StarsTable.Id} , {StarsTable.StarsCount}) values" +
+                                            $"(@{StarsTable.Id} , @{StarsTable.StarsCount})";
+                                        cmd.Parameters.Add($"@{StarsTable.StarsCount}", System.Data.SqlDbType.Int).Value = starsQuestion.StarsCount;
+                                        break;
+
+                                }
+
+                                cmd.ExecuteNonQuery();
+                                trans.Commit();
+
+                                connection.Close();
+
+
+
 
                             }
-
-                            cmd.ExecuteNonQuery();
-                            trans.Commit();
-
-                            connection.Close();
-
+                        }
+                        
+                        catch (SqlException sqlEx)
+                        {
+                            trans.Rollback();
+                            result.Success = false;
+                            result.Message = "We couldn't save your question at the moment. Please try again later.";
+                            result.Erorr = ErrorTypeEnum.DatabaseError;
+                            Log.Error(sqlEx, "SQL error occurred while inserting question of type {Type}", question.TypeQuestion);
                         }
                         catch (Exception ex)
                         {
                             trans.Rollback();
-                            throw;
+                            result.Success = false;
+                            result.Message = "Unexpected error occurred while adding question.";
+                            result.Erorr = ErrorTypeEnum.None;
+                            Log.Error(ex, "Unexpected error occurred while inserting question of type {Type}", question.TypeQuestion);
                         }
-
                     }
                 }
             }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Failed to connect to the database. Contact the administrator to resolve the issue.";
+                result.Erorr = ErrorTypeEnum.DatabaseError;
+                Log.Error(ex, "Database connection failed.");
+                
+            }
+                        return result;
+
+
         }
 
-        public void DeleteQuestion(Guid Id)
+        public Result DeleteQuestion(Guid Id)
         {
-            
-            using (var connection = new SqlConnection(_connectionString))
+            Result result = new Result();
+            try
             {
-                using (var cmd = connection.CreateCommand())
+                using (var connection = new SqlConnection(_connectionString))
                 {
-                    cmd.CommandText = $"DELETE FROM {QuestionsTable.TableName} WHERE {QuestionsTable.Id} = @{QuestionsTable.Id}";
-                    cmd.Parameters.Add($"@{QuestionsTable.Id}", System.Data.SqlDbType.UniqueIdentifier).Value = Id;
+                    using (var cmd = connection.CreateCommand())
+                    {
+                        cmd.CommandText = $"DELETE FROM {QuestionsTable.TableName} WHERE {QuestionsTable.Id} = @{QuestionsTable.Id}";
+                        cmd.Parameters.Add($"@{QuestionsTable.Id}", System.Data.SqlDbType.UniqueIdentifier).Value = Id;
 
 
-                    connection.Open();
-                    cmd.ExecuteNonQuery();
+                        connection.Open();
+                        cmd.ExecuteNonQuery();
 
+
+
+                    }
 
 
                 }
-
+            }
+            catch (SqlException sqlEx)
+            {
+                
+                result.Success = false;
+                result.Message = "We couldn't delete your question at the moment. Please try again later.";
+                result.Erorr = ErrorTypeEnum.DatabaseError;
+                Log.Error(sqlEx, "SQL error occurred while deleting question ,Id: {Id}", Id);
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "We couldn't delete your question due to an unexpected error. Please try again or contact support.";
+                result.Erorr = ErrorTypeEnum.DatabaseError;
+                Log.Error(ex, "Unexpected error occurred while deleting question. QuestionId: {Id}", Id);
 
             }
+            return result; 
         }
 
         public void EditQuestion(Question question)
@@ -527,6 +577,11 @@ namespace SurveyConfiguratorTask.Repo
                     cmd.ExecuteNonQuery();
                 }
             }
+        }
+
+        public void ChangeConnectionString(string connectionString)
+        {
+            ChangeConnectionString(connectionString);
         }
         
     } 

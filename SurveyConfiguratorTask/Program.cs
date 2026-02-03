@@ -1,9 +1,12 @@
 using Microsoft.Extensions.Logging;
 using Models;
+using Repository;
 using Serilog;
 using Services;
 using SurveyConfiguratorTask.Models;
 using SurveyConfiguratorTask.Repo;
+using System.Configuration;
+using System.Configuration;
 
 
 namespace SurveyConfiguratorTask
@@ -28,6 +31,8 @@ namespace SurveyConfiguratorTask
                 "{Exception}{NewLine}" +
                 "============================================================{NewLine}")
                 .CreateLogger();
+
+            
 
             ApplicationConfiguration.Initialize();
             Application.Run(new MainForm());

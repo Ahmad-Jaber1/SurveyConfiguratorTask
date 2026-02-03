@@ -400,6 +400,10 @@
               "target": "Package",
               "version": "[6.1.4, )"
             },
+            "Serilog": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
             "System.Configuration.ConfigurationManager": {
               "target": "Package",
               "version": "[10.0.2, )"

@@ -317,3 +317,188 @@ System.IndexOutOfRangeException: Order value is invalid.
    at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 76
 
 ============================================================
+2026-02-03 13:08:25.726 | Error | 
+Message    : Error occurred while adding a question of type "SliderQuestion"
+Exception  :
+System.ArgumentException: Parameter text can't be empty. (Parameter 'text')
+   at SurveyConfiguratorTask.Models.Question.SetText(String text) in D:\SurveyConfiguratorTask\Models\Question.cs:line 42
+   at SurveyConfiguratorTask.Models.Question..ctor(String text, Int32 order, TypeQuestionEnum type) in D:\SurveyConfiguratorTask\Models\Question.cs:line 24
+   at SurveyConfiguratorTask.Models.SliderQuestion..ctor(String text, Int32 order, Int32 startValue, Int32 endValue, String startCaption, String endCaption) in D:\SurveyConfiguratorTask\Models\SliderQuestion.cs:line 20
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 58
+
+============================================================
+2026-02-03 15:26:09.330 | Error | 
+Message    : Validation failed: invalid argument.
+Exception  :
+System.ArgumentException: text (Parameter 'The text cannot be empty. Please enter a valid value.')
+   at SurveyConfiguratorTask.Models.Question.SetText(String text) in D:\SurveyConfiguratorTask\Models\Question.cs:line 42
+   at SurveyConfiguratorTask.Models.Question..ctor(String text, Int32 order, TypeQuestionEnum type) in D:\SurveyConfiguratorTask\Models\Question.cs:line 24
+   at SurveyConfiguratorTask.Models.StarsQuestion..ctor(String text, Int32 order, Int32 count) in D:\SurveyConfiguratorTask\Models\StarsQuestion.cs:line 16
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 69
+
+============================================================
+2026-02-03 15:26:20.187 | Error | 
+Message    : Validation failed: invalid argument.
+Exception  :
+System.ArgumentException: text (Parameter 'The text cannot be empty. Please enter a valid value.')
+   at SurveyConfiguratorTask.Models.Question.SetText(String text) in D:\SurveyConfiguratorTask\Models\Question.cs:line 42
+   at SurveyConfiguratorTask.Models.Question..ctor(String text, Int32 order, TypeQuestionEnum type) in D:\SurveyConfiguratorTask\Models\Question.cs:line 24
+   at SurveyConfiguratorTask.Models.StarsQuestion..ctor(String text, Int32 order, Int32 count) in D:\SurveyConfiguratorTask\Models\StarsQuestion.cs:line 16
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 69
+
+============================================================
+2026-02-03 15:31:33.149 | Error | 
+Message    : Validation failed: invalid argument.
+Exception  :
+System.ArgumentException: text (Parameter 'The text cannot be empty. Please enter a valid value.')
+   at SurveyConfiguratorTask.Models.Question.SetText(String text) in D:\SurveyConfiguratorTask\Models\Question.cs:line 42
+   at SurveyConfiguratorTask.Models.Question..ctor(String text, Int32 order, TypeQuestionEnum type) in D:\SurveyConfiguratorTask\Models\Question.cs:line 24
+   at SurveyConfiguratorTask.Models.StarsQuestion..ctor(String text, Int32 order, Int32 count) in D:\SurveyConfiguratorTask\Models\StarsQuestion.cs:line 16
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 69
+
+============================================================
+2026-02-03 15:31:43.086 | Error | 
+Message    : Validation failed: invalid argument.
+Exception  :
+System.ArgumentException: text (Parameter 'The text cannot be empty. Please enter a valid value.')
+   at SurveyConfiguratorTask.Models.Question.SetText(String text) in D:\SurveyConfiguratorTask\Models\Question.cs:line 42
+   at SurveyConfiguratorTask.Models.Question..ctor(String text, Int32 order, TypeQuestionEnum type) in D:\SurveyConfiguratorTask\Models\Question.cs:line 24
+   at SurveyConfiguratorTask.Models.StarsQuestion..ctor(String text, Int32 order, Int32 count) in D:\SurveyConfiguratorTask\Models\StarsQuestion.cs:line 16
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 69
+
+============================================================
+2026-02-03 15:36:56.855 | Error | 
+Message    : Validation failed: invalid argument.
+Exception  :
+System.ArgumentException: The text cannot be empty. Please enter a valid value. (Parameter 'text')
+   at SurveyConfiguratorTask.Models.Question.SetText(String text) in D:\SurveyConfiguratorTask\Models\Question.cs:line 42
+   at SurveyConfiguratorTask.Models.Question..ctor(String text, Int32 order, TypeQuestionEnum type) in D:\SurveyConfiguratorTask\Models\Question.cs:line 24
+   at SurveyConfiguratorTask.Models.StarsQuestion..ctor(String text, Int32 order, Int32 count) in D:\SurveyConfiguratorTask\Models\StarsQuestion.cs:line 16
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 69
+
+============================================================
+2026-02-03 15:41:24.757 | Error | 
+Message    : Validation failed: invalid argument.
+Exception  :
+System.ArgumentException: text (Parameter 'The text cannot be empty. Please enter a valid value.')
+   at SurveyConfiguratorTask.Models.Question.SetText(String text) in D:\SurveyConfiguratorTask\Models\Question.cs:line 42
+   at SurveyConfiguratorTask.Models.Question..ctor(String text, Int32 order, TypeQuestionEnum type) in D:\SurveyConfiguratorTask\Models\Question.cs:line 24
+   at SurveyConfiguratorTask.Models.StarsQuestion..ctor(String text, Int32 order, Int32 count) in D:\SurveyConfiguratorTask\Models\StarsQuestion.cs:line 16
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 69
+
+============================================================
+2026-02-03 15:41:56.798 | Error | 
+Message    : Validation failed: invalid argument.
+Exception  :
+System.ArgumentException: The text cannot be empty. Please enter a valid value. (Parameter 'text')
+   at SurveyConfiguratorTask.Models.Question.SetText(String text) in D:\SurveyConfiguratorTask\Models\Question.cs:line 42
+   at SurveyConfiguratorTask.Models.Question..ctor(String text, Int32 order, TypeQuestionEnum type) in D:\SurveyConfiguratorTask\Models\Question.cs:line 24
+   at SurveyConfiguratorTask.Models.StarsQuestion..ctor(String text, Int32 order, Int32 count) in D:\SurveyConfiguratorTask\Models\StarsQuestion.cs:line 16
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 69
+
+============================================================
+2026-02-03 15:42:04.176 | Error | 
+Message    : Validation failed: invalid argument.
+Exception  :
+System.ArgumentException: The text cannot be empty. Please enter a valid value. (Parameter 'text')
+   at SurveyConfiguratorTask.Models.Question.SetText(String text) in D:\SurveyConfiguratorTask\Models\Question.cs:line 42
+   at SurveyConfiguratorTask.Models.Question..ctor(String text, Int32 order, TypeQuestionEnum type) in D:\SurveyConfiguratorTask\Models\Question.cs:line 24
+   at SurveyConfiguratorTask.Models.StarsQuestion..ctor(String text, Int32 order, Int32 count) in D:\SurveyConfiguratorTask\Models\StarsQuestion.cs:line 16
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 69
+
+============================================================
+2026-02-03 15:45:59.148 | Error | 
+Message    : Validation failed: invalid argument.
+Exception  :
+System.ArgumentException: The text cannot be empty. Please enter a valid value.
+   at SurveyConfiguratorTask.Models.Question.SetText(String text) in D:\SurveyConfiguratorTask\Models\Question.cs:line 42
+   at SurveyConfiguratorTask.Models.Question..ctor(String text, Int32 order, TypeQuestionEnum type) in D:\SurveyConfiguratorTask\Models\Question.cs:line 24
+   at SurveyConfiguratorTask.Models.StarsQuestion..ctor(String text, Int32 order, Int32 count) in D:\SurveyConfiguratorTask\Models\StarsQuestion.cs:line 16
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 69
+
+============================================================
+2026-02-03 15:46:05.238 | Error | 
+Message    : Validation failed: invalid argument.
+Exception  :
+System.ArgumentException: The text cannot be empty. Please enter a valid value.
+   at SurveyConfiguratorTask.Models.Question.SetText(String text) in D:\SurveyConfiguratorTask\Models\Question.cs:line 42
+   at SurveyConfiguratorTask.Models.Question..ctor(String text, Int32 order, TypeQuestionEnum type) in D:\SurveyConfiguratorTask\Models\Question.cs:line 24
+   at SurveyConfiguratorTask.Models.StarsQuestion..ctor(String text, Int32 order, Int32 count) in D:\SurveyConfiguratorTask\Models\StarsQuestion.cs:line 16
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 69
+
+============================================================
+2026-02-03 15:53:11.500 | Error | 
+Message    : Validation failed: invalid argument.
+Exception  :
+System.ArgumentException: The text cannot be empty. Please enter a valid value.
+   at SurveyConfiguratorTask.Models.Question.SetText(String text) in D:\SurveyConfiguratorTask\Models\Question.cs:line 42
+   at SurveyConfiguratorTask.Models.Question..ctor(String text, Int32 order, TypeQuestionEnum type) in D:\SurveyConfiguratorTask\Models\Question.cs:line 24
+   at SurveyConfiguratorTask.Models.StarsQuestion..ctor(String text, Int32 order, Int32 count) in D:\SurveyConfiguratorTask\Models\StarsQuestion.cs:line 16
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 69
+
+============================================================
+2026-02-03 15:53:16.638 | Error | 
+Message    : Validation failed: invalid argument.
+Exception  :
+System.ArgumentException: The text cannot be empty. Please enter a valid value.
+   at SurveyConfiguratorTask.Models.Question.SetText(String text) in D:\SurveyConfiguratorTask\Models\Question.cs:line 42
+   at SurveyConfiguratorTask.Models.Question..ctor(String text, Int32 order, TypeQuestionEnum type) in D:\SurveyConfiguratorTask\Models\Question.cs:line 24
+   at SurveyConfiguratorTask.Models.StarsQuestion..ctor(String text, Int32 order, Int32 count) in D:\SurveyConfiguratorTask\Models\StarsQuestion.cs:line 16
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 69
+
+============================================================
+2026-02-03 15:53:18.757 | Error | 
+Message    : Validation failed: invalid argument.
+Exception  :
+System.ArgumentException: The text cannot be empty. Please enter a valid value.
+   at SurveyConfiguratorTask.Models.Question.SetText(String text) in D:\SurveyConfiguratorTask\Models\Question.cs:line 42
+   at SurveyConfiguratorTask.Models.Question..ctor(String text, Int32 order, TypeQuestionEnum type) in D:\SurveyConfiguratorTask\Models\Question.cs:line 24
+   at SurveyConfiguratorTask.Models.StarsQuestion..ctor(String text, Int32 order, Int32 count) in D:\SurveyConfiguratorTask\Models\StarsQuestion.cs:line 16
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 69
+
+============================================================
+2026-02-03 15:56:23.673 | Error | 
+Message    : Error occurred while adding a question of type "StarsQuestion"
+Exception  :
+System.IndexOutOfRangeException: Order value must be between 1 and 11. Please enter a valid number.
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 80
+
+============================================================
+2026-02-03 15:58:38.892 | Error | 
+Message    : Validation failed: value out of range.
+Exception  :
+System.ArgumentOutOfRangeException: Specified argument was out of the range of valid values. (Parameter 'Order value must be between 1 and 11. Please enter a valid number.')
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 80
+
+============================================================
+2026-02-03 15:59:27.721 | Error | 
+Message    : Validation failed: value out of range.
+Exception  :
+System.ArgumentOutOfRangeException: Specified argument was out of the range of valid values. (Parameter 'Order value must be between 1 and 11. Please enter a valid number.')
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 80
+
+============================================================
+2026-02-03 16:03:21.011 | Error | 
+Message    : Validation failed: value out of range.
+Exception  :
+System.ArgumentOutOfRangeException: Order value must be between 1 and 11. Please enter a valid number.
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 80
+
+============================================================
+2026-02-03 16:03:28.295 | Error | 
+Message    : Validation failed: value out of range.
+Exception  :
+System.ArgumentOutOfRangeException: Order value must be between 1 and 11. Please enter a valid number.
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 80
+
+============================================================
+2026-02-03 16:04:54.225 | Error | 
+Message    : Validation failed: invalid argument.
+Exception  :
+System.ArgumentException: The text cannot be empty. Please enter a valid value.
+   at SurveyConfiguratorTask.Models.Question.SetText(String text) in D:\SurveyConfiguratorTask\Models\Question.cs:line 42
+   at SurveyConfiguratorTask.Models.Question..ctor(String text, Int32 order, TypeQuestionEnum type) in D:\SurveyConfiguratorTask\Models\Question.cs:line 24
+   at SurveyConfiguratorTask.Models.StarsQuestion..ctor(String text, Int32 order, Int32 count) in D:\SurveyConfiguratorTask\Models\StarsQuestion.cs:line 16
+   at Services.QuestionService.AddQuestionService(TypeQuestionEnum type, AddQuestionDto questionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 69
+
+============================================================

@@ -30,7 +30,7 @@ namespace SurveyConfiguratorTask.Models
             //StarsCount must not be less than 1 or greater than 10
             if (count <= 0 || count > 10)
             {
-                throw new ArgumentOutOfRangeException(nameof(count), $"Value must be between 1 and 10.");
+                throw new ArgumentOutOfRangeException( "Stars  must be between 1 and 10.");
             }
             StarsCount = count;
         }

@@ -97,7 +97,7 @@ namespace SurveyConfiguratorTask
             if (DialogResult.OK == addDialog.ShowDialog())
             {
                 //Force UI rebinding so the latest question data is displayed
-                
+
                 ReloadMainForm();
 
             }
@@ -226,6 +226,16 @@ namespace SurveyConfiguratorTask
             isRunning = false;
         }
 
-        
+        private void databaseConToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var changeConnectionForm = new setConnectionString(service);
+            if (DialogResult.OK == changeConnectionForm.ShowDialog())
+            {
+                //Force UI rebinding so the latest question data is displayed
+                ReloadMainForm();
+
+            }
+
+        }
     }
 }

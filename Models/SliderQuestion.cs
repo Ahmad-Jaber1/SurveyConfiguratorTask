@@ -42,7 +42,7 @@ namespace SurveyConfiguratorTask.Models
             //Start value must not be negative or greater than end value.
             if (value < 0 || value >= EndValue)
             {
-                throw new ArgumentOutOfRangeException(nameof(value) , $"{nameof(StartValue)} must be between 0 and {EndValue-1}.");
+                throw new ArgumentOutOfRangeException(null, $"{nameof(StartValue)} must be between 0 and {EndValue-1}.");
             }
             StartValue = value;
 
@@ -53,9 +53,9 @@ namespace SurveyConfiguratorTask.Models
             //End value must not be grater than 100 or less than start value.
             if (value <= StartValue || value > 100)
             {
-                throw new ArgumentOutOfRangeException(nameof(value), $"{nameof(EndValue)} must be between {StartValue+1} and 100.");
+                throw new ArgumentOutOfRangeException( null , $"End value must be between {StartValue + 1} and 100. Please enter a valid number.");
             }
-            
+
             EndValue = value;
 
         }
@@ -64,9 +64,10 @@ namespace SurveyConfiguratorTask.Models
         {
             //Caption must not be null or empty.
             if (caption is null)
-                throw new ArgumentNullException(nameof(caption), $"Parameter {nameof(caption)} must not be null. Please provide a valid value.");
+                throw new ArgumentNullException( null , "Please enter a caption. It cannot be empty.");
+
             if (caption == string.Empty)
-                throw new ArgumentException($"Parameter {nameof(caption)} can't be empty.", nameof(caption));
+                throw new ArgumentException( "Please enter a caption. It cannot be empty."  );
             StartCaption = caption;
 
         }
@@ -75,9 +76,9 @@ namespace SurveyConfiguratorTask.Models
         {
             //Caption must not be null or empty.
             if (caption is null)
-                throw new ArgumentNullException(nameof(caption), $"Parameter {nameof(caption)} must not be null. Please provide a valid value.");
+                throw new ArgumentNullException( "Please enter a caption. It cannot be empty.");
             if (caption == string.Empty)
-                throw new ArgumentException($"Parameter {nameof(caption)} can't be empty.", nameof(caption));
+                throw new ArgumentException( "Please enter a caption. It cannot be empty.");
 
             EndCaption = caption;
             

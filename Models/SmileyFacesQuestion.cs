@@ -33,7 +33,8 @@ namespace SurveyConfiguratorTask.Models
             //SmileyCount must not be less than 2 or greater than 5 
             if (count < 2 || count > 5)
             {
-                throw new ArgumentOutOfRangeException(nameof(count), $"Value must be between 2 and 5.");
+                throw new ArgumentOutOfRangeException( "Smiley faces  must be between 2 and 5.");
+
             }
             SmileyCount = count;
 

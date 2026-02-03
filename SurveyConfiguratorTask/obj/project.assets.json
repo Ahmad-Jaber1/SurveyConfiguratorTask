@@ -493,6 +493,7 @@
         "dependencies": {
           "Microsoft.Data.SqlClient": "6.1.4",
           "Models": "1.0.0",
+          "Serilog": "4.3.0",
           "Shared": "1.0.0"
         },
         "compile": {

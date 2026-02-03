@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
 using Models;
 using Serilog;
+using Shared;
 using SurveyConfiguratorTask.Models;
 using SurveyConfiguratorTask.Repo;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Text;
@@ -38,12 +40,14 @@ namespace Services
             }
         
         }
-        public void AddQuestionService(TypeQuestionEnum type , AddQuestionDto questionDto)
+        public Result AddQuestionService(TypeQuestionEnum type , AddQuestionDto questionDto)
         {
+            Result result = new Result();
             try
             {
                 if (questionDto is null)
-                    throw new ArgumentNullException("Question data cannot be null.");
+                    throw new ArgumentNullException("Question data cannot be empty. Please provide a valid question.");
+
                 int questionCount = repo.GetCount();
 
 
@@ -65,15 +69,15 @@ namespace Services
                         question = new StarsQuestion(questionDto.Text, questionDto.Order, questionDto.StarsCount);
                         break;
                     _:
-                        throw new ArgumentOutOfRangeException(nameof(type), "The selected question type is not supported.");
+                        throw new ArgumentOutOfRangeException("The selected question type is not valid. Please choose a supported type.");
                         break;
 
                 }
                 // Validate that the user-selected order does not exceed the total number of questions
 
-                if (questionDto.Order > GetCountService()+1 || questionDto.Order < 0)
+                if (questionDto.Order > GetCountService()+1 || questionDto.Order <= 0)
                 {
-                    throw new IndexOutOfRangeException("Order value is invalid.");
+                    throw new ArgumentOutOfRangeException(null,$"Order value must be between 1 and {GetCountService() + 1}. Please enter a valid number.");
                 }
 
                 
@@ -86,20 +90,51 @@ namespace Services
 
                 
                 //Add new question to database.
-                repo.AddQuestion(question);
-                repo.UpdateLastModified();
+
+                 result = repo.AddQuestion(question);
+
+                if(result.Success)
+                    repo.UpdateLastModified();
                
             }
             
+            catch (ArgumentNullException ex)
+            {
+                
+                result.Success = false;
+                result.Message = ex.Message;
+                result.Erorr = ErrorTypeEnum.ValidationError;
+                Log.Error(ex, "Validation failed: null value.");
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                
+                result.Success = false;
+                result.Message = ex.Message;
+                result.Erorr = ErrorTypeEnum.ValidationError;
+                Log.Error(ex, "Validation failed: value out of range.");
+            }
+            catch (ArgumentException ex)
+            {
+                
+                result.Success = false;
+                result.Message = ex.Message;
+                result.Erorr = ErrorTypeEnum.ValidationError;
+                Log.Error(ex, "Validation failed: invalid argument.");
+            }
             catch (Exception ex)
             {
                 Log.Error(ex, "Error occurred while adding a question of type {Type}", (TypeQuestionEnum)type);
-                throw;
+                result.Success=false;
+                result.Erorr=ErrorTypeEnum.UnknownError;
+                result.Message = "An unexpected error occurred while adding your question. Please try again or contact support.";
             }
+            return result;
         }
         
-        public void DeleteQuestionService(Guid id)
+        public Result DeleteQuestionService(Guid id)
         {
+            Result result = new Result();
             try
             {
                 Question deletedQuestion = null; 
@@ -108,7 +143,11 @@ namespace Services
                     if (question.Id == id)
                     {
                         questions.Remove(question);
-                        repo.DeleteQuestion(id);
+                        
+                            repo.DeleteQuestion(id); 
+                        if(!result.Success)
+                            return result;
+
                         // Reorder questions to maintain consistent ordering after deletion
                         EditOrder();
                         deletedQuestion = question;
@@ -134,6 +173,7 @@ namespace Services
                 
                 throw;
             }
+            return result; 
         }
         public void EditQuestionService(Guid id ,EditContext editContext)
         {
@@ -141,7 +181,8 @@ namespace Services
             try
             {
                 if (editContext is null)
-                    throw new ArgumentNullException("Question data cannot be null.");
+                    throw new ArgumentNullException(nameof(editContext), "Please provide a question. This field cannot be empty.");
+
 
                 Question question = null;
                 foreach (var item in questions)
@@ -152,7 +193,8 @@ namespace Services
                     }
                 }
                 if (question is null)
-                    throw new KeyNotFoundException("Question not found.");
+                    throw new KeyNotFoundException("The specified question was not found. Please check your selection.");
+
 
                 Question questionEdit = null;
                 switch ((int)question.TypeQuestion)
@@ -174,11 +216,12 @@ namespace Services
                 }
                 // Validate that the user-selected order does not exceed the total number of questions
 
-                if (questionEdit.Order > GetCountService() || questionEdit.Order <0)
+                if (questionEdit.Order > GetCountService() || questionEdit.Order <= 0)
                 {
-                    throw new IndexOutOfRangeException("Order value is invalid.");
+                    throw new IndexOutOfRangeException($"Order value must be between 1 and {GetCountService()}. Please enter a valid number.");
+
                 }
-                 
+
                 questions.Remove(question);
                 questions.Insert(questionEdit.Order - 1, questionEdit);
 
@@ -245,7 +288,8 @@ namespace Services
                     if (question.Id == id)
                         return question;
                 }
-                throw new KeyNotFoundException("Question not found.");
+                throw new KeyNotFoundException("The specified question was not found. Please check your selection.");
+
             }
             catch (Exception ex)
             {
@@ -280,6 +324,12 @@ namespace Services
             }
         }
 
-        
+        public void ChangeConnectionString(string connectionString)
+        {
+            repo.ChangeConnectionString(connectionString);
+        }
+
+
+
     }
 }

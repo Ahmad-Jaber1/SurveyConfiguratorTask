@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "GQA7rr60nEI=",
+  "dgSpecHash": "INOjXw0Y6gw=",
   "success": true,
   "projectFilePath": "D:\\SurveyConfiguratorTask\\Repository\\Repository.csproj",
   "expectedPackageFiles": [
@@ -24,6 +24,7 @@
     "C:\\Users\\Ahmad.j\\.nuget\\packages\\microsoft.identitymodel.protocols.openidconnect\\7.7.1\\microsoft.identitymodel.protocols.openidconnect.7.7.1.nupkg.sha512",
     "C:\\Users\\Ahmad.j\\.nuget\\packages\\microsoft.identitymodel.tokens\\7.7.1\\microsoft.identitymodel.tokens.7.7.1.nupkg.sha512",
     "C:\\Users\\Ahmad.j\\.nuget\\packages\\microsoft.sqlserver.server\\1.0.0\\microsoft.sqlserver.server.1.0.0.nupkg.sha512",
+    "C:\\Users\\Ahmad.j\\.nuget\\packages\\serilog\\4.3.0\\serilog.4.3.0.nupkg.sha512",
     "C:\\Users\\Ahmad.j\\.nuget\\packages\\system.clientmodel\\1.8.0\\system.clientmodel.1.8.0.nupkg.sha512",
     "C:\\Users\\Ahmad.j\\.nuget\\packages\\system.configuration.configurationmanager\\10.0.2\\system.configuration.configurationmanager.10.0.2.nupkg.sha512",
     "C:\\Users\\Ahmad.j\\.nuget\\packages\\system.diagnostics.eventlog\\10.0.2\\system.diagnostics.eventlog.10.0.2.nupkg.sha512",

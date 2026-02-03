@@ -37,10 +37,10 @@ namespace SurveyConfiguratorTask.Models
         {
             //Text must not be null or empty.
             if (text is null)
-                throw new ArgumentNullException(nameof(text), $"Parameter {nameof(text)} must not be null. Please provide a valid value.");
+                throw new ArgumentNullException( "The text cannot be empty. Please enter a valid value." );
             if (text == string.Empty)
-                throw new ArgumentException($"Parameter {nameof(text)} can't be empty.", nameof(text));
-
+                throw new ArgumentException( "The text cannot be empty. Please enter a valid value.");
+            
             Text = text; 
         }
         protected void SetOrder(int order)

@@ -70,3 +70,5 @@ D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\Surve
 D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\ref\SurveyConfiguratorTask.dll
 D:\SurveyConfiguratorTask\SurveyConfiguratorTask\bin\Debug\net10.0-windows\Shared.dll
 D:\SurveyConfiguratorTask\SurveyConfiguratorTask\bin\Debug\net10.0-windows\Shared.pdb
+D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.setConnectionString.resources
+D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.Properties.Resources.resources

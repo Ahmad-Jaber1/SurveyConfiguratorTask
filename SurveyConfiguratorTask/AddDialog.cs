@@ -60,63 +60,68 @@ namespace SurveyConfiguratorTask
                 type = TypeQuestionEnum.StarsQuestion;
             }
 
-            try
-            {
-                if (addedQuestion.Order > service.GetCountService() + 1 || addedQuestion.Order <= 0)
-                {
-                    MessageBox.Show(
-                    "Order value is invalid.",
-                    "Validation Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                    );
-                    return;
-
-                }
-                service.AddQuestionService(type, addedQuestion);
+            var result = service.AddQuestionService(type, addedQuestion);
+            if (result.Success)
                 DialogResult = DialogResult.OK;
-            }
-            catch (ArgumentNullException ex)
-            {
-                MessageBox.Show(
-                            ex.Message,
-                            "Error",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error
-                                );
-                
-            }
+            else
+                MessageBox.Show(result.Message,result.Erorr.ToString(),MessageBoxButtons.OK,MessageBoxIcon.Error);
+            //try
+            //    {
+            //        if (addedQuestion.Order > service.GetCountService() + 1 || addedQuestion.Order <= 0)
+            //        {
+            //            MessageBox.Show(
+            //            "Order value is invalid.",
+            //            "Validation Error",
+            //            MessageBoxButtons.OK,
+            //            MessageBoxIcon.Error
+            //            );
+            //            return;
 
-            catch (ArgumentOutOfRangeException ex)
-            {
-                MessageBox.Show(
-                            ex.Message,
-                            "Error",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error
-                        );
-                
-            }
+            //        }
+            //        service.AddQuestionService(type, addedQuestion);
+            //        DialogResult = DialogResult.OK;
+            //    }
+            //    catch (ArgumentNullException ex)
+            //    {
+            //        MessageBox.Show(
+            //                    ex.Message,
+            //                    "Error",
+            //                    MessageBoxButtons.OK,
+            //                    MessageBoxIcon.Error
+            //                        );
 
-            catch (ArgumentException ex)
-            {
-                MessageBox.Show(
-                            ex.Message,
-                            "Error",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error
-                        );
-                
-            }
-            catch(Exception ex)
-            {
-                MessageBox.Show(
-                            "An unexpected error occurred. Please try again.",
-                            "Error",
-                            MessageBoxButtons.OK,
-                            MessageBoxIcon.Error
-                        );
-            }
+            //    }
+
+            //    catch (ArgumentOutOfRangeException ex)
+            //    {
+            //        MessageBox.Show(
+            //                    ex.Message,
+            //                    "Error",
+            //                    MessageBoxButtons.OK,
+            //                    MessageBoxIcon.Error
+            //                );
+
+            //    }
+
+            //    catch (ArgumentException ex)
+            //    {
+            //        MessageBox.Show(
+            //                    ex.Message,
+            //                    "Error",
+            //                    MessageBoxButtons.OK,
+            //                    MessageBoxIcon.Error
+            //                );
+
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        MessageBox.Show(
+            //                    "An unexpected error occurred. Please try again.",
+            //                    "Error",
+            //                    MessageBoxButtons.OK,
+            //                    MessageBoxIcon.Error
+            //                );
+            //    }
             
 
             
