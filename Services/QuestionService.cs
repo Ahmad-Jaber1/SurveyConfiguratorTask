@@ -40,60 +40,68 @@ namespace Services
             }
         
         }
-        public Result AddQuestionService(TypeQuestionEnum type , AddQuestionDto questionDto)
+        public Result<int> AddQuestionService(TypeQuestionEnum type , AddQuestionDto questionDto)
         {
-            Result result = new Result();
+            Result<int> result = new Result<int> { Erorr = ErrorTypeEnum.None , Success = true , Data = 0};
             try
             {
                 if (questionDto is null)
-                    throw new ArgumentNullException("Question data cannot be empty. Please provide a valid question.");
+                    throw new ArgumentNullException(null , "Question data cannot be empty. Please provide a valid question.");
 
-                int questionCount = repo.GetCount();
+                int questionCount = repo.GetCount().Data;
 
 
                 Question question = null;
                 //Create new question in local variable .
                 //becasue each type of question has different fields
                 //, we try to determine what type of question the user trying to add .
-                switch ((int)type)
+                switch (type)
                 {
 
-                    case 0:
+                    case TypeQuestionEnum.SliderQuestion:
                         question = new SliderQuestion(questionDto.Text, questionDto.Order, questionDto.StartValue
                             , questionDto.EndValue, questionDto.StartCaption, questionDto.EndCaption);
                         break;
-                    case 1:
+                    case TypeQuestionEnum.SmileyFacesQuestion:
                         question = new SmileyFacesQuestion(questionDto.Text, questionDto.Order, questionDto.SmileyCount);
                         break;
-                    case 2:
+                    case TypeQuestionEnum.StarsQuestion:
                         question = new StarsQuestion(questionDto.Text, questionDto.Order, questionDto.StarsCount);
                         break;
                     _:
-                        throw new ArgumentOutOfRangeException("The selected question type is not valid. Please choose a supported type.");
+                        throw new ArgumentOutOfRangeException(null , "The selected question type is not valid. Please choose a supported type.");
                         break;
 
                 }
                 // Validate that the user-selected order does not exceed the total number of questions
-
-                if (questionDto.Order > GetCountService()+1 || questionDto.Order <= 0)
+                var countResult = GetCountService();
+                if (!countResult.Success)
+                    return countResult;
+                if (questionDto.Order > countResult.Data+1 || questionDto.Order <= 0)
                 {
-                    throw new ArgumentOutOfRangeException(null,$"Order value must be between 1 and {GetCountService() + 1}. Please enter a valid number.");
+                    throw new ArgumentOutOfRangeException(null,$"Order value must be between 1 and {countResult.Data + 1}. Please enter a valid number.");
                 }
-
+                
                 
                 questions.Insert(questionDto.Order - 1, question);
 
+                //Add new question to database.
+
+                result = repo.AddQuestion(question);
+                if (!result.Success)
+                    return result;
+
                 if (questionDto.Order != questionCount+1 )
                 {
-                    EditOrder();
+                    result = EditOrder();
+                    if (!result.Success)
+                        return result; 
                 }
 
                 
-                //Add new question to database.
+                
 
-                 result = repo.AddQuestion(question);
-
-                if(result.Success)
+                
                     repo.UpdateLastModified();
                
             }
@@ -132,9 +140,12 @@ namespace Services
             return result;
         }
         
-        public Result DeleteQuestionService(Guid id)
+        public Result<int> DeleteQuestionService(Guid id)
         {
-            Result result = new Result();
+            Result<int> result = new Result<int>();
+            result.Success = true;
+            result.Erorr = ErrorTypeEnum.None;
+            result.Data = 0;
             try
             {
                 Question deletedQuestion = null; 
@@ -142,14 +153,17 @@ namespace Services
                 {
                     if (question.Id == id)
                     {
-                        questions.Remove(question);
                         
                             repo.DeleteQuestion(id); 
                         if(!result.Success)
                             return result;
+                        questions.Remove(question);
+
 
                         // Reorder questions to maintain consistent ordering after deletion
-                        EditOrder();
+                        result = EditOrder();
+                        if (!result.Success)
+                            return result; 
                         deletedQuestion = question;
                         repo.UpdateLastModified();
 
@@ -163,37 +177,52 @@ namespace Services
             }
             catch (KeyNotFoundException ex)
             {
+                result.Success = false;
+                result.Message = ex.Message;
+                result.Erorr = ErrorTypeEnum.NotFoundError;
                 Log.Error(ex, "Attempted to delete a question that does not exist. Id: {Id}", id);
                 
-                throw;
+                
             }
             catch (Exception ex)
             {
+                result.Success = false;
+                result.Message = ex.Message;
+                result.Erorr = ErrorTypeEnum.UnknownError;
                 Log.Error(ex, "Error occurred while deleting a question with Id {Id}", id);
                 
-                throw;
+                
             }
             return result; 
         }
-        public void EditQuestionService(Guid id ,EditContext editContext)
+        public Result<int> EditQuestionService(Guid id ,EditContext editContext)
         {
-
+            Result<int> result = new Result<int> { Success = true , Erorr = ErrorTypeEnum.None , Data = 0};
             try
             {
                 if (editContext is null)
-                    throw new ArgumentNullException(nameof(editContext), "Please provide a question. This field cannot be empty.");
+                    throw new ArgumentNullException( null , "Please provide a question. This field cannot be empty.");
 
 
                 Question question = null;
-                foreach (var item in questions)
+                var getQuestionResult  = repo.GetQuestion(id);
+                if (!getQuestionResult.Success)
                 {
-                    if (item.Id == id)
-                    {
-                        question = item;
-                    }
+                    result.Erorr = ErrorTypeEnum.UnknownError;
+                    result.Message = getQuestionResult.Message;
+                    result.Success = false; 
+                    return result;
                 }
+                question = getQuestionResult.Data;
+                //foreach (var item in questions)
+                //{
+                //    if (item.Id == id)
+                //    {
+                //        question = item;
+                //    }
+                //}
                 if (question is null)
-                    throw new KeyNotFoundException("The specified question was not found. Please check your selection.");
+                    throw new KeyNotFoundException( "The specified question was not found. Please check your selection.");
 
 
                 Question questionEdit = null;
@@ -214,22 +243,31 @@ namespace Services
                      
 
                 }
+                result = GetCountService();
+                if (!result.Success)
+                    return result; 
                 // Validate that the user-selected order does not exceed the total number of questions
 
-                if (questionEdit.Order > GetCountService() || questionEdit.Order <= 0)
+                if (questionEdit.Order > result.Data || questionEdit.Order <= 0)
                 {
-                    throw new IndexOutOfRangeException($"Order value must be between 1 and {GetCountService()}. Please enter a valid number.");
+                    throw new ArgumentOutOfRangeException(null , $"Order value must be between 1 and {result.Data}. Please enter a valid number.");
 
                 }
+
+                
+                result  = repo.EditQuestion(questionEdit);
+                if (!result.Success)
+                    return result;
 
                 questions.Remove(question);
                 questions.Insert(questionEdit.Order - 1, questionEdit);
 
-                repo.EditQuestion(questionEdit);
                 // Reorder all questions only when the question's order has been changed
                 if (editContext.Order != 0)
                 {
-                    EditOrder();
+                    result = EditOrder();
+                    if(!result.Success)
+                            return result;
                 }
                 repo.UpdateLastModified();
 
@@ -237,19 +275,52 @@ namespace Services
             }
             catch (KeyNotFoundException ex)
             {
-                Log.Error(ex, "Attempted to edit a question that does not exist. Id: {0}", id);
-                throw; 
+                result.Success = false;
+                result.Message = ex.Message;
+                result.Erorr = ErrorTypeEnum.NotFoundError;
+                Log.Error(ex, "Attempted to edit a question a question with Id {Id}", id);
+                
+            }
+            catch (ArgumentNullException ex)
+            {
+
+                result.Success = false;
+                result.Message = ex.Message;
+                result.Erorr = ErrorTypeEnum.ValidationError;
+                Log.Error(ex, "Validation failed: null value.");
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+
+                result.Success = false;
+                result.Message = ex.Message;
+                result.Erorr = ErrorTypeEnum.ValidationError;
+                Log.Error(ex, "Validation failed: value out of range.");
+            }
+            catch (ArgumentException ex)
+            {
+
+                result.Success = false;
+                result.Message = ex.Message;
+                result.Erorr = ErrorTypeEnum.ValidationError;
+                Log.Error(ex, "Validation failed: invalid argument.");
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Error occurred while editing a question with Id {Id}", id);
-                throw; 
+                Log.Error(ex, "Error occurred while edit a question a question with Id {Id}", id);
+                result.Success = false;
+                result.Erorr = ErrorTypeEnum.UnknownError;
+                result.Message = "An unexpected error occurred while edit your question. Please try again or contact support.";
             }
-
+            
+            
+            return result;
         }
-
-        public void EditOrder()
+        public Result<int> EditOrder()
         {
+            Result<int> result = new Result<int>();
+            result.Success = true;
+            result.Erorr = ErrorTypeEnum.None; 
             try
             {
                 questions.Sort();
@@ -262,66 +333,98 @@ namespace Services
                     orders.Add(i + 1);
                     questions[i].Order = i + 1;
                 }
-                if (repo.GetCount() > 0)
+                if (repo.GetCount().Data > 0)
                 {
-                    repo.EditOrder(ids, orders);
+                    result = repo.EditOrder(ids, orders);
+                    if (!result.Success)
+                        return result; 
                     repo.UpdateLastModified();
 
                 }
             }
             catch (Exception ex)
             {
+                result.Success = false;
+                result.Message = ex.Message;
+                result.Erorr = ErrorTypeEnum.UnknownError; 
                 Log.Error(ex, "Error occurred while editing the order of questions.");
-                throw;
+                
             }
+            return result; 
         }
         public List<Question> GetQuestionsList()
         {
             return questions; 
         }
-        public Question GetQuestionService(Guid id)
+        public Result<Question> GetQuestionService(Guid id)
         {
+            Result<Question> result = new Result<Question> { Success = true , Erorr=ErrorTypeEnum.None };
             try
             {
                 foreach (var question in questions)
                 {
-                    if (question.Id == id)
-                        return question;
+                    if (question.Id == id) 
+                    {
+                        result.Data = question;
+                        return result; 
+                    
+                    }
                 }
                 throw new KeyNotFoundException("The specified question was not found. Please check your selection.");
 
             }
             catch (Exception ex)
             {
+                result.Success = false;
+                result.Message = ex.Message;
+                result.Erorr = ErrorTypeEnum.NotFoundError;
                 Log.Error(ex, "Error occurred while retrieving the question with Id {Id}", id);
-                throw;
+                
             }
+            return result;
         }
 
-        public int GetCountService()
+        public Result<int> GetCountService()
         {
+            Result<int> result = new Result<int> { Success =true , Erorr = ErrorTypeEnum.None , Data = 0 };
             try
             {
-                return repo.GetCount();
+                result = repo.GetCount();
+                
             }
             catch (Exception ex)
             {
+                result.Success = false;
+                result.Message = ex.Message;
+                result.Erorr = ErrorTypeEnum.UnknownError;
                 Log.Error(ex, "Error occurred while retrieving the question count from the repository.");
-                throw;
+                
             }
+            return result;
         }
 
-        public DateTime GetLastModifiedService()
+        public Result<DateTime> GetLastModifiedService()
         {
+            Result<DateTime> result = new Result<DateTime>
+            {
+                Success = true,
+                Erorr = ErrorTypeEnum.None,
+
+            };
             try
             {
-                return repo.GetLastModified();
+                result = repo.GetLastModified();
+                return result;
+                
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Error occurred while retrieving the last modified from the repository.");
-                throw;
+                Log.Error(ex, "Error occurred while retrieving the last modified .");
+                result.Success = false;
+                result.Message= ex.Message;
+                result.Erorr= ErrorTypeEnum.UnknownError;
             }
+            return result;
         }
 
         public void ChangeConnectionString(string connectionString)

@@ -1,4 +1,5 @@
 ﻿using Services;
+using Shared;
 using SurveyConfiguratorTask.Models;
 using System;
 using System.Collections.Generic;
@@ -59,29 +60,13 @@ namespace SurveyConfiguratorTask
                 if (DialogResult.OK == result)
                 {
                     Question question = (Question)QuestionList.SelectedItem;
-                    try
+                    
+                     var resultDeleted = service.DeleteQuestionService(question.Id);
+                    if (!resultDeleted.Success)
                     {
-                        service.DeleteQuestionService(question.Id);
+                        MessageBox.Show(resultDeleted.Message, nameof(resultDeleted.Erorr), MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
-                    catch (KeyNotFoundException ex)
-                    {
-                        MessageBox.Show(
-                        ex.Message,
-                        "Error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error
-                        );
-
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(
-                        "An unexpected error occurred. Please try again.",
-                        "Error",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error
-                        );
-                    }
+                    
                     //Force UI rebinding so the latest question data is displayed
                     ReloadMainForm();
                 }
@@ -128,17 +113,22 @@ namespace SurveyConfiguratorTask
 
 
 
-            try
-            {
+            
                 Question question = (Question)QuestionList.SelectedItem;
                 if (question is null) return;
                 TypeQuestionEnum type = question.TypeQuestion;
                 questionTextValue.Text = question.Text;
                 questionOrderValue.Text = question.Order.ToString();
+                var result = service.GetQuestionService(question.Id);
+            if (!result.Success)
+            {
+                MessageBox.Show(result.Message,nameof(result.Erorr),MessageBoxButtons.OK,MessageBoxIcon.Error);
+                return;
+            }
                 switch (type)
                 {
                     case TypeQuestionEnum.SliderQuestion:
-                        var slider = (SliderQuestion)service.GetQuestionService(question.Id);
+                        var slider = (SliderQuestion)result.Data;
                         startValueValue.Text = slider.StartValue.ToString();
                         endValueValue.Text = slider.EndValue.ToString();
                         startCaptionValue.Text = slider.StartCaption;
@@ -152,7 +142,7 @@ namespace SurveyConfiguratorTask
 
                         break;
                     case TypeQuestionEnum.SmileyFacesQuestion:
-                        var smiley = (SmileyFacesQuestion)service.GetQuestionService(question.Id);
+                        var smiley = (SmileyFacesQuestion)result.Data;
                         smileyCountValue.Text = smiley.SmileyCount.ToString();
                         questionTypeValue.Text = "Smiley Faces Question";
                         smileyPanel.Visible = true;
@@ -164,7 +154,7 @@ namespace SurveyConfiguratorTask
 
                         break;
                     case TypeQuestionEnum.StarsQuestion:
-                        var stars = (StarsQuestion)service.GetQuestionService(question.Id);
+                        var stars = (StarsQuestion)result.Data;
                         starsCountValue.Text = stars.StarsCount.ToString();
                         questionTypeValue.Text = "Stars Question";
                         starsPanel.Visible = true;
@@ -174,27 +164,8 @@ namespace SurveyConfiguratorTask
 
                         break;
                 }
-            }
-            catch (KeyNotFoundException ex)
-            {
-                MessageBox.Show(
-                ex.Message,
-                "Error",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Error
-                );
-
-            }
-
-            catch (Exception ex)
-            {
-                MessageBox.Show(
-                "An unexpected error occurred. Please try again.",
-                "Error",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Error
-                );
-            }
+            
+            
 
 
         }
@@ -202,10 +173,14 @@ namespace SurveyConfiguratorTask
         private void CheckForUpdates()
         {
             DateTime lastModifyOnDatabase;
-
+            var result = service.GetLastModifiedService();
+            if(!result.Success)
+            {
+                MessageBox.Show(result.Message, nameof(result.Erorr), MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
             while (isRunning)
             {
-                lastModifyOnDatabase = service.GetLastModifiedService();
+                lastModifyOnDatabase = result.Data;
                 if (lastModifyOnDatabase != dateTime)
                 {
                     dateTime = lastModifyOnDatabase;

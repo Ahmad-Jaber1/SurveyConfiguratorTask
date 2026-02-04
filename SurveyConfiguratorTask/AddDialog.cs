@@ -21,7 +21,13 @@ namespace SurveyConfiguratorTask
             this.service = service;
             //Add Try here 
             InitializeComponent();
-            orderUpDown.Value = service.GetCountService() + 1;
+            var result = service.GetCountService();
+            if (!result.Success)
+            {
+                MessageBox.Show(result.Message, nameof(result.Erorr), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            orderUpDown.Value = result.Data+ 1;
 
         }
 

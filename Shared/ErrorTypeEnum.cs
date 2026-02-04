@@ -9,6 +9,8 @@ namespace Shared
         None = 0,
         DatabaseError,
         ValidationError,
+        SqlError,
+        NotFoundError,
         UnknownError = 100
     }
 }
