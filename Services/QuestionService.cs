@@ -6,6 +6,7 @@ using SurveyConfiguratorTask.Models;
 using SurveyConfiguratorTask.Repo;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
@@ -16,28 +17,46 @@ namespace Services
     public class QuestionService 
     {
         QuestionRepo repo = new();
-        List<Question> questions = new();
+        List<Question> questions;
+        private bool _connectionValid;
+
         
         public QuestionService()
         {
-            questions = QuestionsLoadService();
+            questions = new List<Question>();
+
+
         }
 
-        public List<Question> QuestionsLoadService()
+        public Result<List<Question>> QuestionsLoadService()
         {
+            Result<List<Question>> result = new Result<List<Question>> { Success = true , Erorr = ErrorTypeEnum.None };
             try
             {
-                questions = repo.QuestionsLoad();
+                result = repo.QuestionsLoad();
+                if (!result.Success)
+                {
+                     
+                    return result;
+
+                }
+                questions = repo.QuestionsLoad().Data;
+                
+
                 if (questions is not null & questions.Count > 0)
                     questions.Sort();
-                
-                return questions;
+                result.Data = questions; 
+                return result;
             }
             catch (Exception ex) 
             {
+                result.Success = false;
+                result.Erorr = ErrorTypeEnum.UnknownError;
+                result.Message = ex.Message;
                 Log.Error(ex, "Error occurred while loading the question list.");
-                throw; 
+                 
             }
+            return result; 
         
         }
         public Result<int> AddQuestionService(TypeQuestionEnum type , AddQuestionDto questionDto)
@@ -205,39 +224,39 @@ namespace Services
 
 
                 Question question = null;
-                var getQuestionResult  = repo.GetQuestion(id);
-                if (!getQuestionResult.Success)
-                {
-                    result.Erorr = ErrorTypeEnum.UnknownError;
-                    result.Message = getQuestionResult.Message;
-                    result.Success = false; 
-                    return result;
-                }
-                question = getQuestionResult.Data;
-                //foreach (var item in questions)
+                //var getQuestionResult  = repo.GetQuestion(id);
+                //if (!getQuestionResult.Success)
                 //{
-                //    if (item.Id == id)
-                //    {
-                //        question = item;
-                //    }
+                //    result.Erorr = ErrorTypeEnum.UnknownError;
+                //    result.Message = getQuestionResult.Message;
+                //    result.Success = false; 
+                //    return result;
                 //}
+                
+                foreach (var item in questions)
+                {
+                    if (item.Id == id)
+                    {
+                        question = item;
+                    }
+                }
                 if (question is null)
                     throw new KeyNotFoundException( "The specified question was not found. Please check your selection.");
 
 
                 Question questionEdit = null;
-                switch ((int)question.TypeQuestion)
+                switch (question.TypeQuestion)
                 {
 
-                    case 0:
+                    case TypeQuestionEnum.SliderQuestion:
 
                         questionEdit = new SliderQuestion(question.Id, editContext.Text, editContext.Order == 0 ? question.Order : editContext.Order, editContext.StartValue
                             , editContext.EndValue, editContext.StartCaption, editContext.EndCaption);
                         break;
-                    case 1:
+                    case TypeQuestionEnum.SmileyFacesQuestion:
                         questionEdit = new SmileyFacesQuestion(question.Id, editContext.Text, editContext.Order == 0 ? question.Order : editContext.Order, editContext.SmileyCount);
                         break;
-                    case 2:
+                    case TypeQuestionEnum.StarsQuestion:
                         questionEdit = new StarsQuestion(question.Id, editContext.Text, editContext.Order == 0 ? question.Order : editContext.Order, editContext.StarsCount);
                         break;
                      
@@ -354,8 +373,10 @@ namespace Services
         }
         public List<Question> GetQuestionsList()
         {
+
             return questions; 
         }
+        
         public Result<Question> GetQuestionService(Guid id)
         {
             Result<Question> result = new Result<Question> { Success = true , Erorr=ErrorTypeEnum.None };
@@ -427,12 +448,37 @@ namespace Services
             return result;
         }
 
-        public void ChangeConnectionString(string connectionString)
+        public Result<bool> ChangeConnectionString(string connectionString)
         {
-            repo.ChangeConnectionString(connectionString);
+            var result = repo.ChangeConnectionString(connectionString);
+            _connectionValid = result.Success;
+            return result;
+        }
+        public Result<bool> CheckConnection()
+        {
+            var savedConnection = ConfigurationManager.ConnectionStrings["DbConnectionString"]?.ConnectionString;
+
+            if (!string.IsNullOrWhiteSpace(savedConnection))
+            {
+                ChangeConnectionString(savedConnection);
+            }
+            var result = new Result<bool>();
+            if( _connectionValid)
+            {
+                result.Success = true;
+                result.Erorr = ErrorTypeEnum.None;
+            }
+            else
+            {
+                result.Success = false;
+                result.Message = "Database connection is not set or invalid.\n Go to Settings → Database Connection to set it up.";
+                result.Erorr = ErrorTypeEnum.ConnectionStringError; 
+            }
+            return result; 
         }
 
 
+        
 
     }
 }

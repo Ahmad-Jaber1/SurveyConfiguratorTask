@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             questionsGroupBox = new GroupBox();
+            QuestionGridView = new DataGridView();
             addButton = new Button();
             editButton = new Button();
             deleteButton = new Button();
-            QuestionList = new ListBox();
             smileyPanel = new Panel();
             smileyCountValue = new Label();
             smileyCountLabel = new Label();
@@ -60,6 +60,7 @@
             settingsToolStripMenuItem = new ToolStripMenuItem();
             databaseConToolStripMenuItem = new ToolStripMenuItem();
             questionsGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)QuestionGridView).BeginInit();
             smileyPanel.SuspendLayout();
             generalPanel.SuspendLayout();
             starsPanel.SuspendLayout();
@@ -70,16 +71,28 @@
             // 
             // questionsGroupBox
             // 
+            questionsGroupBox.Controls.Add(QuestionGridView);
             questionsGroupBox.Controls.Add(addButton);
             questionsGroupBox.Controls.Add(editButton);
             questionsGroupBox.Controls.Add(deleteButton);
-            questionsGroupBox.Controls.Add(QuestionList);
             questionsGroupBox.Location = new Point(12, 39);
             questionsGroupBox.Name = "questionsGroupBox";
             questionsGroupBox.Size = new Size(569, 358);
             questionsGroupBox.TabIndex = 0;
             questionsGroupBox.TabStop = false;
             questionsGroupBox.Text = "Questions ";
+            // 
+            // QuestionGridView
+            // 
+            QuestionGridView.AllowUserToDeleteRows = false;
+            QuestionGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            QuestionGridView.Location = new Point(6, 22);
+            QuestionGridView.MultiSelect = false;
+            QuestionGridView.Name = "QuestionGridView";
+            QuestionGridView.ReadOnly = true;
+            QuestionGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            QuestionGridView.Size = new Size(551, 284);
+            QuestionGridView.TabIndex = 3;
             // 
             // addButton
             // 
@@ -110,15 +123,6 @@
             deleteButton.Text = "Delete";
             deleteButton.UseVisualStyleBackColor = true;
             deleteButton.Click += deleteButton_Click;
-            // 
-            // QuestionList
-            // 
-            QuestionList.FormattingEnabled = true;
-            QuestionList.Location = new Point(6, 32);
-            QuestionList.Name = "QuestionList";
-            QuestionList.Size = new Size(557, 274);
-            QuestionList.TabIndex = 0;
-            QuestionList.SelectedIndexChanged += QuestionList_SelectedIndexChanged;
             // 
             // smileyPanel
             // 
@@ -373,6 +377,7 @@
             FormClosing += MainForm_FormClosing;
             Load += MainForm_Load;
             questionsGroupBox.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)QuestionGridView).EndInit();
             smileyPanel.ResumeLayout(false);
             smileyPanel.PerformLayout();
             generalPanel.ResumeLayout(false);
@@ -391,7 +396,6 @@
         #endregion
 
         private GroupBox questionsGroupBox;
-        private ListBox QuestionList;
         private Button addButton;
         private Button editButton;
         private Button deleteButton;
@@ -421,5 +425,6 @@
         private MenuStrip menuStrip1;
         private ToolStripMenuItem settingsToolStripMenuItem;
         private ToolStripMenuItem databaseConToolStripMenuItem;
+        private DataGridView QuestionGridView;
     }
 }

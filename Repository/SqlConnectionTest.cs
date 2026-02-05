@@ -1,49 +1,38 @@
 ﻿using Microsoft.Data.SqlClient;
+using Shared;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Text;
 
 namespace Repository
 {
     public static class SqlConnectionTest
     {
-        private static bool TestConnection(string connectionString , out Exception error)
+        public static Result<bool> TestConnection(string connectionString ,out Exception exErorr)
         {
             try
             {
                 using (var connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    
                 }
-                error = null; 
-                return true;
+                exErorr = null; 
+                return new Result<bool>
+                {
+                    Success = true,
+                    Data = true,
+                    Erorr = ErrorTypeEnum.None
+                };
             }
             catch (Exception ex)
             {
-                error = ex;
-                return false; 
+                exErorr = ex;   
+                return new Result<bool>
+                {
+                    Success = false,
+                    Data = false,
+                    Erorr = ErrorTypeEnum.ConnectionStringError,
+                    Message = ex.Message
+                };
             }
-            
         }
-        public static bool ChangeConnectionString(string connectionString)
-        {
-            Exception exception; 
-            bool connectionTest = TestConnection(connectionString,out exception);
-            if (connectionTest == false)
-            {
-                return false; 
-            }
-
-            var config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            string connection = "Data Source=localhost;Database=SurveyConfigrator;Trusted_Connection=True;TrustServerCertificate=True";
-            config.ConnectionStrings.ConnectionStrings["DbConnectionString"].ConnectionString = connection;
-            config.Save(ConfigurationSaveMode.Modified);
-            ConfigurationManager.RefreshSection("connectionStrings");
-            return true;
-        
-        }
-
     }
 }

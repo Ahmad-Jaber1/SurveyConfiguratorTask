@@ -3,6 +3,7 @@ using Models;
 using Repository;
 using Serilog;
 using Services;
+using Shared;
 using SurveyConfiguratorTask.Models;
 using SurveyConfiguratorTask.Repo;
 using System.Configuration;
@@ -21,18 +22,8 @@ namespace SurveyConfiguratorTask
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
-            Log.Logger = new LoggerConfiguration()
-                .MinimumLevel.Error()
-                .WriteTo.File("logs\\app_log.txt"
-                , outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff} " +
-                "| {Level} | {SourceContext}{NewLine}" +
-                "Message    : {Message:lj}{NewLine}" +
-                "Exception  :{NewLine}" +
-                "{Exception}{NewLine}" +
-                "============================================================{NewLine}")
-                .CreateLogger();
+            LogConfiguration.Configure();
 
-            
 
             ApplicationConfiguration.Initialize();
             Application.Run(new MainForm());

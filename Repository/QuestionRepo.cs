@@ -8,141 +8,254 @@ using System.Diagnostics;
 using System.Runtime.Intrinsics.Arm;
 using System.Text;
 using Serilog;
+using Repository;
 
 namespace SurveyConfiguratorTask.Repo
 {
     public class QuestionRepo
     {
-        private readonly string _connectionString;
+        private  string? _connectionString;
         public List<Question> Questions { get; set; }
         public QuestionRepo()
         {
-             _connectionString = ConfigurationManager.ConnectionStrings["DbConnectionString"].ConnectionString;
-        }
-
-
-        public List<Question> QuestionsLoad()
-        {
-            
             Questions = new List<Question>();
-            
-            //Load questions
-            SliderQuestionsLoad(_connectionString);
-            SmileyQuestionsLoad(_connectionString);
-            StarsQuestionsLoad(_connectionString);
-
-            return Questions;
         }
 
-        public void SliderQuestionsLoad (string connectionString){
-            
-            //Create and manage connection with database . 
-            using (var connection = new SqlConnection(connectionString))
-            {
-                using (var cmd = connection.CreateCommand())
-                {
-                    //Load slider questions from database .
-                    cmd.CommandText = $"SELECT {QuestionsTable.SelectColumns}" +
-                        $" ,{SliderTable.SelectColumns} " +
-                        $"FROM {QuestionsTable.TableName} " +
-                        $"INNER JOIN {SliderTable.TableName} ON " +
-                        $"{QuestionsTable.TableName}.{QuestionsTable.Id} = {SliderTable.TableName}.{SliderTable.Id} ";
 
-
-
-                    connection.Open();
-                    var rdr = cmd.ExecuteReader();
-                    // Representing loaded data onto a local variable 
-                    while (rdr.Read())
-                    {
-                        Questions.Add(
-                            new SliderQuestion
-                            (
-                                 new Guid(rdr[QuestionsTable.Id].ToString()),
-                                 rdr[QuestionsTable.QuestionText].ToString(),
-                                 Convert.ToInt32(rdr[QuestionsTable.QuestionOrder]),
-                                  Convert.ToInt32(rdr[SliderTable.StartValue]),
-                                 Convert.ToInt32(rdr[SliderTable.EndValue]),
-                                 rdr[SliderTable.StartCaption].ToString(),
-                                 rdr[SliderTable.EndValue].ToString()
-                            )
-                            );
-
-                    }
-                    connection.Close();
-                }
-            }
-        }
-
-        public void SmileyQuestionsLoad(string connectionString)
-        {
         
-            //Create and manage connection with database . 
-            using (var connection = new SqlConnection(connectionString))
-            {
-                using (var cmd = connection.CreateCommand())
-                {
-                    //Load smiley faces questions from database .
 
-                    cmd.CommandText = $"SELECT {QuestionsTable.SelectColumns}" +
-                        $",{SmileyFacesTable.SelectColumns}" +
-                        $" FROM {QuestionsTable.TableName} " +
-                        $"INNER JOIN {SmileyFacesTable.TableName} ON" +
-                        $" {QuestionsTable.TableName}.{QuestionsTable.Id} = {SmileyFacesTable.TableName}.{SmileyFacesTable.Id} ";
-
-                    connection.Open();
-
-                    var rdr = cmd.ExecuteReader();
-                    // Representing loaded data onto a local variable 
-
-                    while (rdr.Read())
-                    {
-                        Questions.Add(new Models.SmileyFacesQuestion(
-                            new Guid(rdr[QuestionsTable.Id].ToString()),
-                            rdr[QuestionsTable.QuestionText].ToString(),
-                            Convert.ToInt32(rdr[QuestionsTable.QuestionOrder]),
-                            Convert.ToInt32(rdr[SmileyFacesTable.SmileyCount])
-
-                            ));
-                    }
-                    connection.Close();
-                }
-            }
-        }
-
-        public void StarsQuestionsLoad(string connectionString)
+        public Result<List<Question>> QuestionsLoad()
         {
-            //Create and manage connection with database . 
-            using (var connection = new SqlConnection(connectionString))
+            var savedConnection = ConfigurationManager.ConnectionStrings["DbConnectionString"]?.ConnectionString;
+            var result = new Result<List<Question>>() {Success = true , Erorr = ErrorTypeEnum.None ,Data = Questions };
+            if (string.IsNullOrWhiteSpace(_connectionString))
             {
+                Log.Error("Attempted to load questions but the database connection string is not set. ");
+                return new Result<List<Question>>
+                {
+                    Success = false,
+                    Erorr = ErrorTypeEnum.ConnectionStringError,
+                    Message = "Database connection string is not set. \n Go to Settings → Database Connection to set it up."
+                };
+            }
+
+            try
+            {
+                Questions.Clear();
+
+                // Load Slider Questions
+                var sliderResult = SliderQuestionsLoad(_connectionString);
+                if (!sliderResult.Success)
+                {
+                    Log.Error("Failed to load slider questions: {Message}", sliderResult.Message);
+                    return new Result<List<Question>>
+                    {
+                        Success = false,
+                        Erorr = sliderResult.Erorr,
+                        Message = sliderResult.Message
+                    };
+                }
+                Questions.AddRange(sliderResult.Data);
+                
+
+                // Load Smiley Questions
+                var smileyResult = SmileyQuestionsLoad(_connectionString);
+                if (!smileyResult.Success)
+                {
+                    Log.Error("Failed to load smiley questions: {Message}", smileyResult.Message);
+                    return new Result<List<Question>>
+                    {
+                        Success = false,
+                        Erorr = smileyResult.Erorr,
+                        Message = smileyResult.Message
+                    };
+                }
+                Questions.AddRange(smileyResult.Data);
+
+
+                // Load Stars Questions
+                var starsResult = StarsQuestionsLoad(_connectionString);
+                if (!starsResult.Success)
+                {
+                    Log.Error("Failed to load star questions: {Message}", starsResult.Message);
+                    return new Result<List<Question>>
+                    {
+                        Success = false,
+                        Erorr = starsResult.Erorr,
+                        Message = starsResult.Message
+                    };
+                }
+                Questions.AddRange(starsResult.Data);
+
+            }
+            catch (Exception ex)
+            {
+                return new Result<List<Question>>
+                {
+                    Success = false,
+                    Erorr = ErrorTypeEnum.UnknownError,
+                    Message = ex.Message
+                };
+            }
+            return result; 
+        }
+        public Result<List<Question>> SliderQuestionsLoad(string connectionString)
+        {
+            var result = new Result<List<Question>> { Success = true, Erorr = ErrorTypeEnum.None };
+            var questions = new List<Question>();
+
+            try
+            {
+                using (var connection = new SqlConnection(connectionString))
                 using (var cmd = connection.CreateCommand())
                 {
-                    //Load  stars questions from database .
-                    cmd.CommandText = $"SELECT {QuestionsTable.SelectColumns} " +
-                    $", {StarsTable.SelectColumns} " +
-                    $" FROM {QuestionsTable.TableName} " +
-                    $"INNER JOIN StarsQuestion ON " +
-                    $"{QuestionsTable.TableName}.{QuestionsTable.Id} = {StarsTable.TableName}.{StarsTable.Id} ";
+                    cmd.CommandText = $"SELECT {QuestionsTable.SelectColumns}, {SliderTable.SelectColumns} " +
+                                      $"FROM {QuestionsTable.TableName} " +
+                                      $"INNER JOIN {SliderTable.TableName} " +
+                                      $"ON {QuestionsTable.TableName}.{QuestionsTable.Id} = {SliderTable.TableName}.{SliderTable.Id}";
 
                     connection.Open();
-
-                    var rdr = cmd.ExecuteReader();
-                    // Representing loaded data onto a local variable 
-
-                    while (rdr.Read())
+                    using (var rdr = cmd.ExecuteReader())
                     {
-                        Questions.Add(new StarsQuestion(
-                            new Guid(rdr[QuestionsTable.Id].ToString()),
-                            rdr[QuestionsTable.QuestionText].ToString(),
-                            Convert.ToInt32(rdr[QuestionsTable.QuestionOrder]),
-                            Convert.ToInt32(rdr[StarsTable.StarsCount])
-
+                        while (rdr.Read())
+                        {
+                            questions.Add(new SliderQuestion(
+                                new Guid(rdr[QuestionsTable.Id].ToString()),
+                                rdr[QuestionsTable.QuestionText].ToString(),
+                                Convert.ToInt32(rdr[QuestionsTable.QuestionOrder]),
+                                Convert.ToInt32(rdr[SliderTable.StartValue]),
+                                Convert.ToInt32(rdr[SliderTable.EndValue]),
+                                rdr[SliderTable.StartCaption].ToString(),
+                                rdr[SliderTable.EndCaption].ToString()
                             ));
+                        }
                     }
                     connection.Close();
                 }
+
+                result.Data = questions;
             }
+            catch (SqlException sqlEx)
+            {
+                result.Success = false;
+                result.Message = "SQL error occurred while loading slider questions.";
+                result.Erorr = ErrorTypeEnum.SqlError;
+                Log.Error(sqlEx, "SQL error while loading slider questions.");
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Unexpected error occurred while loading slider questions.";
+                result.Erorr = ErrorTypeEnum.UnknownError;
+                Log.Error(ex, "Unexpected error while loading slider questions.");
+            }
+
+            return result;
         }
+
+        public Result<List<Question>> SmileyQuestionsLoad(string connectionString)
+        {
+            var result = new Result<List<Question>> { Success = true, Erorr = ErrorTypeEnum.None };
+            var questions = new List<Question>();
+
+            try
+            {
+                using (var connection = new SqlConnection(connectionString))
+                using (var cmd = connection.CreateCommand())
+                {
+                    cmd.CommandText = $"SELECT {QuestionsTable.SelectColumns}, {SmileyFacesTable.SelectColumns} " +
+                                      $"FROM {QuestionsTable.TableName} " +
+                                      $"INNER JOIN {SmileyFacesTable.TableName} " +
+                                      $"ON {QuestionsTable.TableName}.{QuestionsTable.Id} = {SmileyFacesTable.TableName}.{SmileyFacesTable.Id}";
+
+                    connection.Open();
+                    using (var rdr = cmd.ExecuteReader())
+                    {
+                        while (rdr.Read())
+                        {
+                            questions.Add(new SmileyFacesQuestion(
+                                new Guid(rdr[QuestionsTable.Id].ToString()),
+                                rdr[QuestionsTable.QuestionText].ToString(),
+                                Convert.ToInt32(rdr[QuestionsTable.QuestionOrder]),
+                                Convert.ToInt32(rdr[SmileyFacesTable.SmileyCount])
+                            ));
+                        }
+                    }
+                    connection.Close();
+                }
+
+                result.Data = questions;
+            }
+            catch (SqlException sqlEx)
+            {
+                result.Success = false;
+                result.Message = "SQL error occurred while loading smiley questions.";
+                result.Erorr = ErrorTypeEnum.SqlError;
+                Log.Error(sqlEx, "SQL error while loading smiley questions.");
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Unexpected error occurred while loading smiley questions.";
+                result.Erorr = ErrorTypeEnum.UnknownError;
+                Log.Error(ex, "Unexpected error while loading smiley questions.");
+            }
+
+            return result;
+        }
+
+        public Result<List<Question>> StarsQuestionsLoad(string connectionString)
+        {
+            var result = new Result<List<Question>> { Success = true, Erorr = ErrorTypeEnum.None };
+            var questions = new List<Question>();
+
+            try
+            {
+                using (var connection = new SqlConnection(connectionString))
+                using (var cmd = connection.CreateCommand())
+                {
+                    cmd.CommandText = $"SELECT {QuestionsTable.SelectColumns}, {StarsTable.SelectColumns} " +
+                                      $"FROM {QuestionsTable.TableName} " +
+                                      $"INNER JOIN {StarsTable.TableName} " +
+                                      $"ON {QuestionsTable.TableName}.{QuestionsTable.Id} = {StarsTable.TableName}.{StarsTable.Id}";
+
+                    connection.Open();
+                    using (var rdr = cmd.ExecuteReader())
+                    {
+                        while (rdr.Read())
+                        {
+                            questions.Add(new StarsQuestion(
+                                new Guid(rdr[QuestionsTable.Id].ToString()),
+                                rdr[QuestionsTable.QuestionText].ToString(),
+                                Convert.ToInt32(rdr[QuestionsTable.QuestionOrder]),
+                                Convert.ToInt32(rdr[StarsTable.StarsCount])
+                            ));
+                        }
+                    }
+                    connection.Close();
+                }
+
+                result.Data = questions;
+            }
+            catch (SqlException sqlEx)
+            {
+                result.Success = false;
+                result.Message = "SQL error occurred while loading star questions.";
+                result.Erorr = ErrorTypeEnum.SqlError;
+                Log.Error(sqlEx, "SQL error while loading star questions.");
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Unexpected error occurred while loading star questions.";
+                result.Erorr = ErrorTypeEnum.UnknownError;
+                Log.Error(ex, "Unexpected error while loading star questions.");
+            }
+
+            return result;
+        }
+
+
 
         public Result<int> AddQuestion(Question question)
         {
@@ -675,7 +788,7 @@ namespace SurveyConfiguratorTask.Repo
                         result.Success = false;
                         result.Message = "We couldn't retrieve Last Modified due to an unexpected error. Please contact support.";
                         result.Erorr = ErrorTypeEnum.UnknownError;
-                        Log.Error(ex, "Unexpected error occurred while retrieving Last Modified.");
+                        //Log.Error(ex, "Unexpected error occurred while retrieving Last Modified.");
 
                     }
                     return result; 
@@ -725,12 +838,38 @@ namespace SurveyConfiguratorTask.Repo
                 }
             }
         }
-        public void ChangeConnectionString(string connectionString)
+        public Result<bool> ChangeConnectionString(string connectionString)
         {
-            ChangeConnectionString(connectionString);
-        }
-        
-    } 
+            Exception exErorr;
+            var testResult = SqlConnectionTest.TestConnection(connectionString , out exErorr);
+            if (!testResult.Success)
+            {
+                Log.Error(exErorr ,"Failed to set connection string.");
 
-    
+                return new Result<bool>
+                {
+                    Success = false,
+                    Erorr = ErrorTypeEnum.ConnectionStringError,
+                    Message = "Cannot connect to the database. Please check your server name, database name, username, and password."
+                };
+            }
+            _connectionString = connectionString;
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            config.ConnectionStrings.ConnectionStrings["DbConnectionString"].ConnectionString = connectionString;
+            config.Save(ConfigurationSaveMode.Modified);
+            ConfigurationManager.RefreshSection("connectionStrings");
+
+
+            return new Result<bool>
+            {
+                Success = true,
+                Data = true,
+                Erorr = ErrorTypeEnum.None
+            };
+        }
+
+
+    }
+
+
 }

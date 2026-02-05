@@ -367,7 +367,9 @@
       "Repository/1.0.0": {
         "dependencies": {
           "Microsoft.Data.SqlClient": "6.1.4",
-          "Models": "1.0.0"
+          "Models": "1.0.0",
+          "Serilog": "4.3.0",
+          "Shared": "1.0.0"
         },
         "runtime": {
           "Repository.dll": {
@@ -384,6 +386,18 @@
         },
         "runtime": {
           "Services.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Shared/1.0.0": {
+        "dependencies": {
+          "Serilog": "4.3.0",
+          "Serilog.Sinks.File": "7.0.0"
+        },
+        "runtime": {
+          "Shared.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
           }
@@ -583,6 +597,11 @@
       "sha512": ""
     },
     "Services/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Shared/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

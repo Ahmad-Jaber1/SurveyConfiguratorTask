@@ -1,0 +1,24 @@
+2026-02-05 12:58:28 [Error] Error occurred while loading the question list.
+System.InvalidOperationException: The ConnectionString property has not been initialized.
+   at Microsoft.Data.SqlClient.SqlConnection.PermissionDemand()
+   at Microsoft.Data.SqlClient.SqlConnectionFactory.PermissionDemand(DbConnection outerConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at Microsoft.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry, SqlConnectionOverrides overrides)
+   at Microsoft.Data.SqlClient.SqlConnection.Open(SqlConnectionOverrides overrides)
+   at Microsoft.Data.SqlClient.SqlConnection.Open()
+   at SurveyConfiguratorTask.Repo.QuestionRepo.SliderQuestionsLoad(String connectionString) in D:\SurveyConfiguratorTask\Repository\QuestionRepo.cs:line 49
+   at SurveyConfiguratorTask.Repo.QuestionRepo.QuestionsLoad() in D:\SurveyConfiguratorTask\Repository\QuestionRepo.cs:line 24
+   at Services.QuestionService.QuestionsLoadService() in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 28
+2026-02-05 12:58:56 [Error] Error occurred while loading the question list.
+System.InvalidOperationException: The ConnectionString property has not been initialized.
+   at Microsoft.Data.SqlClient.SqlConnection.PermissionDemand()
+   at Microsoft.Data.SqlClient.SqlConnectionFactory.PermissionDemand(DbConnection outerConnection)
+   at Microsoft.Data.ProviderBase.DbConnectionInternal.TryOpenConnectionInternal(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at Microsoft.Data.ProviderBase.DbConnectionClosed.TryOpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory, TaskCompletionSource`1 retry, DbConnectionOptions userOptions)
+   at Microsoft.Data.SqlClient.SqlConnection.TryOpen(TaskCompletionSource`1 retry, SqlConnectionOverrides overrides)
+   at Microsoft.Data.SqlClient.SqlConnection.Open(SqlConnectionOverrides overrides)
+   at Microsoft.Data.SqlClient.SqlConnection.Open()
+   at SurveyConfiguratorTask.Repo.QuestionRepo.SliderQuestionsLoad(String connectionString) in D:\SurveyConfiguratorTask\Repository\QuestionRepo.cs:line 49
+   at SurveyConfiguratorTask.Repo.QuestionRepo.QuestionsLoad() in D:\SurveyConfiguratorTask\Repository\QuestionRepo.cs:line 24
+   at Services.QuestionService.QuestionsLoadService() in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 28

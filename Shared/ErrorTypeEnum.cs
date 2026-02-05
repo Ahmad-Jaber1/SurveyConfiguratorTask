@@ -11,6 +11,7 @@ namespace Shared
         ValidationError,
         SqlError,
         NotFoundError,
+        ConnectionStringError,
         UnknownError = 100
     }
 }
