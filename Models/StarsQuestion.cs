@@ -18,7 +18,7 @@ namespace SurveyConfiguratorTask.Models
             SetStarsCount(count);
         }
         //Initializes a StarsQuestion object from an existing data source.
-        public StarsQuestion(Guid id,string text , int order , int starsCount)
+        public StarsQuestion(int id,string text , int order , int starsCount)
             :base(id , text , order)
         {
             TypeQuestion = TypeQuestionEnum.StarsQuestion;

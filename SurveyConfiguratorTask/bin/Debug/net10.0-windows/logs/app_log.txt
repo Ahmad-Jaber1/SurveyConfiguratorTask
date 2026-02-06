@@ -4772,3 +4772,85 @@ System.InvalidOperationException: The ConnectionString property has not been ini
    at SurveyConfiguratorTask.Repo.QuestionRepo.GetCount() in D:\SurveyConfiguratorTask\Repository\QuestionRepo.cs:line 615
 
 ============================================================
+2026-02-06 22:37:28.846 | Error | 
+Message    : Unexpected error while loading smiley questions.
+Exception  :
+System.InvalidCastException: Unable to cast object of type 'System.Guid' to type 'System.IConvertible'.
+   at System.Convert.ToInt32(Object value)
+   at SurveyConfiguratorTask.Repo.QuestionRepo.SmileyQuestionsLoad(String connectionString) in D:\SurveyConfiguratorTask\Repository\QuestionRepo.cs:line 176
+
+============================================================
+2026-02-06 22:37:28.891 | Error | 
+Message    : Failed to load smiley questions: Unexpected error occurred while loading smiley questions.
+Exception  :
+
+============================================================
+2026-02-06 22:37:31.424 | Error | 
+Message    : Unexpected error while loading smiley questions.
+Exception  :
+System.InvalidCastException: Unable to cast object of type 'System.Guid' to type 'System.IConvertible'.
+   at System.Convert.ToInt32(Object value)
+   at SurveyConfiguratorTask.Repo.QuestionRepo.SmileyQuestionsLoad(String connectionString) in D:\SurveyConfiguratorTask\Repository\QuestionRepo.cs:line 176
+
+============================================================
+2026-02-06 22:37:31.424 | Error | 
+Message    : Failed to load smiley questions: Unexpected error occurred while loading smiley questions.
+Exception  :
+
+============================================================
+2026-02-06 22:38:41.701 | Error | 
+Message    : Unexpected error occurred while inserting question of type "StarsQuestion"
+Exception  :
+System.InvalidCastException: Failed to convert parameter value from a Int32 to a Guid.
+ ---> System.InvalidCastException: Invalid cast from 'System.Int32' to 'System.Guid'.
+   at System.Convert.DefaultToType(IConvertible value, Type targetType, IFormatProvider provider)
+   at Microsoft.Data.SqlClient.SqlParameter.CoerceValue(Object value, MetaType destinationType, Boolean& coercedToDataFeed, Boolean& typeChanged, Boolean allowStreaming)
+   --- End of inner exception stack trace ---
+   at Microsoft.Data.SqlClient.SqlParameter.CoerceValue(Object value, MetaType destinationType, Boolean& coercedToDataFeed, Boolean& typeChanged, Boolean allowStreaming)
+   at Microsoft.Data.SqlClient.SqlParameter.GetCoercedValue()
+   at Microsoft.Data.SqlClient.SqlParameter.Validate(Int32 index, Boolean isCommandProc)
+   at Microsoft.Data.SqlClient.SqlCommand.BuildParamList(TdsParser parser, SqlParameterCollection parameters, Boolean includeReturnValue)
+   at Microsoft.Data.SqlClient.SqlCommand.BuildExecuteSql(CommandBehavior behavior, String commandText, SqlParameterCollection parameters, _SqlRPC& rpc)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String methodName)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at SurveyConfiguratorTask.Repo.QuestionRepo.AddQuestion(Question question) in D:\SurveyConfiguratorTask\Repository\QuestionRepo.cs:line 293
+
+============================================================
+2026-02-06 22:41:10.042 | Error | 
+Message    : SQL error occurred while inserting question of type "StarsQuestion"
+Exception  :
+Microsoft.Data.SqlClient.SqlException (0x80131904): Cannot insert explicit value for identity column in table 'Questions' when IDENTITY_INSERT is set to OFF.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, SqlCommand command, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String methodName)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at SurveyConfiguratorTask.Repo.QuestionRepo.AddQuestion(Question question) in D:\SurveyConfiguratorTask\Repository\QuestionRepo.cs:line 293
+ClientConnectionId:8548fc6c-62a0-433b-aea7-30a838cd804b
+Error Number:544,State:1,Class:16
+
+============================================================
+2026-02-06 22:44:23.327 | Error | 
+Message    : SQL error occurred while inserting question of type "StarsQuestion"
+Exception  :
+Microsoft.Data.SqlClient.SqlException (0x80131904): Cannot insert explicit value for identity column in table 'Questions' when IDENTITY_INSERT is set to OFF.
+   at Microsoft.Data.SqlClient.SqlConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection, Action`1 wrapCloseInAction)
+   at Microsoft.Data.SqlClient.TdsParser.ThrowExceptionAndWarning(TdsParserStateObject stateObj, SqlCommand command, Boolean callerHasConnectionLock, Boolean asyncClose)
+   at Microsoft.Data.SqlClient.TdsParser.TryRun(RunBehavior runBehavior, SqlCommand cmdHandler, SqlDataReader dataStream, BulkCopySimpleResultSet bulkCopyHandler, TdsParserStateObject stateObj, Boolean& dataReady)
+   at Microsoft.Data.SqlClient.SqlCommand.FinishExecuteReader(SqlDataReader ds, RunBehavior runBehavior, String resetOptionsString, Boolean isInternal, Boolean forDescribeParameterEncryption, Boolean shouldCacheForAlwaysEncrypted)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReaderTds(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, Boolean isAsync, Int32 timeout, Task& task, Boolean asyncWrite, Boolean inRetry, SqlDataReader ds, Boolean describeParameterEncryptionRequest)
+   at Microsoft.Data.SqlClient.SqlCommand.RunExecuteReader(CommandBehavior cmdBehavior, RunBehavior runBehavior, Boolean returnStream, TaskCompletionSource`1 completion, Int32 timeout, Task& task, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String method)
+   at Microsoft.Data.SqlClient.SqlCommand.InternalExecuteNonQuery(TaskCompletionSource`1 completion, Boolean sendToPipe, Int32 timeout, Boolean& usedCache, Boolean asyncWrite, Boolean inRetry, String methodName)
+   at Microsoft.Data.SqlClient.SqlCommand.ExecuteNonQuery()
+   at SurveyConfiguratorTask.Repo.QuestionRepo.AddQuestion(Question question) in D:\SurveyConfiguratorTask\Repository\QuestionRepo.cs:line 293
+ClientConnectionId:2f648237-61fe-465e-ab52-43966f2f7913
+Error Number:544,State:1,Class:16
+
+============================================================

@@ -81,7 +81,7 @@ namespace SurveyConfiguratorTask
         {
             try
             {
-                EditContext edit = new();
+                EditQuestionDto edit = new();
                 TypeQuestionEnum type = question.TypeQuestion;
 
                 switch (type)

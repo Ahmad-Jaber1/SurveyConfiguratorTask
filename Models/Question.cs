@@ -11,7 +11,7 @@ namespace SurveyConfiguratorTask.Models
 
     public  abstract class Question : IComparable<Question>
     {
-        public Guid Id { get;  }
+        public int Id { get;  }
         public string Text { get;  set; }
         public int Order { get;  set;  }
         public TypeQuestionEnum TypeQuestion { get;  set; }
@@ -20,13 +20,13 @@ namespace SurveyConfiguratorTask.Models
         //Create question object with new unique identifier.
         public Question(string text , int order,TypeQuestionEnum type)
         {
-            Id = Guid.NewGuid();
+            //Id = Guid.NewGuid();
             SetText(text);
             Order = order;
             TypeQuestion = type; 
         }
         //Initializes a Question object from an existing data source.
-        public Question(Guid id, string text, int order)
+        public Question(int id, string text, int order)
         {
             Id = id; 
             SetText(text);

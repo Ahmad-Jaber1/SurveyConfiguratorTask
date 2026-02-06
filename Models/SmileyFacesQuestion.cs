@@ -18,7 +18,7 @@ namespace SurveyConfiguratorTask.Models
             SetSmileyCount(count);
         }
         //Initializes a SmileyFacesQuestion object from an existing data source.
-        public SmileyFacesQuestion(Guid id, string text , int order , int count) 
+        public SmileyFacesQuestion(int id, string text , int order , int count) 
             : base(id, text , order )
         {
             

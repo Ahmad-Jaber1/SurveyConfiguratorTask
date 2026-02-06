@@ -27,7 +27,7 @@ namespace SurveyConfiguratorTask.Models
             
         }
         //Initializes a SliderQuestion object from an existing data source.
-        public SliderQuestion(Guid id,string text , int order , int startValue , int endValue 
+        public SliderQuestion(int id,string text , int order , int startValue , int endValue 
             , string startCaption , string endCaption) : base(id, text ,  order )
         {
             TypeQuestion = TypeQuestionEnum.SliderQuestion;

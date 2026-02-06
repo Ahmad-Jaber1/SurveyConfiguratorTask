@@ -4,7 +4,7 @@ using System.Text;
 
 namespace SurveyConfiguratorTask.Models
 {
-    public class EditContext
+    public class EditQuestionDto
     {
         public string Text { get;  set; }
         public int Order { get; set; }

@@ -13,17 +13,18 @@ namespace SurveyConfiguratorTask
     public partial class MainForm : Form
     {
         private QuestionService service = new();
-        private DateTime dateTime = DateTime.Now;
-        private bool isRunning = true;
-        private Thread checkForUpdate;
+        //private DateTime dateTime = DateTime.Now;
+        //private bool isRunning = true;
+        //private Thread checkForUpdate;
 
         private const string UiErrorMessage =
             "An unexpected error occurred. Please contact support or the system administrator.";
-
+        
         public MainForm()
         {
             InitializeComponent();
             InitializeDataGridView();
+            service.CheckUpdateEvent += ReloadMainForm;
         }
 
         
@@ -74,10 +75,10 @@ namespace SurveyConfiguratorTask
         {
             try
             {
-                if (checkForUpdate == null)
-                {
-                    CreateCheckThread();
-                }
+                //if (checkForUpdate == null)
+                //{
+                //    CreateCheckThread();
+                //}
 
                 ReloadMainForm();
             }
@@ -89,26 +90,31 @@ namespace SurveyConfiguratorTask
             }
         }
 
-        private void CreateCheckThread()
-        {
-            try
-            {
-                checkForUpdate = new Thread(CheckForUpdates)
-                {
-                    IsBackground = true
-                };
-                checkForUpdate.Start();
-            }
-            catch (Exception ex)
-            {
-                Log.Error(null, ex);
-                MessageBox.Show(UiErrorMessage, "Error",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+        //private void CreateCheckThread()
+        //{
+        //    try
+        //    {
+        //        checkForUpdate = new Thread(CheckForUpdates)
+        //        {
+        //            IsBackground = true
+        //        };
+        //        checkForUpdate.Start();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(null, ex);
+        //        MessageBox.Show(UiErrorMessage, "Error",
+        //            MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    }
+        //}
 
         private void ReloadMainForm()
         {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action(() => ReloadMainForm()));
+                return; 
+            }
             try
             {
                 var connResult = service.CheckConnection();
@@ -295,33 +301,33 @@ namespace SurveyConfiguratorTask
 
         #endregion
 
-        private void CheckForUpdates()
-        {
-            try
-            {
-                while (isRunning)
-                {
-                    var result = service.GetLastModifiedService();
-                    if (result.Success && result.Data != dateTime)
-                    {
-                        dateTime = result.Data;
-                        Invoke(ReloadMainForm);
-                    }
+        //private void CheckForUpdates()
+        //{
+        //    try
+        //    {
+        //        while (isRunning)
+        //        {
+        //            var result = service.GetLastModifiedService();
+        //            if (result.Success && result.Data != dateTime)
+        //            {
+        //                dateTime = result.Data;
+        //                Invoke(ReloadMainForm);
+        //            }
 
-                    Thread.Sleep(3000);
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Error(null, ex);
-            }
-        }
+        //            Thread.Sleep(3000);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Log.Error(null, ex);
+        //    }
+        //}
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             try
             {
-                isRunning = false;
+                service.FormClosing();
             }
             catch (Exception ex)
             {

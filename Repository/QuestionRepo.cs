@@ -1,14 +1,15 @@
 ﻿using Microsoft.Data.SqlClient;
+using Repository;
+using Serilog;
 using Shared;
 using SurveyConfiguratorTask.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Diagnostics;
 using System.Runtime.Intrinsics.Arm;
 using System.Text;
-using Serilog;
-using Repository;
 
 namespace SurveyConfiguratorTask.Repo
 {
@@ -120,7 +121,7 @@ namespace SurveyConfiguratorTask.Repo
                         while (rdr.Read())
                         {
                             questions.Add(new SliderQuestion(
-                                new Guid(rdr[QuestionsTable.Id].ToString()),
+                                Convert.ToInt32(rdr[QuestionsTable.Id]),
                                 rdr[QuestionsTable.QuestionText].ToString(),
                                 Convert.ToInt32(rdr[QuestionsTable.QuestionOrder]),
                                 Convert.ToInt32(rdr[SliderTable.StartValue]),
@@ -174,7 +175,7 @@ namespace SurveyConfiguratorTask.Repo
                         while (rdr.Read())
                         {
                             questions.Add(new SmileyFacesQuestion(
-                                new Guid(rdr[QuestionsTable.Id].ToString()),
+                                Convert.ToInt32(rdr[QuestionsTable.Id]),
                                 rdr[QuestionsTable.QuestionText].ToString(),
                                 Convert.ToInt32(rdr[QuestionsTable.QuestionOrder]),
                                 Convert.ToInt32(rdr[SmileyFacesTable.SmileyCount])
@@ -225,7 +226,7 @@ namespace SurveyConfiguratorTask.Repo
                         while (rdr.Read())
                         {
                             questions.Add(new StarsQuestion(
-                                new Guid(rdr[QuestionsTable.Id].ToString()),
+                                Convert.ToInt32(rdr[QuestionsTable.Id]),
                                 rdr[QuestionsTable.QuestionText].ToString(),
                                 Convert.ToInt32(rdr[QuestionsTable.QuestionOrder]),
                                 Convert.ToInt32(rdr[StarsTable.StarsCount])
@@ -259,15 +260,16 @@ namespace SurveyConfiguratorTask.Repo
 
         public Result<int> AddQuestion(Question question)
         {
-            Result<int> result = new Result<int>();
-            result.Success = true;
-            result.Erorr = ErrorTypeEnum.None;
+            Result<int> result = new Result<int>
+            {
+                Success = true,
+                Erorr = ErrorTypeEnum.None
+            };
+
             try
             {
-                //Create and manage conneciton with database .
                 using (var connection = new SqlConnection(_connectionString))
                 {
-
                     connection.Open();
 
                     using (var trans = connection.BeginTransaction())
@@ -276,76 +278,70 @@ namespace SurveyConfiguratorTask.Repo
                         {
                             using (var cmd = connection.CreateCommand())
                             {
-                                //Add object as general question in database
-                                cmd.CommandText = $"INSERT INTO {QuestionsTable.TableName} ({QuestionsTable.Id} " +
-                                    $", {QuestionsTable.QuestionText} " +
-                                    $", {QuestionsTable.QuestionOrder} " +
-                                    $", {QuestionsTable.QuestionType})" +
-                                    $" values(@{QuestionsTable.Id} , @{QuestionsTable.QuestionText} , @{QuestionsTable.QuestionOrder} , @{QuestionsTable.QuestionType})";
-                                cmd.Parameters.Add($"@{QuestionsTable.Id}", System.Data.SqlDbType.UniqueIdentifier).Value = question.Id;
-                                cmd.Parameters.Add($"@{QuestionsTable.QuestionText}", System.Data.SqlDbType.VarChar).Value = question.Text;
-                                cmd.Parameters.Add($"@{QuestionsTable.QuestionOrder}", System.Data.SqlDbType.Int).Value = question.Order;
-                                cmd.Parameters.Add($"@{QuestionsTable.QuestionType}", System.Data.SqlDbType.Int).Value = (int)question.TypeQuestion;
                                 cmd.Transaction = trans;
 
+                                // 1. Insert into Questions (Id is auto-generated)
+                                cmd.CommandText = $"INSERT INTO {QuestionsTable.TableName} " +
+                                                  $"({QuestionsTable.QuestionText}, {QuestionsTable.QuestionOrder}, {QuestionsTable.QuestionType}) " +
+                                                  $"VALUES (@{QuestionsTable.QuestionText}, @{QuestionsTable.QuestionOrder}, @{QuestionsTable.QuestionType}); " +
+                                                  "SELECT CAST(SCOPE_IDENTITY() AS INT);";
 
+                                cmd.Parameters.Add($"@{QuestionsTable.QuestionText}", SqlDbType.VarChar).Value = question.Text;
+                                cmd.Parameters.Add($"@{QuestionsTable.QuestionOrder}", SqlDbType.Int).Value = question.Order;
+                                cmd.Parameters.Add($"@{QuestionsTable.QuestionType}", SqlDbType.Int).Value = (int)question.TypeQuestion;
 
-                                cmd.ExecuteNonQuery();
+                                // Get the generated Question Id
+                                int questionId = (int)cmd.ExecuteScalar();
 
-                                //Add object as specific type question in database .
+                                // 2. Insert into the specific question type table
+                                cmd.Parameters.Clear(); 
+
                                 switch (question.TypeQuestion)
                                 {
                                     case TypeQuestionEnum.SliderQuestion:
                                         var sliderQuestion = (SliderQuestion)question;
                                         cmd.CommandText = $"INSERT INTO {SliderTable.TableName} " +
-                                            $"({SliderTable.Id} " +
-                                            $", {SliderTable.StartValue} " +
-                                            $", {SliderTable.EndValue} " +
-                                            $", {SliderTable.StartCaption} " +
-                                            $", {SliderTable.EndCaption})" +
-                                            $"values (@{SliderTable.Id} " +
-                                            $", @{SliderTable.StartValue} " +
-                                            $", @{SliderTable.EndValue} " +
-                                            $", @{SliderTable.StartCaption} " +
-                                            $", @{SliderTable.EndCaption})";
-                                        cmd.Parameters.Add($"@{SliderTable.StartValue}", System.Data.SqlDbType.Int).Value = sliderQuestion.StartValue;
-                                        cmd.Parameters.Add($"@{SliderTable.EndValue}", System.Data.SqlDbType.Int).Value = sliderQuestion.EndValue;
-                                        cmd.Parameters.Add($"@{SliderTable.StartCaption}", System.Data.SqlDbType.VarChar).Value = sliderQuestion.StartCaption;
-                                        cmd.Parameters.Add($"@{SliderTable.EndCaption}", System.Data.SqlDbType.VarChar).Value = sliderQuestion.EndCaption;
-
-
-
+                                                          $"({SliderTable.Id}, {SliderTable.StartValue}, {SliderTable.EndValue}, {SliderTable.StartCaption}, {SliderTable.EndCaption}) " +
+                                                          $"VALUES (@Id, @StartValue, @EndValue, @StartCaption, @EndCaption)";
+                                        cmd.Parameters.Add("@Id", SqlDbType.Int).Value = questionId;
+                                        cmd.Parameters.Add("@StartValue", SqlDbType.Int).Value = sliderQuestion.StartValue;
+                                        cmd.Parameters.Add("@EndValue", SqlDbType.Int).Value = sliderQuestion.EndValue;
+                                        cmd.Parameters.Add("@StartCaption", SqlDbType.VarChar).Value = sliderQuestion.StartCaption;
+                                        cmd.Parameters.Add("@EndCaption", SqlDbType.VarChar).Value = sliderQuestion.EndCaption;
                                         break;
 
                                     case TypeQuestionEnum.SmileyFacesQuestion:
                                         var smileyFaceQuestion = (SmileyFacesQuestion)question;
-                                        cmd.CommandText = $"INSERT INTO {SmileyFacesTable.TableName}" +
-                                            $"({SmileyFacesTable.Id} , {SmileyFacesTable.SmileyCount}) values" +
-                                            $"(@{SmileyFacesTable.Id} , @{SmileyFacesTable.SmileyCount})";
-                                        cmd.Parameters.Add($"@{SmileyFacesTable.SmileyCount}", System.Data.SqlDbType.Int).Value = smileyFaceQuestion.SmileyCount;
+                                        cmd.CommandText = $"INSERT INTO {SmileyFacesTable.TableName} " +
+                                                          $"({SmileyFacesTable.Id}, {SmileyFacesTable.SmileyCount}) " +
+                                                          $"VALUES (@Id, @SmileyCount)";
+                                        cmd.Parameters.Add("@Id", SqlDbType.Int).Value = questionId;
+                                        cmd.Parameters.Add("@SmileyCount", SqlDbType.Int).Value = smileyFaceQuestion.SmileyCount;
                                         break;
 
                                     case TypeQuestionEnum.StarsQuestion:
                                         var starsQuestion = (StarsQuestion)question;
-                                        cmd.CommandText = $"INSERT INTO {StarsTable.TableName}" +
-                                            $"({StarsTable.Id} , {StarsTable.StarsCount}) values" +
-                                            $"(@{StarsTable.Id} , @{StarsTable.StarsCount})";
-                                        cmd.Parameters.Add($"@{StarsTable.StarsCount}", System.Data.SqlDbType.Int).Value = starsQuestion.StarsCount;
+                                        cmd.CommandText = $"INSERT INTO {StarsTable.TableName} " +
+                                                          $"({StarsTable.Id}, {StarsTable.StarsCount}) " +
+                                                          $"VALUES (@Id, @StarsCount)";
+                                        cmd.Parameters.Add("@Id", SqlDbType.Int).Value = questionId;
+                                        cmd.Parameters.Add("@StarsCount", SqlDbType.Int).Value = starsQuestion.StarsCount;
                                         break;
 
+                                    default:
+                                        throw new Exception("Unsupported question type.");
                                 }
 
+                                // Execute the insert for the child table
                                 cmd.ExecuteNonQuery();
+
+                                // Commit transaction
                                 trans.Commit();
 
-                                connection.Close();
-
-
-
-
+                                // Return the generated question Id
+                                result.Data = questionId;
                             }
                         }
-                        
                         catch (SqlException sqlEx)
                         {
                             trans.Rollback();
@@ -371,14 +367,13 @@ namespace SurveyConfiguratorTask.Repo
                 result.Message = "Failed to connect to the database. Contact the administrator to resolve the issue.";
                 result.Erorr = ErrorTypeEnum.DatabaseError;
                 Log.Error(ex, "Database connection failed.");
-                
             }
-                        return result;
 
-
+            return result;
         }
 
-        public Result<object> DeleteQuestion(Guid Id)
+
+        public Result<object> DeleteQuestion(int Id)
         {
             Result<object> result = new Result<object>();
             result.Success = true;
@@ -390,7 +385,7 @@ namespace SurveyConfiguratorTask.Repo
                     using (var cmd = connection.CreateCommand())
                     {
                         cmd.CommandText = $"DELETE FROM {QuestionsTable.TableName} WHERE {QuestionsTable.Id} = @{QuestionsTable.Id}";
-                        cmd.Parameters.Add($"@{QuestionsTable.Id}", System.Data.SqlDbType.UniqueIdentifier).Value = Id;
+                        cmd.Parameters.Add($"@{QuestionsTable.Id}", System.Data.SqlDbType.Int).Value = Id;
 
 
                         connection.Open();
@@ -446,7 +441,7 @@ namespace SurveyConfiguratorTask.Repo
                                 cmd.CommandText = $"UPDATE {QuestionsTable.TableName} " +
                                     $"SET {QuestionsTable.QuestionText} = @{QuestionsTable.QuestionText} " +
                                     $"WHERE {QuestionsTable.TableName}.{QuestionsTable.Id} = @{QuestionsTable.Id}";
-                                cmd.Parameters.Add($"@{QuestionsTable.Id}", System.Data.SqlDbType.UniqueIdentifier).Value = question.Id;
+                                cmd.Parameters.Add($"@{QuestionsTable.Id}", System.Data.SqlDbType.Int).Value = question.Id;
                                 cmd.Parameters.Add($"@{QuestionsTable.QuestionText}", System.Data.SqlDbType.VarChar).Value = question.Text;
                                 cmd.Transaction = trans;
                                 cmd.ExecuteNonQuery();
@@ -526,7 +521,7 @@ namespace SurveyConfiguratorTask.Repo
             }
             return result; 
         }
-        public Result<int> EditOrder(List<Guid> ids, List<int> orders)
+        public Result<int> EditOrder(List<int> ids, List<int> orders)
         {
             Result<int> result = new Result<int>();
             result.Success = true;
@@ -642,7 +637,7 @@ namespace SurveyConfiguratorTask.Repo
             }
             return result;
         }
-        public Result<Question> GetQuestion(Guid id)
+        public Result<Question> GetQuestion(int id)
         {
             Result<Question> result = new Result<Question> { Success = true, Erorr = ErrorTypeEnum.None };
             
@@ -657,7 +652,7 @@ namespace SurveyConfiguratorTask.Repo
                     {
 
                         cmd.CommandText = $"SELECT * FROM {QuestionsTable.TableName} WHERE {QuestionsTable.Id} =@{QuestionsTable.Id}";
-                        cmd.Parameters.Add($"@{QuestionsTable.Id}", System.Data.SqlDbType.UniqueIdentifier).Value = id;
+                        cmd.Parameters.Add($"@{QuestionsTable.Id}", System.Data.SqlDbType.Int).Value = id;
 
                         connection.Open();
                         var rdr = cmd.ExecuteReader();
@@ -676,7 +671,7 @@ namespace SurveyConfiguratorTask.Repo
                                 rdr = cmd.ExecuteReader();
                                 rdr.Read();
                                 question = new SliderQuestion(
-                                    (Guid)rdr[QuestionsTable.Id],
+                                    (int)rdr[QuestionsTable.Id],
                                     (string)rdr[QuestionsTable.QuestionText],
                                     (int)rdr[QuestionsTable.QuestionOrder],
                                     (int)rdr[SliderTable.StartValue],
@@ -696,7 +691,7 @@ namespace SurveyConfiguratorTask.Repo
                                 rdr = cmd.ExecuteReader();
                                 rdr.Read();
                                 question = new Models.SmileyFacesQuestion(
-                                    (Guid)rdr[QuestionsTable.Id],
+                                    (int)rdr[QuestionsTable.Id],
                                     (string)rdr[QuestionsTable.QuestionText],
                                     (int)rdr[QuestionsTable.QuestionOrder],
                                     (int)rdr[SmileyFacesTable.SmileyCount]
@@ -713,7 +708,7 @@ namespace SurveyConfiguratorTask.Repo
                                 rdr = cmd.ExecuteReader();
                                 rdr.Read();
                                 question = new StarsQuestion(
-                                    (Guid)rdr[QuestionsTable.Id],
+                                    (int)rdr[QuestionsTable.Id],
                                     (string)rdr[QuestionsTable.QuestionText],
                                     (int)rdr[QuestionsTable.QuestionOrder],
                                     (int)rdr[StarsTable.StarsCount]

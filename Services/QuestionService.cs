@@ -19,12 +19,17 @@ namespace Services
         QuestionRepo repo = new();
         List<Question> questions;
         private bool _connectionValid;
+        public event Action CheckUpdateEvent;
+        private DateTime dateTime = DateTime.Now;
+        Thread checkForUpdate;
+        bool isRunning = true; 
 
-        
+
+
         public QuestionService()
         {
             questions = new List<Question>();
-
+            CreateCheckThread();
 
         }
 
@@ -159,7 +164,7 @@ namespace Services
             return result;
         }
         
-        public Result<int> DeleteQuestionService(Guid id)
+        public Result<int> DeleteQuestionService(int id)
         {
             Result<int> result = new Result<int>();
             result.Success = true;
@@ -214,7 +219,7 @@ namespace Services
             }
             return result; 
         }
-        public Result<int> EditQuestionService(Guid id ,EditContext editContext)
+        public Result<int> EditQuestionService(int id , EditQuestionDto editContext)
         {
             Result<int> result = new Result<int> { Success = true , Erorr = ErrorTypeEnum.None , Data = 0};
             try
@@ -343,7 +348,7 @@ namespace Services
             try
             {
                 questions.Sort();
-                var ids = new List<Guid>();
+                var ids = new List<int>();
                 var orders = new List<int>();
 
                 for (int i = 0; i < questions.Count; i++)
@@ -377,7 +382,7 @@ namespace Services
             return questions; 
         }
         
-        public Result<Question> GetQuestionService(Guid id)
+        public Result<Question> GetQuestionService(int id)
         {
             Result<Question> result = new Result<Question> { Success = true , Erorr=ErrorTypeEnum.None };
             try
@@ -477,8 +482,38 @@ namespace Services
             return result; 
         }
 
+        public void CheckForUpdates()
+        {
+            
+                while (isRunning)
+                {
+                    var result = GetLastModifiedService();
+                    if (result.Success && result.Data != dateTime)
+                    {
+                        dateTime = result.Data;
+                    //Invoke(ReloadMainForm);
+                    CheckUpdateEvent?.Invoke();
+                    }
 
-        
+                    Thread.Sleep(3000);
+                }
+            
+        }
+        private void CreateCheckThread()
+        {
+            
+                checkForUpdate = new Thread(CheckForUpdates)
+                {
+                    IsBackground = true
+                };
+                checkForUpdate.Start();
+            
+        }
+        public void FormClosing()
+        {
+            isRunning = false;
+        }
+
 
     }
 }
