@@ -1,10 +1,10 @@
 
 IF NOT EXISTS (SELECT 1 FROM sys.databases WHERE name = 'SurveyConfigrator')
 BEGIN
-    CREATE DATABASE testDatabase
+    CREATE DATABASE SurveyConfiguratorDatabase
 END;
 Go
-USE testDatabase
+USE SurveyConfiguratorDatabase
 Go
 
 IF NOT EXISTS (SELECT 1 FROM sys.tables WHERE name = 'Questions')

@@ -33,7 +33,7 @@ namespace Services
 
         }
 
-        public Result<List<Question>> QuestionsLoadService()
+        public Result<List<Question>> QuestionsLoad()
         {
             Result<List<Question>> result = new Result<List<Question>> { Success = true , Erorr = ErrorTypeEnum.None };
             try
@@ -64,7 +64,7 @@ namespace Services
             return result; 
         
         }
-        public Result<int> AddQuestionService(TypeQuestionEnum type , AddQuestionDto questionDto)
+        public Result<int> AddQuestion(TypeQuestionEnum type , AddQuestionDto questionDto)
         {
             Result<int> result = new Result<int> { Erorr = ErrorTypeEnum.None , Success = true , Data = 0};
             try
@@ -98,7 +98,7 @@ namespace Services
 
                 }
                 // Validate that the user-selected order does not exceed the total number of questions
-                var countResult = GetCountService();
+                var countResult = GetCount();
                 if (!countResult.Success)
                     return countResult;
                 if (questionDto.Order > countResult.Data+1 || questionDto.Order <= 0)
@@ -164,7 +164,7 @@ namespace Services
             return result;
         }
         
-        public Result<int> DeleteQuestionService(int id)
+        public Result<int> DeleteQuestion(int id)
         {
             Result<int> result = new Result<int>();
             result.Success = true;
@@ -219,7 +219,7 @@ namespace Services
             }
             return result; 
         }
-        public Result<int> EditQuestionService(int id , EditQuestionDto editContext)
+        public Result<int> EditQuestion(int id , EditQuestionDto editContext)
         {
             Result<int> result = new Result<int> { Success = true , Erorr = ErrorTypeEnum.None , Data = 0};
             try
@@ -267,7 +267,7 @@ namespace Services
                      
 
                 }
-                result = GetCountService();
+                result = GetCount();
                 if (!result.Success)
                     return result; 
                 // Validate that the user-selected order does not exceed the total number of questions
@@ -382,7 +382,7 @@ namespace Services
             return questions; 
         }
         
-        public Result<Question> GetQuestionService(int id)
+        public Result<Question> GetQuestion(int id)
         {
             Result<Question> result = new Result<Question> { Success = true , Erorr=ErrorTypeEnum.None };
             try
@@ -410,7 +410,7 @@ namespace Services
             return result;
         }
 
-        public Result<int> GetCountService()
+        public Result<int> GetCount()
         {
             Result<int> result = new Result<int> { Success =true , Erorr = ErrorTypeEnum.None , Data = 0 };
             try
@@ -429,7 +429,7 @@ namespace Services
             return result;
         }
 
-        public Result<DateTime> GetLastModifiedService()
+        public Result<DateTime> GetLastModified()
         {
             Result<DateTime> result = new Result<DateTime>
             {
@@ -487,7 +487,7 @@ namespace Services
             
                 while (isRunning)
                 {
-                    var result = GetLastModifiedService();
+                    var result = GetLastModified();
                     if (result.Success && result.Data != dateTime)
                     {
                         dateTime = result.Data;

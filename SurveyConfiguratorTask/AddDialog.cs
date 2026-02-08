@@ -21,8 +21,11 @@ namespace SurveyConfiguratorTask
                 this.service = service;
 
                 InitializeComponent();
+                detailsGroupBox.Visible = true;
+                sliderQuestionRadioButton.Checked = true;
 
-                var result = service.GetCountService();
+
+                var result = service.GetCount();
                 if (!result.Success)
                 {
                     MessageBox.Show(
@@ -50,9 +53,28 @@ namespace SurveyConfiguratorTask
         {
             try
             {
-                sliderPanel.Enabled = sliderQuestionRadioButton.Checked;
-                smileyPanel.Enabled = smileyFacesQuestionRadioButton.Checked;
-                starsPanel.Enabled = starsQuestionRadioButton.Checked;
+                sliderPanel.Visible = false;
+                smileyPanel.Visible = false;
+                starsPanel.Visible = false;
+                if (sliderQuestionRadioButton.Checked)
+                {
+                    sliderPanel.BringToFront();
+                    sliderPanel.Visible = true;
+
+                }
+                if (smileyFacesQuestionRadioButton.Checked)
+                {
+                    smileyPanel.BringToFront();
+
+                    smileyPanel.Visible = true;
+
+                }
+                if (starsQuestionRadioButton.Checked)
+                {
+                    starsPanel.BringToFront();
+
+                    starsPanel.Visible = true;
+                }
             }
             catch (Exception ex)
             {
@@ -96,7 +118,7 @@ namespace SurveyConfiguratorTask
                     type = TypeQuestionEnum.StarsQuestion;
                 }
 
-                var result = service.AddQuestionService(type, addedQuestion);
+                var result = service.AddQuestion(type, addedQuestion);
                 if (!result.Success)
                 {
                     MessageBox.Show(
@@ -137,5 +159,7 @@ namespace SurveyConfiguratorTask
                     MessageBoxIcon.Error);
             }
         }
+
+       
     }
 }

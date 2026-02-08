@@ -55,7 +55,6 @@ D:\SurveyConfiguratorTask\SurveyConfiguratorTask\bin\Debug\net10.0-windows\Servi
 D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.csproj.AssemblyReference.cache
 D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.AddDialog.resources
 D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.EditDialog.resources
-D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.MainForm.resources
 D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.csproj.GenerateResource.cache
 D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.GeneratedMSBuildEditorConfig.editorconfig
 D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.AssemblyInfoInputs.cache
@@ -72,3 +71,4 @@ D:\SurveyConfiguratorTask\SurveyConfiguratorTask\bin\Debug\net10.0-windows\Share
 D:\SurveyConfiguratorTask\SurveyConfiguratorTask\bin\Debug\net10.0-windows\Shared.pdb
 D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.setConnectionString.resources
 D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.Properties.Resources.resources
+D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.MainForm.resources

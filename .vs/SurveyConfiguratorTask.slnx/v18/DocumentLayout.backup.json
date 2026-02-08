@@ -7,68 +7,8 @@
       "RelativeMoniker": "D:0:0:{BF88E47C-FDD8-4B0E-9CAB-E9723C665613}|Repository\\Repository.csproj|solutionrelative:repository\\questionrepo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A9051638-3C0A-D2BC-0E32-0A9B1391C786}|SurveyConfiguratorTask\\SurveyConfiguratorTask.csproj|d:\\surveyconfiguratortask\\surveyconfiguratortask\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A9051638-3C0A-D2BC-0E32-0A9B1391C786}|SurveyConfiguratorTask\\SurveyConfiguratorTask.csproj|solutionrelative:surveyconfiguratortask\\mainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A79B8515-C973-4D40-9CEB-E7C252C331CD}|Models\\Models.csproj|d:\\surveyconfiguratortask\\models\\sliderquestion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A79B8515-C973-4D40-9CEB-E7C252C331CD}|Models\\Models.csproj|solutionrelative:models\\sliderquestion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A79B8515-C973-4D40-9CEB-E7C252C331CD}|Models\\Models.csproj|d:\\surveyconfiguratortask\\models\\smileyfacesquestion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A79B8515-C973-4D40-9CEB-E7C252C331CD}|Models\\Models.csproj|solutionrelative:models\\smileyfacesquestion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A79B8515-C973-4D40-9CEB-E7C252C331CD}|Models\\Models.csproj|d:\\surveyconfiguratortask\\models\\starsquestion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A79B8515-C973-4D40-9CEB-E7C252C331CD}|Models\\Models.csproj|solutionrelative:models\\starsquestion.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A79B8515-C973-4D40-9CEB-E7C252C331CD}|Models\\Models.csproj|d:\\surveyconfiguratortask\\models\\question.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A79B8515-C973-4D40-9CEB-E7C252C331CD}|Models\\Models.csproj|solutionrelative:models\\question.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{56247868-1146-4912-84BD-F38B75429B45}|Shared\\Shared.csproj|d:\\surveyconfiguratortask\\shared\\questionstable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{56247868-1146-4912-84BD-F38B75429B45}|Shared\\Shared.csproj|solutionrelative:shared\\questionstable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{56247868-1146-4912-84BD-F38B75429B45}|Shared\\Shared.csproj|d:\\surveyconfiguratortask\\shared\\logconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{56247868-1146-4912-84BD-F38B75429B45}|Shared\\Shared.csproj|solutionrelative:shared\\logconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{56247868-1146-4912-84BD-F38B75429B45}|Shared\\Shared.csproj|d:\\surveyconfiguratortask\\shared\\databasechangetrackertable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{56247868-1146-4912-84BD-F38B75429B45}|Shared\\Shared.csproj|solutionrelative:shared\\databasechangetrackertable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{56247868-1146-4912-84BD-F38B75429B45}|Shared\\Shared.csproj|d:\\surveyconfiguratortask\\shared\\errortypeenum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{56247868-1146-4912-84BD-F38B75429B45}|Shared\\Shared.csproj|solutionrelative:shared\\errortypeenum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F614323E-74B5-4551-86C3-1CC6A6356136}|Services\\Services.csproj|d:\\surveyconfiguratortask\\services\\questionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F614323E-74B5-4551-86C3-1CC6A6356136}|Services\\Services.csproj|solutionrelative:services\\questionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BF88E47C-FDD8-4B0E-9CAB-E9723C665613}|Repository\\Repository.csproj|d:\\surveyconfiguratortask\\repository\\sqlconnectiontest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BF88E47C-FDD8-4B0E-9CAB-E9723C665613}|Repository\\Repository.csproj|solutionrelative:repository\\sqlconnectiontest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A79B8515-C973-4D40-9CEB-E7C252C331CD}|Models\\Models.csproj|d:\\surveyconfiguratortask\\models\\addquestiondto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A79B8515-C973-4D40-9CEB-E7C252C331CD}|Models\\Models.csproj|solutionrelative:models\\addquestiondto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A79B8515-C973-4D40-9CEB-E7C252C331CD}|Models\\Models.csproj|d:\\surveyconfiguratortask\\models\\editquestiondto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A79B8515-C973-4D40-9CEB-E7C252C331CD}|Models\\Models.csproj|solutionrelative:models\\editquestiondto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A79B8515-C973-4D40-9CEB-E7C252C331CD}|Models\\Models.csproj|d:\\surveyconfiguratortask\\models\\typequestionenum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A79B8515-C973-4D40-9CEB-E7C252C331CD}|Models\\Models.csproj|solutionrelative:models\\typequestionenum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A9051638-3C0A-D2BC-0E32-0A9B1391C786}|SurveyConfiguratorTask\\SurveyConfiguratorTask.csproj|d:\\surveyconfiguratortask\\surveyconfiguratortask\\editdialog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A9051638-3C0A-D2BC-0E32-0A9B1391C786}|SurveyConfiguratorTask\\SurveyConfiguratorTask.csproj|solutionrelative:surveyconfiguratortask\\editdialog.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A9051638-3C0A-D2BC-0E32-0A9B1391C786}|SurveyConfiguratorTask\\SurveyConfiguratorTask.csproj|d:\\surveyconfiguratortask\\surveyconfiguratortask\\mainform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A9051638-3C0A-D2BC-0E32-0A9B1391C786}|SurveyConfiguratorTask\\SurveyConfiguratorTask.csproj|solutionrelative:surveyconfiguratortask\\mainform.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -78,76 +18,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 6,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{b1e99781-ab81-11d0-b683-00aa00a3ee26}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "QuestionsTable.cs",
-              "DocumentMoniker": "D:\\SurveyConfiguratorTask\\Shared\\QuestionsTable.cs",
-              "RelativeDocumentMoniker": "Shared\\QuestionsTable.cs",
-              "ToolTip": "D:\\SurveyConfiguratorTask\\Shared\\QuestionsTable.cs",
-              "RelativeToolTip": "Shared\\QuestionsTable.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAgAAAA0AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T19:36:31.878Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "LogConfiguration.cs",
-              "DocumentMoniker": "D:\\SurveyConfiguratorTask\\Shared\\LogConfiguration.cs",
-              "RelativeDocumentMoniker": "Shared\\LogConfiguration.cs",
-              "ToolTip": "D:\\SurveyConfiguratorTask\\Shared\\LogConfiguration.cs",
-              "RelativeToolTip": "Shared\\LogConfiguration.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T19:36:27.4Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "ErrorTypeEnum.cs",
-              "DocumentMoniker": "D:\\SurveyConfiguratorTask\\Shared\\ErrorTypeEnum.cs",
-              "RelativeDocumentMoniker": "Shared\\ErrorTypeEnum.cs",
-              "ToolTip": "D:\\SurveyConfiguratorTask\\Shared\\ErrorTypeEnum.cs",
-              "RelativeToolTip": "Shared\\ErrorTypeEnum.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T19:36:22.569Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "DatabaseChangeTrackerTable.cs",
-              "DocumentMoniker": "D:\\SurveyConfiguratorTask\\Shared\\DatabaseChangeTrackerTable.cs",
-              "RelativeDocumentMoniker": "Shared\\DatabaseChangeTrackerTable.cs",
-              "ToolTip": "D:\\SurveyConfiguratorTask\\Shared\\DatabaseChangeTrackerTable.cs",
-              "RelativeToolTip": "Shared\\DatabaseChangeTrackerTable.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T19:36:20.821Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "SqlConnectionTest.cs",
-              "DocumentMoniker": "D:\\SurveyConfiguratorTask\\Repository\\SqlConnectionTest.cs",
-              "RelativeDocumentMoniker": "Repository\\SqlConnectionTest.cs",
-              "ToolTip": "D:\\SurveyConfiguratorTask\\Repository\\SqlConnectionTest.cs",
-              "RelativeToolTip": "Repository\\SqlConnectionTest.cs",
-              "ViewState": "AgIAABYAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T19:33:15.959Z",
-              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -157,151 +32,22 @@
               "RelativeDocumentMoniker": "Repository\\QuestionRepo.cs",
               "ToolTip": "D:\\SurveyConfiguratorTask\\Repository\\QuestionRepo.cs",
               "RelativeToolTip": "Repository\\QuestionRepo.cs",
-              "ViewState": "AgIAAFUBAAAAAAAAAAAcwGIBAAAtAAAAAAAAAA==",
+              "ViewState": "AgIAAEYDAAAAAAAAAAAqwFwDAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T19:31:31.011Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "TypeQuestionEnum.cs",
-              "DocumentMoniker": "D:\\SurveyConfiguratorTask\\Models\\TypeQuestionEnum.cs",
-              "RelativeDocumentMoniker": "Models\\TypeQuestionEnum.cs",
-              "ToolTip": "D:\\SurveyConfiguratorTask\\Models\\TypeQuestionEnum.cs",
-              "RelativeToolTip": "Models\\TypeQuestionEnum.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T19:31:17.876Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "StarsQuestion.cs",
-              "DocumentMoniker": "D:\\SurveyConfiguratorTask\\Models\\StarsQuestion.cs",
-              "RelativeDocumentMoniker": "Models\\StarsQuestion.cs",
-              "ToolTip": "D:\\SurveyConfiguratorTask\\Models\\StarsQuestion.cs",
-              "RelativeToolTip": "Models\\StarsQuestion.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAiwA0AAAAyAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T19:31:09.438Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "SmileyFacesQuestion.cs",
-              "DocumentMoniker": "D:\\SurveyConfiguratorTask\\Models\\SmileyFacesQuestion.cs",
-              "RelativeDocumentMoniker": "Models\\SmileyFacesQuestion.cs",
-              "ToolTip": "D:\\SurveyConfiguratorTask\\Models\\SmileyFacesQuestion.cs",
-              "RelativeToolTip": "Models\\SmileyFacesQuestion.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAiwA0AAAA4AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T19:30:58.778Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "SliderQuestion.cs",
-              "DocumentMoniker": "D:\\SurveyConfiguratorTask\\Models\\SliderQuestion.cs",
-              "RelativeDocumentMoniker": "Models\\SliderQuestion.cs",
-              "ToolTip": "D:\\SurveyConfiguratorTask\\Models\\SliderQuestion.cs",
-              "RelativeToolTip": "Models\\SliderQuestion.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAUwA4AAAAxAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T19:29:40.122Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Question.cs",
-              "DocumentMoniker": "D:\\SurveyConfiguratorTask\\Models\\Question.cs",
-              "RelativeDocumentMoniker": "Models\\Question.cs",
-              "ToolTip": "D:\\SurveyConfiguratorTask\\Models\\Question.cs",
-              "RelativeToolTip": "Models\\Question.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAiwBMAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T19:29:04.3Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "EditDialog.cs",
-              "DocumentMoniker": "D:\\SurveyConfiguratorTask\\SurveyConfiguratorTask\\EditDialog.cs",
-              "RelativeDocumentMoniker": "SurveyConfiguratorTask\\EditDialog.cs",
-              "ToolTip": "D:\\SurveyConfiguratorTask\\SurveyConfiguratorTask\\EditDialog.cs",
-              "RelativeToolTip": "SurveyConfiguratorTask\\EditDialog.cs",
-              "ViewState": "AgIAAEoAAAAAAAAAAAAkwFMAAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T19:28:23.668Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "EditQuestionDto.cs",
-              "DocumentMoniker": "D:\\SurveyConfiguratorTask\\Models\\EditQuestionDto.cs",
-              "RelativeDocumentMoniker": "Models\\EditQuestionDto.cs",
-              "ToolTip": "D:\\SurveyConfiguratorTask\\Models\\EditQuestionDto.cs",
-              "RelativeToolTip": "Models\\EditQuestionDto.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAcAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T19:26:53.283Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "AddQuestionDto.cs",
-              "DocumentMoniker": "D:\\SurveyConfiguratorTask\\Models\\AddQuestionDto.cs",
-              "RelativeDocumentMoniker": "Models\\AddQuestionDto.cs",
-              "ToolTip": "D:\\SurveyConfiguratorTask\\Models\\AddQuestionDto.cs",
-              "RelativeToolTip": "Models\\AddQuestionDto.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAgwAUAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T19:26:50.084Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "MainForm.Designer.cs",
-              "DocumentMoniker": "D:\\SurveyConfiguratorTask\\SurveyConfiguratorTask\\MainForm.Designer.cs",
-              "RelativeDocumentMoniker": "SurveyConfiguratorTask\\MainForm.Designer.cs",
-              "ToolTip": "D:\\SurveyConfiguratorTask\\SurveyConfiguratorTask\\MainForm.Designer.cs",
-              "RelativeToolTip": "SurveyConfiguratorTask\\MainForm.Designer.cs",
-              "ViewState": "AgIAAG4BAAAAAAAAAAAowHgBAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T17:55:14.21Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "QuestionService.cs",
-              "DocumentMoniker": "D:\\SurveyConfiguratorTask\\Services\\QuestionService.cs",
-              "RelativeDocumentMoniker": "Services\\QuestionService.cs",
-              "ToolTip": "D:\\SurveyConfiguratorTask\\Services\\QuestionService.cs",
-              "RelativeToolTip": "Services\\QuestionService.cs",
-              "ViewState": "AgIAAFYBAAAAAAAAAAA1wF4BAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T17:38:37.835Z",
+              "WhenOpened": "2026-02-08T06:16:02.973Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "MainForm.cs",
-              "DocumentMoniker": "D:\\SurveyConfiguratorTask\\SurveyConfiguratorTask\\MainForm.cs",
-              "RelativeDocumentMoniker": "SurveyConfiguratorTask\\MainForm.cs",
-              "ToolTip": "D:\\SurveyConfiguratorTask\\SurveyConfiguratorTask\\MainForm.cs",
-              "RelativeToolTip": "SurveyConfiguratorTask\\MainForm.cs",
-              "ViewState": "AgIAAGgAAAAAAAAAAAAIwG8AAAAIAAAAAAAAAA==",
+              "Title": "QuestionService.cs",
+              "DocumentMoniker": "D:\\SurveyConfiguratorTask\\Services\\QuestionService.cs",
+              "RelativeDocumentMoniker": "Services\\QuestionService.cs",
+              "ToolTip": "D:\\SurveyConfiguratorTask\\Services\\QuestionService.cs",
+              "RelativeToolTip": "Services\\QuestionService.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T17:38:34.026Z",
+              "WhenOpened": "2026-02-08T06:15:46.595Z",
               "EditorCaption": ""
             }
           ]

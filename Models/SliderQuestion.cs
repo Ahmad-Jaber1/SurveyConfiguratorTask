@@ -86,18 +86,6 @@ namespace SurveyConfiguratorTask.Models
 
         
 
-        public override void Show(Question question)
-        {
-            var temp = (SliderQuestion)question;
-            Console.WriteLine("***************");
-            Console.WriteLine($"Id:{temp.Id}");
-            Console.WriteLine($"Order:{temp.Order}");
-            Console.WriteLine($"Type:{temp.TypeQuestion}");
-            Console.WriteLine($"Text:{temp.Text}");
-            Console.WriteLine($"StartValue:{temp.StartValue} And StartCaption: {temp.StartCaption}");
-            Console.WriteLine($"StartValue:{temp.EndValue} And StartCaption: {temp.EndCaption}");
-            Console.WriteLine("***************");
-
-        }
+        
     }
 }

@@ -36,18 +36,7 @@ namespace SurveyConfiguratorTask.Models
         }
 
         
-        public override void Show(Question question)
-        {
-            var temp = (StarsQuestion)question;
-            Console.WriteLine("***************");
-            Console.WriteLine($"Id:{temp.Id}");
-            Console.WriteLine($"Order:{temp.Order}");
-            Console.WriteLine($"Type:{temp.TypeQuestion}");
-            Console.WriteLine($"Text:{temp.Text}");
-            Console.WriteLine($"Count:{temp.StarsCount}");
-            Console.WriteLine("***************");
-
-        }
+        
 
     }
 }

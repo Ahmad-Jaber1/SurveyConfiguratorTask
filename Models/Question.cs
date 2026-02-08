@@ -9,13 +9,14 @@ namespace SurveyConfiguratorTask.Models
     /// Represent general info about question object .
     /// </summary>
 
-    public  abstract class Question : IComparable<Question>
+    public   class Question : IComparable<Question>
     {
-        public int Id { get;  }
+        public int Id { get; set; }
         public string Text { get;  set; }
         public int Order { get;  set;  }
         public TypeQuestionEnum TypeQuestion { get;  set; }
 
+        public Question() { }
 
         //Create question object with new unique identifier.
         public Question(string text , int order,TypeQuestionEnum type)
@@ -49,7 +50,7 @@ namespace SurveyConfiguratorTask.Models
         }
         
         
-        public abstract void Show( Question question);
+        
 
         //For sort question list based on order.
         int IComparable<Question>.CompareTo(Question other)

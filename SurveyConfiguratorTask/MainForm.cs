@@ -4,6 +4,7 @@ using Shared;
 using SurveyConfiguratorTask.Models;
 using System;
 using System.ComponentModel;
+using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -19,7 +20,7 @@ namespace SurveyConfiguratorTask
 
         private const string UiErrorMessage =
             "An unexpected error occurred. Please contact support or the system administrator.";
-        
+
         public MainForm()
         {
             InitializeComponent();
@@ -27,59 +28,29 @@ namespace SurveyConfiguratorTask
             service.CheckUpdateEvent += ReloadMainForm;
         }
 
-        
+
 
         private void InitializeDataGridView()
         {
-            
-            
-            QuestionGridView.AutoGenerateColumns = false;
-            
-            
 
             QuestionGridView.Columns.Clear();
+            QuestionGridView.AutoGenerateColumns = true;
+            QuestionGridView.RowHeadersVisible = false;
+            QuestionGridView.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            QuestionGridView.MultiSelect = false;
+            QuestionGridView.AllowUserToAddRows = false;
+            QuestionGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
 
-            QuestionGridView.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "Text",
-                HeaderText = "Question Text",
-                DataPropertyName = "Text",
-                SortMode = DataGridViewColumnSortMode.Automatic,
-                AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill
-            });
-
-            QuestionGridView.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "Order",
-                HeaderText = "Order",
-                DataPropertyName = "Order",
-                SortMode = DataGridViewColumnSortMode.Automatic,
-                Width = 60
-            });
-
-            QuestionGridView.Columns.Add(new DataGridViewTextBoxColumn
-            {
-                Name = "Type",
-                HeaderText = "Type",
-                DataPropertyName = "TypeQuestion",
-                SortMode = DataGridViewColumnSortMode.Automatic,
-                Width = 120
-            });
 
             QuestionGridView.SelectionChanged += QuestionGridView_SelectionChanged;
         }
 
-        
+
 
         private void MainForm_Load(object sender, EventArgs e)
         {
             try
             {
-                //if (checkForUpdate == null)
-                //{
-                //    CreateCheckThread();
-                //}
-
                 ReloadMainForm();
             }
             catch (Exception ex)
@@ -90,30 +61,14 @@ namespace SurveyConfiguratorTask
             }
         }
 
-        //private void CreateCheckThread()
-        //{
-        //    try
-        //    {
-        //        checkForUpdate = new Thread(CheckForUpdates)
-        //        {
-        //            IsBackground = true
-        //        };
-        //        checkForUpdate.Start();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(null, ex);
-        //        MessageBox.Show(UiErrorMessage, "Error",
-        //            MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //    }
-        //}
+
 
         private void ReloadMainForm()
         {
             if (this.InvokeRequired)
             {
                 this.Invoke(new Action(() => ReloadMainForm()));
-                return; 
+                return;
             }
             try
             {
@@ -127,7 +82,7 @@ namespace SurveyConfiguratorTask
                     return;
                 }
 
-                var result = service.QuestionsLoadService();
+                var result = service.QuestionsLoad();
                 if (!result.Success)
                 {
                     addButton.Enabled = false;
@@ -139,9 +94,30 @@ namespace SurveyConfiguratorTask
 
                 addButton.Enabled = true;
 
+
+                //var bindingList = new BindingList<Question>(result.Data.ToList());
+                //QuestionGridView.DataSource = bindingList;
+                var dt = new DataTable();
+                dt.Columns.Add("Id", typeof(int)); // keep Id for selection
+                dt.Columns.Add("Text", typeof(string));
+                dt.Columns.Add("Order", typeof(int));
+                dt.Columns.Add("Question Type", typeof(string));
+
+                foreach (var q in result.Data)
+                {
+                    dt.Rows.Add(q.Id, q.Text, q.Order, q.TypeQuestion.ToString());
+                }
+
+                QuestionGridView.DataSource = dt;
+
                 
-                var bindingList = new BindingList<Question>(result.Data.ToList());
-                QuestionGridView.DataSource = bindingList;
+                QuestionGridView.Columns["Id"].Visible = false;
+
+                
+                foreach (DataGridViewColumn col in QuestionGridView.Columns)
+                {
+                    col.SortMode = DataGridViewColumnSortMode.Automatic;
+                }
             }
             catch (Exception ex)
             {
@@ -151,14 +127,29 @@ namespace SurveyConfiguratorTask
             }
         }
 
-        #region CRUD Operations
+
 
         private Question GetSelectedQuestion()
         {
             if (QuestionGridView.SelectedRows.Count == 0)
                 return null;
 
-            return (Question)QuestionGridView.SelectedRows[0].DataBoundItem;
+            var row = QuestionGridView.SelectedRows[0];
+            var result = service.GetQuestion((int)row.Cells["Id"].Value);
+            if (!result.Success)
+            {
+                MessageBox.Show(result.Message, "Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return null;
+            }
+            //var question =  new Question
+            //{
+            //    Id = (int)row.Cells["Id"].Value,
+            //    Text = row.Cells["Text"].Value.ToString(),
+            //    Order = (int)row.Cells["Order"].Value,
+            //    TypeQuestion = Enum.Parse<TypeQuestionEnum>(row.Cells["Question Type"].Value.ToString())
+            //};
+            return result.Data;
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
@@ -176,7 +167,7 @@ namespace SurveyConfiguratorTask
 
                 if (confirm != DialogResult.OK) return;
 
-                var resultDeleted = service.DeleteQuestionService(question.Id);
+                var resultDeleted = service.DeleteQuestion(question.Id);
 
                 if (!resultDeleted.Success)
                 {
@@ -234,9 +225,7 @@ namespace SurveyConfiguratorTask
             }
         }
 
-        #endregion
 
-        #region Selection Handling
 
         private void QuestionGridView_SelectionChanged(object sender, EventArgs e)
         {
@@ -253,7 +242,7 @@ namespace SurveyConfiguratorTask
                 questionTextValue.Text = question.Text;
                 questionOrderValue.Text = question.Order.ToString();
 
-                var result = service.GetQuestionService(question.Id);
+                var result = service.GetQuestion(question.Id);
                 if (!result.Success)
                 {
                     MessageBox.Show(result.Message, "Error",
@@ -299,35 +288,16 @@ namespace SurveyConfiguratorTask
             }
         }
 
-        #endregion
 
-        //private void CheckForUpdates()
-        //{
-        //    try
-        //    {
-        //        while (isRunning)
-        //        {
-        //            var result = service.GetLastModifiedService();
-        //            if (result.Success && result.Data != dateTime)
-        //            {
-        //                dateTime = result.Data;
-        //                Invoke(ReloadMainForm);
-        //            }
 
-        //            Thread.Sleep(3000);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        Log.Error(null, ex);
-        //    }
-        //}
+
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             try
             {
                 service.FormClosing();
+                
             }
             catch (Exception ex)
             {
@@ -354,5 +324,7 @@ namespace SurveyConfiguratorTask
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        
     }
 }

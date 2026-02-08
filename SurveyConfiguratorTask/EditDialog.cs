@@ -27,6 +27,9 @@ namespace SurveyConfiguratorTask
             {
                 typeQuestionGroup.Enabled = false;
                 orderUpDown.Maximum = int.MaxValue;
+                sliderPanel.Visible = false;
+                smileyPanel.Visible = false;
+                starsPanel.Visible = false;
 
                 switch (question.TypeQuestion)
                 {
@@ -34,7 +37,7 @@ namespace SurveyConfiguratorTask
                         SliderQuestion sliderQuestion = (SliderQuestion)question;
 
                         sliderQuestionRadioButton.Checked = true;
-                        sliderPanel.Enabled = true;
+                        sliderPanel.Visible = true;
                         textQuestionTextBox.Text = question.Text;
                         orderUpDown.Value = question.Order;
                         startValueUpDown.Value = sliderQuestion.StartValue;
@@ -47,7 +50,7 @@ namespace SurveyConfiguratorTask
                         SmileyFacesQuestion smileyQuestion = (SmileyFacesQuestion)question;
 
                         smileyFacesQuestionRadioButton.Checked = true;
-                        smileyPanel.Enabled = true;
+                        smileyPanel.Visible = true;
                         textQuestionTextBox.Text = question.Text;
                         orderUpDown.Value = question.Order;
                         smileyFacesUpDown.Value = smileyQuestion.SmileyCount;
@@ -57,7 +60,7 @@ namespace SurveyConfiguratorTask
                         StarsQuestion starsQuestion = (StarsQuestion)question;
 
                         starsQuestionRadioButton.Checked = true;
-                        starsPanel.Enabled = true;
+                        starsPanel.Visible = true;
                         textQuestionTextBox.Text = question.Text;
                         orderUpDown.Value = question.Order;
                         starsUpDown.Value = starsQuestion.StarsCount;
@@ -108,7 +111,7 @@ namespace SurveyConfiguratorTask
                         break;
                 }
 
-                var result = service.EditQuestionService(question.Id, edit);
+                var result = service.EditQuestion(question.Id, edit);
                 if (!result.Success)
                 {
                     MessageBox.Show(
@@ -149,5 +152,7 @@ namespace SurveyConfiguratorTask
                     MessageBoxIcon.Error);
             }
         }
+
+       
     }
 }
