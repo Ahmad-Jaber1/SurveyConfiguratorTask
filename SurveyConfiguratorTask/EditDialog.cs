@@ -2,6 +2,7 @@
 using Services;
 using SurveyConfiguratorTask.Models;
 using System;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace SurveyConfiguratorTask
@@ -11,13 +12,20 @@ namespace SurveyConfiguratorTask
         QuestionService service;
         Question question;
 
-        private const string UiErrorMessage =
+        private const string UI_ERROR_MESSAGE =
             "An unexpected error occurred. Please contact support or the system administrator.";
 
         public EditDialog(QuestionService service, Question question)
         {
             this.question = question;
             this.service = service;
+            //Thread.CurrentThread.CurrentUICulture = new CultureInfo(MainForm.Language);
+            //if(MainForm.Language == "en")
+            //{
+            //    RightToLeft = RightToLeft.No;
+            //    RightToLeftLayout = false;
+
+            //}
             InitializeComponent();
         }
 
@@ -73,7 +81,7 @@ namespace SurveyConfiguratorTask
             {
                 Log.Error(null, ex);
                 MessageBox.Show(
-                    UiErrorMessage,
+                    UI_ERROR_MESSAGE,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
@@ -128,7 +136,7 @@ namespace SurveyConfiguratorTask
             {
                 Log.Error(null, ex);
                 MessageBox.Show(
-                    UiErrorMessage,
+                    UI_ERROR_MESSAGE,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
@@ -146,13 +154,13 @@ namespace SurveyConfiguratorTask
             {
                 Log.Error(null, ex);
                 MessageBox.Show(
-                    UiErrorMessage,
+                    UI_ERROR_MESSAGE,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
         }
 
-       
+        
     }
 }

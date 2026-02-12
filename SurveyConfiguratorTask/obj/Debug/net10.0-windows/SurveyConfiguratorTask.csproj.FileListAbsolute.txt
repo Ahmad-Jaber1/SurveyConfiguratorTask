@@ -72,3 +72,9 @@ D:\SurveyConfiguratorTask\SurveyConfiguratorTask\bin\Debug\net10.0-windows\Share
 D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.setConnectionString.resources
 D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.Properties.Resources.resources
 D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.MainForm.resources
+D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.MainForm.ar.resources
+D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.setConnectionString.ar.resources
+D:\SurveyConfiguratorTask\SurveyConfiguratorTask\bin\Debug\net10.0-windows\ar\SurveyConfiguratorTask.resources.dll
+D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.AddDialog.ar.resources
+D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.EditDialog.ar.resources
+D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\ar\SurveyConfiguratorTask.resources.dll

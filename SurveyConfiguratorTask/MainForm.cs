@@ -5,6 +5,7 @@ using SurveyConfiguratorTask.Models;
 using System;
 using System.ComponentModel;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
@@ -13,19 +14,20 @@ namespace SurveyConfiguratorTask
 {
     public partial class MainForm : Form
     {
-        private QuestionService service = new();
+        private QuestionService mService = new();
         //private DateTime dateTime = DateTime.Now;
         //private bool isRunning = true;
         //private Thread checkForUpdate;
-
-        private const string UiErrorMessage =
+        public static string Language = "en";
+        public const string UI_ERROR_MESSAGE =
             "An unexpected error occurred. Please contact support or the system administrator.";
 
         public MainForm()
         {
             InitializeComponent();
             InitializeDataGridView();
-            service.CheckUpdateEvent += ReloadMainForm;
+            mService.CheckUpdateEvent += ReloadMainForm;
+
         }
 
 
@@ -56,7 +58,7 @@ namespace SurveyConfiguratorTask
             catch (Exception ex)
             {
                 Log.Error(null, ex);
-                MessageBox.Show(UiErrorMessage, "Error",
+                MessageBox.Show(UI_ERROR_MESSAGE, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -72,22 +74,22 @@ namespace SurveyConfiguratorTask
             }
             try
             {
-                var connResult = service.CheckConnection();
-                if (!connResult.Success)
+                var tConnResult = mService.CheckConnection();
+                if (!tConnResult.Success)
                 {
                     addButton.Enabled = false;
                     QuestionGridView.DataSource = null;
-                    MessageBox.Show(connResult.Message, "Connection Error",
+                    MessageBox.Show(tConnResult.Message, "Connection Error",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                var result = service.QuestionsLoad();
-                if (!result.Success)
+                var tResult = mService.QuestionsLoad();
+                if (!tResult.Success)
                 {
                     addButton.Enabled = false;
                     QuestionGridView.DataSource = null;
-                    MessageBox.Show(result.Message, "Error",
+                    MessageBox.Show(tResult.Message, "Error",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -95,34 +97,34 @@ namespace SurveyConfiguratorTask
                 addButton.Enabled = true;
 
 
-                //var bindingList = new BindingList<Question>(result.Data.ToList());
+                //var bindingList = new BindingList<Question>(tResult.Data.ToList());
                 //QuestionGridView.DataSource = bindingList;
-                var dt = new DataTable();
-                dt.Columns.Add("Id", typeof(int)); // keep Id for selection
-                dt.Columns.Add("Text", typeof(string));
-                dt.Columns.Add("Order", typeof(int));
-                dt.Columns.Add("Question Type", typeof(string));
+                var tDataTable = new DataTable();
+                tDataTable.Columns.Add("Id", typeof(int));
+                tDataTable.Columns.Add("Text", typeof(string));
+                tDataTable.Columns.Add("Order", typeof(int));
+                tDataTable.Columns.Add("Question Type", typeof(string));
 
-                foreach (var q in result.Data)
+                foreach (var question in tResult.Data)
                 {
-                    dt.Rows.Add(q.Id, q.Text, q.Order, q.TypeQuestion.ToString());
+                    tDataTable.Rows.Add(question.Id, question.Text, question.Order, question.TypeQuestion.ToString());
                 }
 
-                QuestionGridView.DataSource = dt;
+                QuestionGridView.DataSource = tDataTable;
 
-                
+
                 QuestionGridView.Columns["Id"].Visible = false;
 
-                
-                foreach (DataGridViewColumn col in QuestionGridView.Columns)
+
+                foreach (DataGridViewColumn column in QuestionGridView.Columns)
                 {
-                    col.SortMode = DataGridViewColumnSortMode.Automatic;
+                    column.SortMode = DataGridViewColumnSortMode.Automatic;
                 }
             }
             catch (Exception ex)
             {
                 Log.Error(null, ex);
-                MessageBox.Show(UiErrorMessage, "Error",
+                MessageBox.Show(UI_ERROR_MESSAGE, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -134,11 +136,11 @@ namespace SurveyConfiguratorTask
             if (QuestionGridView.SelectedRows.Count == 0)
                 return null;
 
-            var row = QuestionGridView.SelectedRows[0];
-            var result = service.GetQuestion((int)row.Cells["Id"].Value);
-            if (!result.Success)
+            var tRow = QuestionGridView.SelectedRows[0];
+            var tResult = mService.GetQuestion((int)tRow.Cells["Id"].Value);
+            if (!tResult.Success)
             {
-                MessageBox.Show(result.Message, "Error",
+                MessageBox.Show(tResult.Message, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return null;
             }
@@ -149,29 +151,29 @@ namespace SurveyConfiguratorTask
             //    Order = (int)row.Cells["Order"].Value,
             //    TypeQuestion = Enum.Parse<TypeQuestionEnum>(row.Cells["Question Type"].Value.ToString())
             //};
-            return result.Data;
+            return tResult.Data;
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
         {
             try
             {
-                var question = GetSelectedQuestion();
-                if (question == null) return;
+                var tQuestion = GetSelectedQuestion();
+                if (tQuestion == null) return;
 
-                var confirm = MessageBox.Show(
+                var tConfirm = MessageBox.Show(
                     "Are you sure you want to delete the selected question?",
                     "Confirm Delete",
                     MessageBoxButtons.OKCancel,
                     MessageBoxIcon.Warning);
 
-                if (confirm != DialogResult.OK) return;
+                if (tConfirm != DialogResult.OK) return;
 
-                var resultDeleted = service.DeleteQuestion(question.Id);
+                var tResultDeleted = mService.DeleteQuestion(tQuestion.Id);
 
-                if (!resultDeleted.Success)
+                if (!tResultDeleted.Success)
                 {
-                    MessageBox.Show(resultDeleted.Message, "Error",
+                    MessageBox.Show(tResultDeleted.Message, "Error",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -181,7 +183,7 @@ namespace SurveyConfiguratorTask
             catch (Exception ex)
             {
                 Log.Error(null, ex);
-                MessageBox.Show(UiErrorMessage, "Error",
+                MessageBox.Show(UI_ERROR_MESSAGE, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -190,8 +192,8 @@ namespace SurveyConfiguratorTask
         {
             try
             {
-                var addDialog = new AddDialog(service);
-                if (addDialog.ShowDialog() == DialogResult.OK)
+                var tAddDialog = new AddDialog(mService);
+                if (tAddDialog.ShowDialog() == DialogResult.OK)
                 {
                     ReloadMainForm();
                 }
@@ -199,7 +201,7 @@ namespace SurveyConfiguratorTask
             catch (Exception ex)
             {
                 Log.Error(null, ex);
-                MessageBox.Show(UiErrorMessage, "Error",
+                MessageBox.Show(UI_ERROR_MESSAGE, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -208,11 +210,11 @@ namespace SurveyConfiguratorTask
         {
             try
             {
-                var question = GetSelectedQuestion();
-                if (question == null) return;
+                var tQuestion = GetSelectedQuestion();
+                if (tQuestion == null) return;
 
-                var editDialog = new EditDialog(service, question);
-                if (editDialog.ShowDialog() == DialogResult.OK)
+                var tEditDialog = new EditDialog(mService, tQuestion);
+                if (tEditDialog.ShowDialog() == DialogResult.OK)
                 {
                     ReloadMainForm();
                 }
@@ -220,7 +222,7 @@ namespace SurveyConfiguratorTask
             catch (Exception ex)
             {
                 Log.Error(null, ex);
-                MessageBox.Show(UiErrorMessage, "Error",
+                MessageBox.Show(UI_ERROR_MESSAGE, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -236,44 +238,44 @@ namespace SurveyConfiguratorTask
                 smileyPanel.Visible = false;
                 generalPanel.Visible = false;
 
-                var question = GetSelectedQuestion();
-                if (question == null) return;
+                var tQuestion = GetSelectedQuestion();
+                if (tQuestion == null) return;
 
-                questionTextValue.Text = question.Text;
-                questionOrderValue.Text = question.Order.ToString();
+                questionTextValue.Text = tQuestion.Text;
+                questionOrderValue.Text = tQuestion.Order.ToString();
 
-                var result = service.GetQuestion(question.Id);
-                if (!result.Success)
+                var tResult = mService.GetQuestion(tQuestion.Id);
+                if (!tResult.Success)
                 {
-                    MessageBox.Show(result.Message, "Error",
+                    MessageBox.Show(tResult.Message, "Error",
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                switch (question.TypeQuestion)
+                switch (tQuestion.TypeQuestion)
                 {
                     case TypeQuestionEnum.SliderQuestion:
-                        var slider = (SliderQuestion)result.Data;
-                        startValueValue.Text = slider.StartValue.ToString();
-                        endValueValue.Text = slider.EndValue.ToString();
-                        startCaptionValue.Text = slider.StartCaption;
-                        endCaptionValue.Text = slider.EndCaption;
+                        var tSlider = (SliderQuestion)tResult.Data;
+                        startValueValue.Text = tSlider.StartValue.ToString();
+                        endValueValue.Text = tSlider.EndValue.ToString();
+                        startCaptionValue.Text = tSlider.StartCaption;
+                        endCaptionValue.Text = tSlider.EndCaption;
                         questionTypeValue.Text = "Slider Question";
                         generalPanel.Visible = true;
                         sliderPanel.Visible = true;
                         break;
 
                     case TypeQuestionEnum.SmileyFacesQuestion:
-                        var smiley = (SmileyFacesQuestion)result.Data;
-                        smileyCountValue.Text = smiley.SmileyCount.ToString();
+                        var tSmiley = (SmileyFacesQuestion)tResult.Data;
+                        smileyCountValue.Text = tSmiley.SmileyCount.ToString();
                         questionTypeValue.Text = "Smiley Faces Question";
                         generalPanel.Visible = true;
                         smileyPanel.Visible = true;
                         break;
 
                     case TypeQuestionEnum.StarsQuestion:
-                        var stars = (StarsQuestion)result.Data;
-                        starsCountValue.Text = stars.StarsCount.ToString();
+                        var tStars = (StarsQuestion)tResult.Data;
+                        starsCountValue.Text = tStars.StarsCount.ToString();
                         questionTypeValue.Text = "Stars Question";
                         generalPanel.Visible = true;
                         starsPanel.Visible = true;
@@ -283,7 +285,7 @@ namespace SurveyConfiguratorTask
             catch (Exception ex)
             {
                 Log.Error(null, ex);
-                MessageBox.Show(UiErrorMessage, "Error",
+                MessageBox.Show(UI_ERROR_MESSAGE, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -296,13 +298,13 @@ namespace SurveyConfiguratorTask
         {
             try
             {
-                service.FormClosing();
-                
+                mService.FormClosing();
+
             }
             catch (Exception ex)
             {
                 Log.Error(null, ex);
-                MessageBox.Show(UiErrorMessage, "Error",
+                MessageBox.Show(UI_ERROR_MESSAGE, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -311,8 +313,8 @@ namespace SurveyConfiguratorTask
         {
             try
             {
-                var changeConnectionForm = new setConnectionString(service);
-                if (changeConnectionForm.ShowDialog() == DialogResult.OK)
+                var tChangeConnectionForm = new setConnectionString(mService);
+                if (tChangeConnectionForm.ShowDialog() == DialogResult.OK)
                 {
                     ReloadMainForm();
                 }
@@ -320,9 +322,38 @@ namespace SurveyConfiguratorTask
             catch (Exception ex)
             {
                 Log.Error(null, ex);
-                MessageBox.Show(UiErrorMessage, "Error",
+                MessageBox.Show(UI_ERROR_MESSAGE, "Error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void englishToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en");
+            Language = "en";
+            this.Controls.Clear();
+            RightToLeftLayout = false;
+
+            InitializeComponent();
+            RightToLeft = RightToLeft.No;
+            QuestionGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            InitializeDataGridView();
+            ReloadMainForm();
+
+
+        }
+
+        private void arabicToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("ar");
+            Language = "ar";
+
+            this.Controls.Clear();
+            InitializeComponent();
+            QuestionGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            InitializeDataGridView();
+
+            ReloadMainForm();
         }
 
         

@@ -6,30 +6,30 @@ namespace Repository
 {
     public static class SqlConnectionTest
     {
-        public static Result<bool> TestConnection(string connectionString ,out Exception exErorr)
+        public static Result<bool> TestConnection(string pConnectionString ,out Exception pExceptionError)
         {
             try
             {
-                using (var connection = new SqlConnection(connectionString))
+                using (var tConnection = new SqlConnection(pConnectionString))
                 {
-                    connection.Open();
+                    tConnection.Open();
                 }
-                exErorr = null; 
+                pExceptionError = null; 
                 return new Result<bool>
                 {
                     Success = true,
                     Data = true,
-                    Erorr = ErrorTypeEnum.None
+                    Error = ErrorTypeEnum.None
                 };
             }
             catch (Exception ex)
             {
-                exErorr = ex;   
+                pExceptionError = ex;   
                 return new Result<bool>
                 {
                     Success = false,
                     Data = false,
-                    Erorr = ErrorTypeEnum.ConnectionStringError,
+                    Error = ErrorTypeEnum.ConnectionStringError,
                     Message = ex.Message
                 };
             }

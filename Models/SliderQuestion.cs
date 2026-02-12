@@ -16,71 +16,71 @@ namespace SurveyConfiguratorTask.Models
         public string EndCaption { get;  set; }
 
         //Create SliderQuestion object with new unique identifier.
-        public SliderQuestion(string text  , int order,int startValue, int endValue, string startCaption, string endCaption) 
-            :base(text , order,TypeQuestionEnum.SliderQuestion)
+        public SliderQuestion(string pText  , int pOrder,int pStartValue, int pEndValue, string pStartCaption, string pEndCaption) 
+            :base(pText , pOrder,TypeQuestionEnum.SliderQuestion)
         { 
             
-            SetStartCaption(startCaption);
-            SetEndCaption(endCaption);
-            SetStartValue(startValue);
-            SetEndValue(endValue);
+            SetStartCaption(pStartCaption);
+            SetEndCaption(pEndCaption);
+            SetStartValue(pStartValue);
+            SetEndValue(pEndValue);
             
         }
         //Initializes a SliderQuestion object from an existing data source.
-        public SliderQuestion(int id,string text , int order , int startValue , int endValue 
-            , string startCaption , string endCaption) : base(id, text ,  order )
+        public SliderQuestion(int pId,string pText , int pOrder , int pStartValue , int pEndValue 
+            , string pStartCaption , string pEndCaption) : base(pId, pText ,  pOrder )
         {
             TypeQuestion = TypeQuestionEnum.SliderQuestion;
-            SetStartCaption(startCaption);
-            SetEndCaption(endCaption);
-            SetStartValue(startValue);
-            SetEndValue(endValue); 
+            SetStartCaption(pStartCaption);
+            SetEndCaption(pEndCaption);
+            SetStartValue(pStartValue);
+            SetEndValue(pEndValue); 
         }
 
-        public void SetStartValue(int value)
+        public void SetStartValue(int pValue)
         {
-            //Start value must not be negative or greater than end value.
-            if (value < 0 || value >= EndValue)
+            //Start pValue must not be negative or greater than end pValue.
+            if (pValue < 0 || pValue >= EndValue)
             {
                 throw new ArgumentOutOfRangeException(null, $"{nameof(StartValue)} must be between 0 and {EndValue-1}.");
             }
-            StartValue = value;
+            StartValue = pValue;
 
         }
 
-        public void SetEndValue(int value)
+        public void SetEndValue(int pValue)
         {
-            //End value must not be grater than 100 or less than start value.
-            if (value <= StartValue || value > 100)
+            //End pValue must not be grater than 100 or less than start pValue.
+            if (pValue <= StartValue || pValue > 100)
             {
-                throw new ArgumentOutOfRangeException( null , $"End value must be between {StartValue + 1} and 100. Please enter a valid number.");
+                throw new ArgumentOutOfRangeException( null , $"End pValue must be between {StartValue + 1} and 100. Please enter a valid number.");
             }
 
-            EndValue = value;
+            EndValue = pValue;
 
         }
 
-        public void SetStartCaption(string caption)
+        public void SetStartCaption(string pCaption)
         {
             //Caption must not be null or empty.
-            if (caption is null)
-                throw new ArgumentNullException( null , "Please enter a caption. It cannot be empty.");
+            if (pCaption is null)
+                throw new ArgumentNullException( null , "Please enter a pCaption. It cannot be empty.");
 
-            if (caption == string.Empty)
-                throw new ArgumentException( "Please enter a caption. It cannot be empty."  );
-            StartCaption = caption;
+            if (pCaption == string.Empty)
+                throw new ArgumentException( "Please enter a pCaption. It cannot be empty."  );
+            StartCaption = pCaption;
 
         }
 
-        public void SetEndCaption(string caption)
+        public void SetEndCaption(string pCaption)
         {
             //Caption must not be null or empty.
-            if (caption is null)
-                throw new ArgumentNullException( "Please enter a caption. It cannot be empty.");
-            if (caption == string.Empty)
-                throw new ArgumentException( "Please enter a caption. It cannot be empty.");
+            if (pCaption is null)
+                throw new ArgumentNullException( "Please enter a pCaption. It cannot be empty.");
+            if (pCaption == string.Empty)
+                throw new ArgumentException( "Please enter a pCaption. It cannot be empty.");
 
-            EndCaption = caption;
+            EndCaption = pCaption;
             
         }
 

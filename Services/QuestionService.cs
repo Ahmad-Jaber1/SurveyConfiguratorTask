@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Models;
 using Serilog;
 using Shared;
@@ -10,186 +12,188 @@ using System.Configuration;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
+using System.Reflection.Metadata;
 using System.Text;
 
 namespace Services
 {
     public class QuestionService 
     {
-        QuestionRepo repo = new();
-        List<Question> questions;
-        private bool _connectionValid;
+        QuestionRepo mRepo = new();
+        List<Question> mQuestions;
+        private bool mConnectionValid;
         public event Action CheckUpdateEvent;
-        private DateTime dateTime = DateTime.Now;
-        Thread checkForUpdate;
-        bool isRunning = true; 
+        private DateTime mDateTime = DateTime.Now;
+        Thread mCheckForUpdate;
+        bool mIsRunning = true; 
+        
 
 
 
         public QuestionService()
         {
-            questions = new List<Question>();
+            mQuestions = new List<Question>();
             CreateCheckThread();
 
         }
 
         public Result<List<Question>> QuestionsLoad()
         {
-            Result<List<Question>> result = new Result<List<Question>> { Success = true , Erorr = ErrorTypeEnum.None };
+            Result<List<Question>> tResult = new Result<List<Question>> { Success = true , Error = ErrorTypeEnum.None };
             try
             {
-                result = repo.QuestionsLoad();
-                if (!result.Success)
+                tResult = mRepo.QuestionsLoad();
+                if (!tResult.Success)
                 {
                      
-                    return result;
+                    return tResult;
 
                 }
-                questions = repo.QuestionsLoad().Data;
+                mQuestions = mRepo.QuestionsLoad().Data;
                 
 
-                if (questions is not null & questions.Count > 0)
-                    questions.Sort();
-                result.Data = questions; 
-                return result;
+                if (mQuestions is not null & mQuestions.Count > 0)
+                    mQuestions.Sort();
+                tResult.Data = mQuestions; 
+                return tResult;
             }
             catch (Exception ex) 
             {
-                result.Success = false;
-                result.Erorr = ErrorTypeEnum.UnknownError;
-                result.Message = ex.Message;
+                tResult.Success = false;
+                tResult.Error = ErrorTypeEnum.UnknownError;
+                tResult.Message = ex.Message;
                 Log.Error(ex, "Error occurred while loading the question list.");
                  
             }
-            return result; 
+            return tResult; 
         
         }
-        public Result<int> AddQuestion(TypeQuestionEnum type , AddQuestionDto questionDto)
+        public Result<int> AddQuestion(TypeQuestionEnum pType , AddQuestionDto pQuestionDto)
         {
-            Result<int> result = new Result<int> { Erorr = ErrorTypeEnum.None , Success = true , Data = 0};
+            Result<int> tResult = new Result<int> { Error = ErrorTypeEnum.None , Success = true , Data = 0};
             try
             {
-                if (questionDto is null)
+                if (pQuestionDto is null)
                     throw new ArgumentNullException(null , "Question data cannot be empty. Please provide a valid question.");
 
-                int questionCount = repo.GetCount().Data;
+                int tQuestionCount = mRepo.GetCount().Data;
 
 
-                Question question = null;
+                Question tQuestion = null;
                 //Create new question in local variable .
                 //becasue each type of question has different fields
                 //, we try to determine what type of question the user trying to add .
-                switch (type)
+                switch (pType)
                 {
 
                     case TypeQuestionEnum.SliderQuestion:
-                        question = new SliderQuestion(questionDto.Text, questionDto.Order, questionDto.StartValue
-                            , questionDto.EndValue, questionDto.StartCaption, questionDto.EndCaption);
+                        tQuestion = new SliderQuestion(pQuestionDto.Text, pQuestionDto.Order, pQuestionDto.StartValue
+                            , pQuestionDto.EndValue, pQuestionDto.StartCaption, pQuestionDto.EndCaption);
                         break;
                     case TypeQuestionEnum.SmileyFacesQuestion:
-                        question = new SmileyFacesQuestion(questionDto.Text, questionDto.Order, questionDto.SmileyCount);
+                        tQuestion = new SmileyFacesQuestion(pQuestionDto.Text, pQuestionDto.Order, pQuestionDto.SmileyCount);
                         break;
                     case TypeQuestionEnum.StarsQuestion:
-                        question = new StarsQuestion(questionDto.Text, questionDto.Order, questionDto.StarsCount);
+                        tQuestion = new StarsQuestion(pQuestionDto.Text, pQuestionDto.Order, pQuestionDto.StarsCount);
                         break;
                     _:
                         throw new ArgumentOutOfRangeException(null , "The selected question type is not valid. Please choose a supported type.");
                         break;
 
                 }
-                // Validate that the user-selected order does not exceed the total number of questions
-                var countResult = GetCount();
-                if (!countResult.Success)
-                    return countResult;
-                if (questionDto.Order > countResult.Data+1 || questionDto.Order <= 0)
+                // Validate that the user-selected order does not exceed the total number of mQuestions
+                var tCountResult = GetCount();
+                if (!tCountResult.Success)
+                    return tCountResult;
+                if (pQuestionDto.Order > tCountResult.Data+1 || pQuestionDto.Order <= 0)
                 {
-                    throw new ArgumentOutOfRangeException(null,$"Order value must be between 1 and {countResult.Data + 1}. Please enter a valid number.");
+                    throw new ArgumentOutOfRangeException(null,$"Order value must be between 1 and {tCountResult.Data + 1}. Please enter a valid number.");
                 }
                 
                 
-                questions.Insert(questionDto.Order - 1, question);
+                mQuestions.Insert(pQuestionDto.Order - 1, tQuestion);
 
                 //Add new question to database.
 
-                result = repo.AddQuestion(question);
-                if (!result.Success)
-                    return result;
+                tResult = mRepo.AddQuestion(tQuestion);
+                if (!tResult.Success)
+                    return tResult;
 
-                if (questionDto.Order != questionCount+1 )
+                if (pQuestionDto.Order != tQuestionCount + 1 )
                 {
-                    result = EditOrder();
-                    if (!result.Success)
-                        return result; 
+                    tResult = EditOrder();
+                    if (!tResult.Success)
+                        return tResult; 
                 }
 
                 
                 
 
                 
-                    repo.UpdateLastModified();
+                    mRepo.UpdateLastModified();
                
             }
             
             catch (ArgumentNullException ex)
             {
                 
-                result.Success = false;
-                result.Message = ex.Message;
-                result.Erorr = ErrorTypeEnum.ValidationError;
+                tResult.Success = false;
+                tResult.Message = ex.Message;
+                tResult.Error = ErrorTypeEnum.ValidationError;
                 Log.Error(ex, "Validation failed: null value.");
             }
             catch (ArgumentOutOfRangeException ex)
             {
                 
-                result.Success = false;
-                result.Message = ex.Message;
-                result.Erorr = ErrorTypeEnum.ValidationError;
+                tResult.Success = false;
+                tResult.Message = ex.Message;
+                tResult.Error = ErrorTypeEnum.ValidationError;
                 Log.Error(ex, "Validation failed: value out of range.");
             }
             catch (ArgumentException ex)
             {
                 
-                result.Success = false;
-                result.Message = ex.Message;
-                result.Erorr = ErrorTypeEnum.ValidationError;
+                tResult.Success = false;
+                tResult.Message = ex.Message;
+                tResult.Error = ErrorTypeEnum.ValidationError;
                 Log.Error(ex, "Validation failed: invalid argument.");
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Error occurred while adding a question of type {Type}", (TypeQuestionEnum)type);
-                result.Success=false;
-                result.Erorr=ErrorTypeEnum.UnknownError;
-                result.Message = "An unexpected error occurred while adding your question. Please try again or contact support.";
+                Log.Error(ex, "Error occurred while adding a question of type {Type}", (TypeQuestionEnum)pType);
+                tResult.Success=false;
+                tResult.Error=ErrorTypeEnum.UnknownError;
+                tResult.Message = "An unexpected error occurred while adding your question. Please try again or contact support.";
             }
-            return result;
+            return tResult;
         }
         
-        public Result<int> DeleteQuestion(int id)
+        public Result<int> DeleteQuestion(int pId)
         {
-            Result<int> result = new Result<int>();
-            result.Success = true;
-            result.Erorr = ErrorTypeEnum.None;
-            result.Data = 0;
+            Result<int> tResult = new Result<int>();
+            tResult.Success = true;
+            tResult.Error = ErrorTypeEnum.None;
+            tResult.Data = 0;
             try
             {
                 Question deletedQuestion = null; 
-                foreach ( var question in questions)
+                foreach ( var question in mQuestions)
                 {
-                    if (question.Id == id)
+                    if (question.Id == pId)
                     {
                         
-                            repo.DeleteQuestion(id); 
-                        if(!result.Success)
-                            return result;
-                        questions.Remove(question);
+                            mRepo.DeleteQuestion(pId); 
+                        if(!tResult.Success)
+                            return tResult;
+                        mQuestions.Remove(question);
 
 
-                        // Reorder questions to maintain consistent ordering after deletion
-                        result = EditOrder();
-                        if (!result.Success)
-                            return result; 
+                        // Reorder mQuestions to maintain consistent ordering after deletion
+                        tResult = EditOrder();
+                        if (!tResult.Success)
+                            return tResult; 
                         deletedQuestion = question;
-                        repo.UpdateLastModified();
+                        mRepo.UpdateLastModified();
 
                         break;
                     }
@@ -201,46 +205,46 @@ namespace Services
             }
             catch (KeyNotFoundException ex)
             {
-                result.Success = false;
-                result.Message = ex.Message;
-                result.Erorr = ErrorTypeEnum.NotFoundError;
-                Log.Error(ex, "Attempted to delete a question that does not exist. Id: {Id}", id);
+                tResult.Success = false;
+                tResult.Message = ex.Message;
+                tResult.Error = ErrorTypeEnum.NotFoundError;
+                Log.Error(ex, "Attempted to delete a question that does not exist. Id: {Id}", pId);
                 
                 
             }
             catch (Exception ex)
             {
-                result.Success = false;
-                result.Message = ex.Message;
-                result.Erorr = ErrorTypeEnum.UnknownError;
-                Log.Error(ex, "Error occurred while deleting a question with Id {Id}", id);
+                tResult.Success = false;
+                tResult.Message = ex.Message;
+                tResult.Error = ErrorTypeEnum.UnknownError;
+                Log.Error(ex, "Error occurred while deleting a question with Id {Id}", pId);
                 
                 
             }
-            return result; 
+            return tResult; 
         }
-        public Result<int> EditQuestion(int id , EditQuestionDto editContext)
+        public Result<int> EditQuestion(int pId , EditQuestionDto pEditQuestionDto)
         {
-            Result<int> result = new Result<int> { Success = true , Erorr = ErrorTypeEnum.None , Data = 0};
+            Result<int> tResult = new Result<int> { Success = true , Error = ErrorTypeEnum.None , Data = 0};
             try
             {
-                if (editContext is null)
+                if (pEditQuestionDto is null)
                     throw new ArgumentNullException( null , "Please provide a question. This field cannot be empty.");
 
 
                 Question question = null;
-                //var getQuestionResult  = repo.GetQuestion(id);
+                //var getQuestionResult  = mRepo.GetQuestion(id);
                 //if (!getQuestionResult.Success)
                 //{
-                //    result.Erorr = ErrorTypeEnum.UnknownError;
-                //    result.Message = getQuestionResult.Message;
-                //    result.Success = false; 
-                //    return result;
+                //    tResult.Error = ErrorTypeEnum.UnknownError;
+                //    tResult.Message = getQuestionResult.Message;
+                //    tResult.Success = false; 
+                //    return tResult;
                 //}
                 
-                foreach (var item in questions)
+                foreach (var item in mQuestions)
                 {
-                    if (item.Id == id)
+                    if (item.Id == pId)
                     {
                         question = item;
                     }
@@ -255,144 +259,144 @@ namespace Services
 
                     case TypeQuestionEnum.SliderQuestion:
 
-                        questionEdit = new SliderQuestion(question.Id, editContext.Text, editContext.Order == 0 ? question.Order : editContext.Order, editContext.StartValue
-                            , editContext.EndValue, editContext.StartCaption, editContext.EndCaption);
+                        questionEdit = new SliderQuestion(question.Id, pEditQuestionDto.Text, pEditQuestionDto.Order == 0 ? question.Order : pEditQuestionDto.Order, pEditQuestionDto.StartValue
+                            , pEditQuestionDto.EndValue, pEditQuestionDto.StartCaption, pEditQuestionDto.EndCaption);
                         break;
                     case TypeQuestionEnum.SmileyFacesQuestion:
-                        questionEdit = new SmileyFacesQuestion(question.Id, editContext.Text, editContext.Order == 0 ? question.Order : editContext.Order, editContext.SmileyCount);
+                        questionEdit = new SmileyFacesQuestion(question.Id, pEditQuestionDto.Text, pEditQuestionDto.Order == 0 ? question.Order : pEditQuestionDto.Order, pEditQuestionDto.SmileyCount);
                         break;
                     case TypeQuestionEnum.StarsQuestion:
-                        questionEdit = new StarsQuestion(question.Id, editContext.Text, editContext.Order == 0 ? question.Order : editContext.Order, editContext.StarsCount);
+                        questionEdit = new StarsQuestion(question.Id, pEditQuestionDto.Text, pEditQuestionDto.Order == 0 ? question.Order : pEditQuestionDto.Order, pEditQuestionDto.StarsCount);
                         break;
                      
 
                 }
-                result = GetCount();
-                if (!result.Success)
-                    return result; 
-                // Validate that the user-selected order does not exceed the total number of questions
+                tResult = GetCount();
+                if (!tResult.Success)
+                    return tResult; 
+                // Validate that the user-selected order does not exceed the total number of mQuestions
 
-                if (questionEdit.Order > result.Data || questionEdit.Order <= 0)
+                if (questionEdit.Order > tResult.Data || questionEdit.Order <= 0)
                 {
-                    throw new ArgumentOutOfRangeException(null , $"Order value must be between 1 and {result.Data}. Please enter a valid number.");
+                    throw new ArgumentOutOfRangeException(null , $"Order value must be between 1 and {tResult.Data}. Please enter a valid number.");
 
                 }
 
                 
-                result  = repo.EditQuestion(questionEdit);
-                if (!result.Success)
-                    return result;
+                tResult  = mRepo.EditQuestion(questionEdit);
+                if (!tResult.Success)
+                    return tResult;
 
-                questions.Remove(question);
-                questions.Insert(questionEdit.Order - 1, questionEdit);
+                mQuestions.Remove(question);
+                mQuestions.Insert(questionEdit.Order - 1, questionEdit);
 
-                // Reorder all questions only when the question's order has been changed
-                if (editContext.Order != 0)
+                // Reorder all mQuestions only when the question's order has been changed
+                if (pEditQuestionDto.Order != 0)
                 {
-                    result = EditOrder();
-                    if(!result.Success)
-                            return result;
+                    tResult = EditOrder();
+                    if(!tResult.Success)
+                            return tResult;
                 }
-                repo.UpdateLastModified();
+                mRepo.UpdateLastModified();
 
 
             }
             catch (KeyNotFoundException ex)
             {
-                result.Success = false;
-                result.Message = ex.Message;
-                result.Erorr = ErrorTypeEnum.NotFoundError;
-                Log.Error(ex, "Attempted to edit a question a question with Id {Id}", id);
+                tResult.Success = false;
+                tResult.Message = ex.Message;
+                tResult.Error = ErrorTypeEnum.NotFoundError;
+                Log.Error(ex, "Attempted to edit a question a question with Id {Id}", pId);
                 
             }
             catch (ArgumentNullException ex)
             {
 
-                result.Success = false;
-                result.Message = ex.Message;
-                result.Erorr = ErrorTypeEnum.ValidationError;
+                tResult.Success = false;
+                tResult.Message = ex.Message;
+                tResult.Error = ErrorTypeEnum.ValidationError;
                 Log.Error(ex, "Validation failed: null value.");
             }
             catch (ArgumentOutOfRangeException ex)
             {
 
-                result.Success = false;
-                result.Message = ex.Message;
-                result.Erorr = ErrorTypeEnum.ValidationError;
+                tResult.Success = false;
+                tResult.Message = ex.Message;
+                tResult.Error = ErrorTypeEnum.ValidationError;
                 Log.Error(ex, "Validation failed: value out of range.");
             }
             catch (ArgumentException ex)
             {
 
-                result.Success = false;
-                result.Message = ex.Message;
-                result.Erorr = ErrorTypeEnum.ValidationError;
+                tResult.Success = false;
+                tResult.Message = ex.Message;
+                tResult.Error = ErrorTypeEnum.ValidationError;
                 Log.Error(ex, "Validation failed: invalid argument.");
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Error occurred while edit a question a question with Id {Id}", id);
-                result.Success = false;
-                result.Erorr = ErrorTypeEnum.UnknownError;
-                result.Message = "An unexpected error occurred while edit your question. Please try again or contact support.";
+                Log.Error(ex, "Error occurred while edit a question a question with Id {Id}", pId);
+                tResult.Success = false;
+                tResult.Error = ErrorTypeEnum.UnknownError;
+                tResult.Message = "An unexpected error occurred while edit your question. Please try again or contact support.";
             }
             
             
-            return result;
+            return tResult;
         }
         public Result<int> EditOrder()
         {
-            Result<int> result = new Result<int>();
-            result.Success = true;
-            result.Erorr = ErrorTypeEnum.None; 
+            Result<int> tResult = new Result<int>();
+            tResult.Success = true;
+            tResult.Error = ErrorTypeEnum.None; 
             try
             {
-                questions.Sort();
-                var ids = new List<int>();
-                var orders = new List<int>();
+                mQuestions.Sort();
+                var tIds = new List<int>();
+                var tOrders = new List<int>();
 
-                for (int i = 0; i < questions.Count; i++)
+                for (int i = 0; i < mQuestions.Count; i++)
                 {
-                    ids.Add(questions[i].Id);
-                    orders.Add(i + 1);
-                    questions[i].Order = i + 1;
+                    tIds.Add(mQuestions[i].Id);
+                    tOrders.Add(i + 1);
+                    mQuestions[i].Order = i + 1;
                 }
-                if (repo.GetCount().Data > 0)
+                if (mRepo.GetCount().Data > 0)
                 {
-                    result = repo.EditOrder(ids, orders);
-                    if (!result.Success)
-                        return result; 
-                    repo.UpdateLastModified();
+                    tResult = mRepo.EditOrder(tIds, tOrders);
+                    if (!tResult.Success)
+                        return tResult; 
+                    mRepo.UpdateLastModified();
 
                 }
             }
             catch (Exception ex)
             {
-                result.Success = false;
-                result.Message = ex.Message;
-                result.Erorr = ErrorTypeEnum.UnknownError; 
-                Log.Error(ex, "Error occurred while editing the order of questions.");
+                tResult.Success = false;
+                tResult.Message = ex.Message;
+                tResult.Error = ErrorTypeEnum.UnknownError; 
+                Log.Error(ex, "Error occurred while editing the order of mQuestions.");
                 
             }
-            return result; 
+            return tResult; 
         }
         public List<Question> GetQuestionsList()
         {
 
-            return questions; 
+            return mQuestions; 
         }
         
-        public Result<Question> GetQuestion(int id)
+        public Result<Question> GetQuestion(int pId)
         {
-            Result<Question> result = new Result<Question> { Success = true , Erorr=ErrorTypeEnum.None };
+            Result<Question> tResult = new Result<Question> { Success = true , Error=ErrorTypeEnum.None };
             try
             {
-                foreach (var question in questions)
+                foreach (var question in mQuestions)
                 {
-                    if (question.Id == id) 
+                    if (question.Id == pId) 
                     {
-                        result.Data = question;
-                        return result; 
+                        tResult.Data = question;
+                        return tResult; 
                     
                     }
                 }
@@ -401,96 +405,96 @@ namespace Services
             }
             catch (Exception ex)
             {
-                result.Success = false;
-                result.Message = ex.Message;
-                result.Erorr = ErrorTypeEnum.NotFoundError;
-                Log.Error(ex, "Error occurred while retrieving the question with Id {Id}", id);
+                tResult.Success = false;
+                tResult.Message = ex.Message;
+                tResult.Error = ErrorTypeEnum.NotFoundError;
+                Log.Error(ex, "Error occurred while retrieving the question with Id {Id}", pId);
                 
             }
-            return result;
+            return tResult;
         }
 
         public Result<int> GetCount()
         {
-            Result<int> result = new Result<int> { Success =true , Erorr = ErrorTypeEnum.None , Data = 0 };
+            Result<int> tResult = new Result<int> { Success =true , Error = ErrorTypeEnum.None , Data = 0 };
             try
             {
-                result = repo.GetCount();
+                tResult = mRepo.GetCount();
                 
             }
             catch (Exception ex)
             {
-                result.Success = false;
-                result.Message = ex.Message;
-                result.Erorr = ErrorTypeEnum.UnknownError;
+                tResult.Success = false;
+                tResult.Message = ex.Message;
+                tResult.Error = ErrorTypeEnum.UnknownError;
                 Log.Error(ex, "Error occurred while retrieving the question count from the repository.");
                 
             }
-            return result;
+            return tResult;
         }
 
         public Result<DateTime> GetLastModified()
         {
-            Result<DateTime> result = new Result<DateTime>
+            Result<DateTime> tResult = new Result<DateTime>
             {
                 Success = true,
-                Erorr = ErrorTypeEnum.None,
+                Error = ErrorTypeEnum.None,
 
             };
             try
             {
-                result = repo.GetLastModified();
-                return result;
+                tResult = mRepo.GetLastModified();
+                return tResult;
                 
             }
             catch (Exception ex)
             {
                 Log.Error(ex, "Error occurred while retrieving the last modified .");
-                result.Success = false;
-                result.Message= ex.Message;
-                result.Erorr= ErrorTypeEnum.UnknownError;
+                tResult.Success = false;
+                tResult.Message= ex.Message;
+                tResult.Error= ErrorTypeEnum.UnknownError;
             }
-            return result;
+            return tResult;
         }
 
-        public Result<bool> ChangeConnectionString(string connectionString)
+        public Result<bool> ChangeConnectionString(string pConnectionString)
         {
-            var result = repo.ChangeConnectionString(connectionString);
-            _connectionValid = result.Success;
-            return result;
+            var tResult = mRepo.ChangeConnectionString(pConnectionString);
+            mConnectionValid = tResult.Success;
+            return tResult;
         }
         public Result<bool> CheckConnection()
         {
-            var savedConnection = ConfigurationManager.ConnectionStrings["DbConnectionString"]?.ConnectionString;
+            var tSavedConnection = ConfigurationManager.ConnectionStrings["DbConnectionString"]?.ConnectionString;
 
-            if (!string.IsNullOrWhiteSpace(savedConnection))
+            if (!string.IsNullOrWhiteSpace(tSavedConnection))
             {
-                ChangeConnectionString(savedConnection);
+                ChangeConnectionString(tSavedConnection);
             }
-            var result = new Result<bool>();
-            if( _connectionValid)
+            var tResult = new Result<bool>();
+            if(mConnectionValid)
             {
-                result.Success = true;
-                result.Erorr = ErrorTypeEnum.None;
+                tResult.Success = true;
+                tResult.Error = ErrorTypeEnum.None;
             }
             else
             {
-                result.Success = false;
-                result.Message = "Database connection is not set or invalid.\n Go to Settings → Database Connection to set it up.";
-                result.Erorr = ErrorTypeEnum.ConnectionStringError; 
+                tResult.Success = false;
+                tResult.Message = "Database connection is not set or invalid.\n Go to Settings → Database Connection to set it up.";
+                tResult.Error = ErrorTypeEnum.ConnectionStringError; 
             }
-            return result; 
+            return tResult; 
         }
 
         public void CheckForUpdates()
         {
             
-                while (isRunning)
+                while (mIsRunning)
                 {
-                    var result = GetLastModified();
-                    if (result.Success && result.Data != dateTime)
+                    var tResult = GetLastModified();
+                    if (tResult.Success && tResult.Data != mDateTime)
                     {
-                        dateTime = result.Data;
+                        mDateTime = tResult.Data;
                     //Invoke(ReloadMainForm);
                     CheckUpdateEvent?.Invoke();
                     }
@@ -501,17 +505,37 @@ namespace Services
         }
         private void CreateCheckThread()
         {
-            
-                checkForUpdate = new Thread(CheckForUpdates)
+
+                mCheckForUpdate = new Thread(CheckForUpdates)
                 {
                     IsBackground = true
                 };
-                checkForUpdate.Start();
+                mCheckForUpdate.Start();
             
         }
         public void FormClosing()
         {
-            isRunning = false;
+            mIsRunning = false;
+        }
+        public Result<bool> ConnectionTest(string connectionString)
+        {
+           return mRepo.ConnectoinTest(connectionString);
+        }
+        public Result<SqlConnectionStringBuilder> GetConnectionString()
+        {
+            var tConnectionString = mRepo.GetConnectionString();
+            if (string.IsNullOrEmpty(tConnectionString.Data))
+            {
+                return new Result<SqlConnectionStringBuilder>() { Success = false };
+            }
+            var tSqlConnectionStringBuilder = new SqlConnectionStringBuilder(tConnectionString.Data);
+            return new Result<SqlConnectionStringBuilder>()
+            {
+                Success = true,
+                Data = tSqlConnectionStringBuilder
+                ,
+                Error = ErrorTypeEnum.None
+            }; 
         }
 
 

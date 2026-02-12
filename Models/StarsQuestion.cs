@@ -12,27 +12,27 @@ namespace SurveyConfiguratorTask.Models
         public int StarsCount { get; private set; }
 
         //Create StarsQuestion object with new unique identifier.
-        public StarsQuestion(string text, int order,int count)
-            :base(text ,  order,TypeQuestionEnum.StarsQuestion )
+        public StarsQuestion(string pText, int pOrder,int pCount)
+            :base(pText ,  pOrder,TypeQuestionEnum.StarsQuestion )
         {
-            SetStarsCount(count);
+            SetStarsCount(pCount);
         }
         //Initializes a StarsQuestion object from an existing data source.
-        public StarsQuestion(int id,string text , int order , int starsCount)
-            :base(id , text , order)
+        public StarsQuestion(int pId,string pText , int pOrder , int pStarsCount)
+            :base(pId , pText , pOrder)
         {
             TypeQuestion = TypeQuestionEnum.StarsQuestion;
-            SetStarsCount(starsCount);
+            SetStarsCount(pStarsCount);
         }
 
-        public void SetStarsCount(int count)
+        public void SetStarsCount(int pCount)
         {
             //StarsCount must not be less than 1 or greater than 10
-            if (count <= 0 || count > 10)
+            if (pCount <= 0 || pCount > 10)
             {
                 throw new ArgumentOutOfRangeException( "Stars  must be between 1 and 10.");
             }
-            StarsCount = count;
+            StarsCount = pCount;
         }
 
         

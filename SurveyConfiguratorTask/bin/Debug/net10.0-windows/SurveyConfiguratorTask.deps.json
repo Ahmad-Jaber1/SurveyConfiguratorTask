@@ -17,6 +17,11 @@
         },
         "runtime": {
           "SurveyConfiguratorTask.dll": {}
+        },
+        "resources": {
+          "ar/SurveyConfiguratorTask.resources.dll": {
+            "locale": "ar"
+          }
         }
       },
       "Azure.Core/1.50.0": {

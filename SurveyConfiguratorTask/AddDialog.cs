@@ -9,16 +9,16 @@ namespace SurveyConfiguratorTask
 {
     public partial class AddDialog : Form
     {
-        QuestionService service;
+        QuestionService mService;
 
-        private const string UiErrorMessage =
+        private const string UI_ERROR_MESSAGE =
             "An unexpected error occurred. Please contact support or the system administrator.";
 
         public AddDialog(QuestionService service)
         {
             try
             {
-                this.service = service;
+                this.mService = service;
 
                 InitializeComponent();
                 detailsGroupBox.Visible = true;
@@ -42,7 +42,7 @@ namespace SurveyConfiguratorTask
             {
                 Log.Error(null, ex);
                 MessageBox.Show(
-                    UiErrorMessage,
+                    UI_ERROR_MESSAGE,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
@@ -80,7 +80,7 @@ namespace SurveyConfiguratorTask
             {
                 Log.Error(null, ex);
                 MessageBox.Show(
-                    UiErrorMessage,
+                    UI_ERROR_MESSAGE,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
@@ -118,7 +118,7 @@ namespace SurveyConfiguratorTask
                     type = TypeQuestionEnum.StarsQuestion;
                 }
 
-                var result = service.AddQuestion(type, addedQuestion);
+                var result = mService.AddQuestion(type, addedQuestion);
                 if (!result.Success)
                 {
                     MessageBox.Show(
@@ -135,7 +135,7 @@ namespace SurveyConfiguratorTask
             {
                 Log.Error(null, ex);
                 MessageBox.Show(
-                    UiErrorMessage,
+                    UI_ERROR_MESSAGE,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
@@ -153,13 +153,13 @@ namespace SurveyConfiguratorTask
             {
                 Log.Error(null, ex);
                 MessageBox.Show(
-                    UiErrorMessage,
+                    UI_ERROR_MESSAGE,
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
         }
 
-       
+        
     }
 }

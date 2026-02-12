@@ -19,34 +19,34 @@ namespace SurveyConfiguratorTask.Models
         public Question() { }
 
         //Create question object with new unique identifier.
-        public Question(string text , int order,TypeQuestionEnum type)
+        public Question(string pText , int pOrder,TypeQuestionEnum pType)
         {
             //Id = Guid.NewGuid();
-            SetText(text);
-            Order = order;
-            TypeQuestion = type; 
+            SetText(pText);
+            Order = pOrder;
+            TypeQuestion = pType; 
         }
         //Initializes a Question object from an existing data source.
-        public Question(int id, string text, int order)
+        public Question(int pId, string pText, int pOrder)
         {
-            Id = id; 
-            SetText(text);
-            Order = order;
+            Id = pId; 
+            SetText(pText);
+            Order = pOrder;
            
         }
-        public void SetText(string text)
+        public void SetText(string pText)
         {
             //Text must not be null or empty.
-            if (text is null)
+            if (pText is null)
                 throw new ArgumentNullException( "The text cannot be empty. Please enter a valid value." );
-            if (text == string.Empty)
+            if (pText == string.Empty)
                 throw new ArgumentException( "The text cannot be empty. Please enter a valid value.");
             
-            Text = text; 
+            Text = pText; 
         }
-        protected void SetOrder(int order)
+        protected void SetOrder(int pOrder)
         { 
-            Order = order; 
+            Order = pOrder; 
         }
         
         
