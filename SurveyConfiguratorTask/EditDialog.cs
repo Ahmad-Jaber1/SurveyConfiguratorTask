@@ -1,5 +1,6 @@
 ﻿using Serilog;
 using Services;
+using Shared;
 using SurveyConfiguratorTask.Models;
 using System;
 using System.Globalization;
@@ -9,16 +10,25 @@ namespace SurveyConfiguratorTask
 {
     public partial class EditDialog : Form
     {
-        QuestionService service;
-        Question question;
+        QuestionService mService;
+        Question mQuestion;
+
+        private const string ERROR_QUESTION_TEXT_EMPTY = "Please enter a valid question. The question text cannot be empty or longer than 60 characters.";
 
         private const string UI_ERROR_MESSAGE =
             "An unexpected error occurred. Please contact support or the system administrator.";
+        public const string ERROR = "Error";
+        public const string ERROR_ORDER_VALUE_OUT_OF_RANGE = "Please enter a valid order value. The value must be between 1 and {MaxValue}.";
+        public const string ERROR_STARS_COUNT_INVALID = "Please enter a valid stars count. The value must be between 1 and 10.";
+        public const string ERROR_SMILEY_COUNT_INVALID = "Please enter a valid smiley count. The value must be between 2 and 5.";
+        public const string ERROR_START_VALUE_OUT_OF_RANGE = "Please enter a valid start value. It must be between 0 and {EndValue} ";
+        public const string ERROR_END_VALUE_OUT_OF_RANGE = "Please enter a valid end value. It must be between {StartValue} and {Param2} ";
+        private const string ERROR_CAPTION_TEXT_EMPTY = "Please enter a valid caption. The caption text cannot be empty or longer than 30 characters .";
 
         public EditDialog(QuestionService service, Question question)
         {
-            this.question = question;
-            this.service = service;
+            mQuestion = question;
+            mService = service;
             //Thread.CurrentThread.CurrentUICulture = new CultureInfo(MainForm.Language);
             //if(MainForm.Language == "en")
             //{
@@ -39,15 +49,15 @@ namespace SurveyConfiguratorTask
                 smileyPanel.Visible = false;
                 starsPanel.Visible = false;
 
-                switch (question.TypeQuestion)
+                switch (mQuestion.TypeQuestion)
                 {
                     case TypeQuestionEnum.SliderQuestion:
-                        SliderQuestion sliderQuestion = (SliderQuestion)question;
+                        SliderQuestion sliderQuestion = (SliderQuestion)mQuestion;
 
                         sliderQuestionRadioButton.Checked = true;
                         sliderPanel.Visible = true;
-                        textQuestionTextBox.Text = question.Text;
-                        orderUpDown.Value = question.Order;
+                        textQuestionTextBox.Text = mQuestion.Text;
+                        orderUpDown.Value = mQuestion.Order;
                         startValueUpDown.Value = sliderQuestion.StartValue;
                         endValueUpDown.Value = sliderQuestion.EndValue;
                         startCaptionTextBox.Text = sliderQuestion.StartCaption;
@@ -55,22 +65,22 @@ namespace SurveyConfiguratorTask
                         break;
 
                     case TypeQuestionEnum.SmileyFacesQuestion:
-                        SmileyFacesQuestion smileyQuestion = (SmileyFacesQuestion)question;
+                        SmileyFacesQuestion smileyQuestion = (SmileyFacesQuestion)mQuestion;
 
                         smileyFacesQuestionRadioButton.Checked = true;
                         smileyPanel.Visible = true;
-                        textQuestionTextBox.Text = question.Text;
-                        orderUpDown.Value = question.Order;
+                        textQuestionTextBox.Text = mQuestion.Text;
+                        orderUpDown.Value = mQuestion.Order;
                         smileyFacesUpDown.Value = smileyQuestion.SmileyCount;
                         break;
 
                     case TypeQuestionEnum.StarsQuestion:
-                        StarsQuestion starsQuestion = (StarsQuestion)question;
+                        StarsQuestion starsQuestion = (StarsQuestion)mQuestion;
 
                         starsQuestionRadioButton.Checked = true;
                         starsPanel.Visible = true;
-                        textQuestionTextBox.Text = question.Text;
-                        orderUpDown.Value = question.Order;
+                        textQuestionTextBox.Text = mQuestion.Text;
+                        orderUpDown.Value = mQuestion.Order;
                         starsUpDown.Value = starsQuestion.StarsCount;
                         break;
                 }
@@ -80,11 +90,8 @@ namespace SurveyConfiguratorTask
             catch (Exception ex)
             {
                 Log.Error(null, ex);
-                MessageBox.Show(
-                    UI_ERROR_MESSAGE,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show(ErrorLocalizer.GetMessage(nameof(UI_ERROR_MESSAGE)), ERROR,
+    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -93,11 +100,75 @@ namespace SurveyConfiguratorTask
             try
             {
                 EditQuestionDto edit = new();
-                TypeQuestionEnum type = question.TypeQuestion;
+                TypeQuestionEnum type = mQuestion.TypeQuestion;
+                //validate text
+                if (string.IsNullOrEmpty(textQuestionTextBox.Text)||
+                    textQuestionTextBox.Text.Length>60)
+                {
+                    MessageBox.Show(
+                        ErrorLocalizer.GetMessage(nameof(ERROR_QUESTION_TEXT_EMPTY)),
+                        ERROR,
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    return;
+                }
+                var tQuestionsCount = mService.GetCount();
+                if (!tQuestionsCount.Success)
+                {
+                    MessageBox.Show(
+                        ErrorLocalizer.GetMessage(tQuestionsCount.Error),
+                        ERROR,
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    return;
+                }
+                //validate order
+                if ((int)orderUpDown.Value > tQuestionsCount.Data + 1 || (int)orderUpDown.Value < 1)
+                {
+
+                    MessageBox.Show(
+                        ErrorLocalizer.GetMessage(nameof(ERROR_ORDER_VALUE_OUT_OF_RANGE), tQuestionsCount.Data ),
+                        ERROR,
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    return;
+                }
 
                 switch (type)
                 {
                     case TypeQuestionEnum.SliderQuestion:
+                        if ((int)startValueUpDown.Value < 0 ||
+                        (int)startValueUpDown.Value >= (int)endValueUpDown.Value)
+                        {
+                            MessageBox.Show(
+                             ErrorLocalizer.GetMessage(nameof(ERROR_START_VALUE_OUT_OF_RANGE), (int)endValueUpDown.Value - 1),
+                            ERROR,
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                            return;
+                        }
+                        if ((int)endValueUpDown.Value > 100 ||
+                            (int)endValueUpDown.Value <= (int)startValueUpDown.Value)
+                        {
+                            MessageBox.Show(
+                             ErrorLocalizer.GetMessage(nameof(ERROR_START_VALUE_OUT_OF_RANGE), (int)startValueUpDown.Value + 1, 100),
+                            ERROR,
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                            return;
+                        }
+                        if (string.IsNullOrEmpty(startCaptionTextBox.Text) ||
+                                    string.IsNullOrEmpty(endCaptionTextBox.Text) ||
+                                startCaptionTextBox.Text.Length > 30 ||
+                                endCaptionTextBox.Text.Length > 30)
+                        {
+                            MessageBox.Show(
+                             ErrorLocalizer.GetMessage(nameof(ERROR_CAPTION_TEXT_EMPTY)),
+                            ERROR,
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                            return;
+                        }
                         edit.Text = textQuestionTextBox.Text;
                         edit.Order = (int)orderUpDown.Value;
                         edit.StartValue = (int)startValueUpDown.Value;
@@ -107,24 +178,46 @@ namespace SurveyConfiguratorTask
                         break;
 
                     case TypeQuestionEnum.SmileyFacesQuestion:
+                        //validate smiley count 
+                        if ((int)smileyFacesUpDown.Value < 2 || (int)smileyFacesUpDown.Value > 5)
+                        {
+                            MessageBox.Show(
+                            ErrorLocalizer.GetMessage(nameof(ERROR_SMILEY_COUNT_INVALID)),
+                            ERROR,
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                            return;
+                        }
                         edit.Text = textQuestionTextBox.Text;
                         edit.Order = (int)orderUpDown.Value;
                         edit.SmileyCount = (int)smileyFacesUpDown.Value;
                         break;
 
                     case TypeQuestionEnum.StarsQuestion:
+
+                        //validate stars count 
+
+                        if ((int)starsUpDown.Value < 1 || (int)starsUpDown.Value > 10)
+                        {
+                            MessageBox.Show(
+                            ErrorLocalizer.GetMessage(nameof(ERROR_SMILEY_COUNT_INVALID)),
+                            ERROR,
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error);
+                            return;
+                        }
                         edit.Text = textQuestionTextBox.Text;
                         edit.Order = (int)orderUpDown.Value;
                         edit.StarsCount = (int)starsUpDown.Value;
                         break;
                 }
 
-                var result = service.EditQuestion(question.Id, edit);
-                if (!result.Success)
+                var tResult = mService.EditQuestion(mQuestion.Id, edit);
+                if (!tResult.Success)
                 {
                     MessageBox.Show(
-                        result.Message,
-                        "Error",
+                        ErrorLocalizer.GetMessage(tResult.Error),
+                        ERROR,
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                     return;
@@ -135,11 +228,8 @@ namespace SurveyConfiguratorTask
             catch (Exception ex)
             {
                 Log.Error(null, ex);
-                MessageBox.Show(
-                    UI_ERROR_MESSAGE,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show(ErrorLocalizer.GetMessage(nameof(UI_ERROR_MESSAGE)), ERROR,
+    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -153,11 +243,8 @@ namespace SurveyConfiguratorTask
             catch (Exception ex)
             {
                 Log.Error(null, ex);
-                MessageBox.Show(
-                    UI_ERROR_MESSAGE,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show(ErrorLocalizer.GetMessage(nameof(UI_ERROR_MESSAGE)), ERROR,
+    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

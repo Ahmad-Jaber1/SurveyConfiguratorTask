@@ -1,17 +1,17 @@
 
 IF NOT EXISTS (SELECT 1 FROM sys.databases WHERE name = 'SurveyConfigrator')
 BEGIN
-    CREATE DATABASE SurveyConfiguratorDatabase
+    CREATE DATABASE SurveyConfiguratorDatabase1
 END;
 Go
-USE SurveyConfiguratorDatabase
+USE SurveyConfiguratorDatabase1
 Go
 
 IF NOT EXISTS (SELECT 1 FROM sys.tables WHERE name = 'Questions')
 BEGIN
 CREATE TABLE Questions(
 Id INT IDENTITY (1,1) PRIMARY KEY , 
-QuestionText VARCHAR(MAX) NOT NULL,
+QuestionText NVARCHAR(60) NOT NULL,
 QuestionOrder INT NOT NULL, 
 QuestionType INT NOT NULL
 )
@@ -23,8 +23,8 @@ CREATE TABLE SliderQuestion (
 Id  INT  PRIMARY KEY , 
 StartValue INT  NOT NULL CHECK(StartValue BETWEEN 0 and 99) , 
 EndValue INT NOT NULL CHECK(EndValue BETWEEN 1 and 100),
-StartCaption VARCHAR(MAX) NOT NULL , 
-EndCaption VARCHAR(MAX) NOT NULL
+StartCaption NVARCHAR(30) NOT NULL , 
+EndCaption NVARCHAR(30) NOT NULL
 CONSTRAINT FK_SliderQuestion_Questions
         FOREIGN KEY (Id) REFERENCES Questions(Id)
         ON DELETE CASCADE

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -21,32 +22,79 @@ namespace SurveyConfiguratorTask.Models
         //Create question object with new unique identifier.
         public Question(string pText , int pOrder,TypeQuestionEnum pType)
         {
-            //Id = Guid.NewGuid();
-            SetText(pText);
-            Order = pOrder;
-            TypeQuestion = pType; 
+
+            try
+            {
+                //Id = Guid.NewGuid();
+                SetText(pText);
+                Order = pOrder;
+                TypeQuestion = pType;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Unexpected error occurred while create Question object.");
+                throw;
+            }
         }
         //Initializes a Question object from an existing data source.
         public Question(int pId, string pText, int pOrder)
         {
-            Id = pId; 
-            SetText(pText);
-            Order = pOrder;
+            try
+            {
+                Id = pId;
+                SetText(pText);
+                Order = pOrder;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Unexpected error occurred while create Question object.");
+
+                throw;
+            }
            
         }
         public void SetText(string pText)
         {
-            //Text must not be null or empty.
-            if (pText is null)
-                throw new ArgumentNullException( "The text cannot be empty. Please enter a valid value." );
-            if (pText == string.Empty)
-                throw new ArgumentException( "The text cannot be empty. Please enter a valid value.");
+            try
+            {
+                //Text must not be null or empty.
+                if (pText is null)
+                    throw new ArgumentNullException("The text cannot be empty. Please enter a valid value.");
+                if (pText == string.Empty)
+                    throw new ArgumentException("The text cannot be empty. Please enter a valid value.");
+
+                Text = pText;
+
+            }
+            catch(ArgumentNullException)
+            {
+                throw;
+            }
+            catch (ArgumentException)
+            {
+                throw;
+            }
+
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Unexpected error occurred while set Text .");
+
+                throw;
+            }
             
-            Text = pText; 
         }
         protected void SetOrder(int pOrder)
-        { 
-            Order = pOrder; 
+        {
+            try
+            {
+                Order = pOrder;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Unexpected error occurred while set Order .");
+
+                throw;
+            }
         }
         
         

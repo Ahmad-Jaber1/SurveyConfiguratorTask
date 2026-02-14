@@ -1,0 +1,13 @@
+D:\SurveyConfiguratorTask\Logging\obj\Debug\net10.0\Logging.GeneratedMSBuildEditorConfig.editorconfig
+D:\SurveyConfiguratorTask\Logging\obj\Debug\net10.0\Logging.AssemblyInfoInputs.cache
+D:\SurveyConfiguratorTask\Logging\obj\Debug\net10.0\Logging.AssemblyInfo.cs
+D:\SurveyConfiguratorTask\Logging\obj\Debug\net10.0\Logging.csproj.CoreCompileInputs.cache
+D:\SurveyConfiguratorTask\Logging\obj\Debug\net10.0\Logging.sourcelink.json
+D:\SurveyConfiguratorTask\Logging\bin\Debug\net10.0\Logging.deps.json
+D:\SurveyConfiguratorTask\Logging\bin\Debug\net10.0\Logging.dll
+D:\SurveyConfiguratorTask\Logging\bin\Debug\net10.0\Logging.pdb
+D:\SurveyConfiguratorTask\Logging\obj\Debug\net10.0\Logging.csproj.AssemblyReference.cache
+D:\SurveyConfiguratorTask\Logging\obj\Debug\net10.0\Logging.dll
+D:\SurveyConfiguratorTask\Logging\obj\Debug\net10.0\refint\Logging.dll
+D:\SurveyConfiguratorTask\Logging\obj\Debug\net10.0\Logging.pdb
+D:\SurveyConfiguratorTask\Logging\obj\Debug\net10.0\ref\Logging.dll

@@ -31,7 +31,11 @@
         "frameworks": {
           "net10.0": {
             "targetAlias": "net10.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "D:\\SurveyConfiguratorTask\\Shared\\Shared.csproj": {
+                "projectPath": "D:\\SurveyConfiguratorTask\\Shared\\Shared.csproj"
+              }
+            }
           }
         },
         "warningProperties": {

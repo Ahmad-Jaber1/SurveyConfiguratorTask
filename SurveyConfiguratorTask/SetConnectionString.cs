@@ -1,5 +1,6 @@
-﻿using Services;
-using Serilog;
+﻿using Serilog;
+using Services;
+using Shared;
 using System;
 using System.Text;
 using System.Windows.Forms;
@@ -12,6 +13,7 @@ namespace SurveyConfiguratorTask
 
         private const string UI_ERROR_MESSAGE =
             "An unexpected error occurred. Please contact support or the system administrator.";
+        public const string ERROR = "Error";
 
         public setConnectionString(QuestionService pService)
         {
@@ -23,11 +25,8 @@ namespace SurveyConfiguratorTask
             catch (Exception ex)
             {
                 Log.Error(null, ex);
-                MessageBox.Show(
-                    UI_ERROR_MESSAGE,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show(ErrorLocalizer.GetMessage(nameof(UI_ERROR_MESSAGE)), ERROR,
+MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -60,11 +59,8 @@ namespace SurveyConfiguratorTask
             catch (Exception ex)
             {
                 Log.Error(null, ex);
-                MessageBox.Show(
-                    UI_ERROR_MESSAGE,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show(ErrorLocalizer.GetMessage(nameof(UI_ERROR_MESSAGE)), ERROR,
+MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -84,11 +80,8 @@ namespace SurveyConfiguratorTask
             catch (Exception ex)
             {
                 Log.Error(null, ex);
-                MessageBox.Show(
-                    UI_ERROR_MESSAGE,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show(ErrorLocalizer.GetMessage(nameof(UI_ERROR_MESSAGE)), ERROR,
+MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -113,15 +106,16 @@ namespace SurveyConfiguratorTask
                         $"Trusted_Connection=False;");
                 }
 
-                //stringBuilder.Append("TrustServerCertificate=True;");
+                //Starting from SqlClient 4.0 , Changed Encrypt connection string property to be true by default 
+                stringBuilder.Append("TrustServerCertificate=True;");
                 string connectionString = stringBuilder.ToString();
 
-                var result = mService.ChangeConnectionString(connectionString);
-                if (!result.Success)
+                var tResult = mService.ChangeConnectionString(connectionString);
+                if (!tResult.Success)
                 {
                     MessageBox.Show(
-                        result.Message,
-                        "Error",
+                        ErrorLocalizer.GetMessage(tResult.Error),
+                        ERROR,
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                     return;
@@ -132,11 +126,8 @@ namespace SurveyConfiguratorTask
             catch (Exception ex)
             {
                 Log.Error(null, ex);
-                MessageBox.Show(
-                    UI_ERROR_MESSAGE,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show(ErrorLocalizer.GetMessage(nameof(UI_ERROR_MESSAGE)), ERROR,
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -150,11 +141,8 @@ namespace SurveyConfiguratorTask
             catch (Exception ex)
             {
                 Log.Error(null, ex);
-                MessageBox.Show(
-                    UI_ERROR_MESSAGE,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show(ErrorLocalizer.GetMessage(nameof(UI_ERROR_MESSAGE)), ERROR,
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -178,23 +166,25 @@ namespace SurveyConfiguratorTask
                         $"Password={passwordTextBox.Text};" +
                         $"Trusted_Connection=False;");
                 }
+                //Starting from SqlClient 4.0 , Changed Encrypt connection string property to be true by default 
 
                 stringBuilder.Append("TrustServerCertificate=True;");
                 string connectionString = stringBuilder.ToString();
 
-                var result = mService.ConnectionTest(connectionString);
-                if (!result.Success)
+                var tResult = mService.ConnectionTest(connectionString);
+                if (!tResult.Success)
                 {
                     MessageBox.Show(
-                        result.Message,
-                        "Error",
+                        ErrorLocalizer.GetMessage(tResult.Error),
+                        ERROR,
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                     return;
                 }
                 else
                 {
-                    MessageBox.Show("It is valid !!", "Success connection", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Test successful: the application was able to connect to the database.", "Connection Test", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 }
 
                 //Close();
@@ -202,11 +192,8 @@ namespace SurveyConfiguratorTask
             catch (Exception ex)
             {
                 Log.Error(null, ex);
-                MessageBox.Show(
-                    UI_ERROR_MESSAGE,
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
+                MessageBox.Show(ErrorLocalizer.GetMessage(nameof(UI_ERROR_MESSAGE)), ERROR,
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

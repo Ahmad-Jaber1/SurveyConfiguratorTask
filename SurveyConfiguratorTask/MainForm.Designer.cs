@@ -34,6 +34,9 @@
             smileyPanel = new Panel();
             smileyCountValue = new Label();
             smileyCountLabel = new Label();
+            starsPanel = new Panel();
+            starsCountValue = new Label();
+            starsCountLabel = new Label();
             sliderPanel = new Panel();
             endCaptionValue = new Label();
             startCaptionValue = new Label();
@@ -43,9 +46,6 @@
             startValueValue = new Label();
             endValueLabel = new Label();
             startValueLabel = new Label();
-            starsPanel = new Panel();
-            starsCountValue = new Label();
-            starsCountLabel = new Label();
             addButton = new Button();
             editButton = new Button();
             deleteButton = new Button();
@@ -67,8 +67,8 @@
             questionsGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)QuestionGridView).BeginInit();
             smileyPanel.SuspendLayout();
-            sliderPanel.SuspendLayout();
             starsPanel.SuspendLayout();
+            sliderPanel.SuspendLayout();
             generalPanel.SuspendLayout();
             detailsGroupBox.SuspendLayout();
             panel1.SuspendLayout();
@@ -109,6 +109,23 @@
             // 
             resources.ApplyResources(smileyCountLabel, "smileyCountLabel");
             smileyCountLabel.Name = "smileyCountLabel";
+            // 
+            // starsPanel
+            // 
+            resources.ApplyResources(starsPanel, "starsPanel");
+            starsPanel.Controls.Add(starsCountValue);
+            starsPanel.Controls.Add(starsCountLabel);
+            starsPanel.Name = "starsPanel";
+            // 
+            // starsCountValue
+            // 
+            resources.ApplyResources(starsCountValue, "starsCountValue");
+            starsCountValue.Name = "starsCountValue";
+            // 
+            // starsCountLabel
+            // 
+            resources.ApplyResources(starsCountLabel, "starsCountLabel");
+            starsCountLabel.Name = "starsCountLabel";
             // 
             // sliderPanel
             // 
@@ -162,23 +179,6 @@
             // 
             resources.ApplyResources(startValueLabel, "startValueLabel");
             startValueLabel.Name = "startValueLabel";
-            // 
-            // starsPanel
-            // 
-            resources.ApplyResources(starsPanel, "starsPanel");
-            starsPanel.Controls.Add(starsCountValue);
-            starsPanel.Controls.Add(starsCountLabel);
-            starsPanel.Name = "starsPanel";
-            // 
-            // starsCountValue
-            // 
-            resources.ApplyResources(starsCountValue, "starsCountValue");
-            starsCountValue.Name = "starsCountValue";
-            // 
-            // starsCountLabel
-            // 
-            resources.ApplyResources(starsCountLabel, "starsCountLabel");
-            starsCountLabel.Name = "starsCountLabel";
             // 
             // addButton
             // 
@@ -253,8 +253,8 @@
             // panel1
             // 
             resources.ApplyResources(panel1, "panel1");
-            panel1.Controls.Add(smileyPanel);
             panel1.Controls.Add(starsPanel);
+            panel1.Controls.Add(smileyPanel);
             panel1.Controls.Add(sliderPanel);
             panel1.Name = "panel1";
             // 
@@ -315,10 +315,10 @@
             ((System.ComponentModel.ISupportInitialize)QuestionGridView).EndInit();
             smileyPanel.ResumeLayout(false);
             smileyPanel.PerformLayout();
-            sliderPanel.ResumeLayout(false);
-            sliderPanel.PerformLayout();
             starsPanel.ResumeLayout(false);
             starsPanel.PerformLayout();
+            sliderPanel.ResumeLayout(false);
+            sliderPanel.PerformLayout();
             generalPanel.ResumeLayout(false);
             generalPanel.PerformLayout();
             detailsGroupBox.ResumeLayout(false);

@@ -29,7 +29,7 @@ namespace Repository
                 {
                     Success = false,
                     Data = false,
-                    Error = ErrorTypeEnum.ConnectionStringError,
+                    Error = ErrorTypeEnum.UnknownErrorConnectionTest,
                     Message = ex.Message
                 };
             }

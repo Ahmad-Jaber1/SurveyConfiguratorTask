@@ -41,10 +41,10 @@
             questionTextLabel = new Label();
             generalGroupBox = new GroupBox();
             detailsGroupBox = new GroupBox();
-            smileyPanel = new Panel();
             starsPanel = new Panel();
             starsCountLabel = new Label();
             starsUpDown = new NumericUpDown();
+            smileyPanel = new Panel();
             smileyFacesCountLabel = new Label();
             smileyFacesUpDown = new NumericUpDown();
             sliderPanel = new Panel();
@@ -60,9 +60,9 @@
             ((System.ComponentModel.ISupportInitialize)orderUpDown).BeginInit();
             generalGroupBox.SuspendLayout();
             detailsGroupBox.SuspendLayout();
-            smileyPanel.SuspendLayout();
             starsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)starsUpDown).BeginInit();
+            smileyPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)smileyFacesUpDown).BeginInit();
             sliderPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)endValueUpDown).BeginInit();
@@ -159,13 +159,6 @@
             detailsGroupBox.Name = "detailsGroupBox";
             detailsGroupBox.TabStop = false;
             // 
-            // smileyPanel
-            // 
-            resources.ApplyResources(smileyPanel, "smileyPanel");
-            smileyPanel.Controls.Add(smileyFacesCountLabel);
-            smileyPanel.Controls.Add(smileyFacesUpDown);
-            smileyPanel.Name = "smileyPanel";
-            // 
             // starsPanel
             // 
             resources.ApplyResources(starsPanel, "starsPanel");
@@ -185,6 +178,13 @@
             starsUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             starsUpDown.Name = "starsUpDown";
             starsUpDown.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
+            // smileyPanel
+            // 
+            resources.ApplyResources(smileyPanel, "smileyPanel");
+            smileyPanel.Controls.Add(smileyFacesCountLabel);
+            smileyPanel.Controls.Add(smileyFacesUpDown);
+            smileyPanel.Name = "smileyPanel";
             // 
             // smileyFacesCountLabel
             // 
@@ -257,6 +257,7 @@
             AcceptButton = okAddButton;
             resources.ApplyResources(this, "$this");
             AutoScaleMode = AutoScaleMode.Font;
+            CancelButton = CancelAddButton;
             Controls.Add(detailsGroupBox);
             Controls.Add(generalGroupBox);
             Controls.Add(okAddButton);
@@ -270,11 +271,11 @@
             generalGroupBox.ResumeLayout(false);
             generalGroupBox.PerformLayout();
             detailsGroupBox.ResumeLayout(false);
-            smileyPanel.ResumeLayout(false);
-            smileyPanel.PerformLayout();
             starsPanel.ResumeLayout(false);
             starsPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)starsUpDown).EndInit();
+            smileyPanel.ResumeLayout(false);
+            smileyPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)smileyFacesUpDown).EndInit();
             sliderPanel.ResumeLayout(false);
             sliderPanel.PerformLayout();

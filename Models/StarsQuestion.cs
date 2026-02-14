@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Serilog;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -15,24 +16,51 @@ namespace SurveyConfiguratorTask.Models
         public StarsQuestion(string pText, int pOrder,int pCount)
             :base(pText ,  pOrder,TypeQuestionEnum.StarsQuestion )
         {
-            SetStarsCount(pCount);
+            try
+            {
+                SetStarsCount(pCount);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Unexpected error occurred while create stars question object.");
+
+                throw;
+            }
         }
         //Initializes a StarsQuestion object from an existing data source.
         public StarsQuestion(int pId,string pText , int pOrder , int pStarsCount)
             :base(pId , pText , pOrder)
         {
-            TypeQuestion = TypeQuestionEnum.StarsQuestion;
-            SetStarsCount(pStarsCount);
+            try
+            {
+                TypeQuestion = TypeQuestionEnum.StarsQuestion;
+                SetStarsCount(pStarsCount);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Unexpected error occurred while create stars question object.");
+
+                throw;
+            }
         }
 
         public void SetStarsCount(int pCount)
         {
-            //StarsCount must not be less than 1 or greater than 10
-            if (pCount <= 0 || pCount > 10)
+            try
             {
-                throw new ArgumentOutOfRangeException( "Stars  must be between 1 and 10.");
+                //StarsCount must not be less than 1 or greater than 10
+                if (pCount <= 0 || pCount > 10)
+                {
+                    throw new ArgumentOutOfRangeException("Stars  must be between 1 and 10.");
+                }
+                StarsCount = pCount;
             }
-            StarsCount = pCount;
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Unexpected error occurred while set stars count .");
+
+                throw;
+            }
         }
 
         

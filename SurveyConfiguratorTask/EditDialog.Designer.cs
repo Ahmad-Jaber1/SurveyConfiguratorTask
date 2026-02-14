@@ -251,8 +251,10 @@
             // 
             // EditDialog
             // 
+            AcceptButton = okAddButton;
             resources.ApplyResources(this, "$this");
             AutoScaleMode = AutoScaleMode.Font;
+            CancelButton = CancelAddButton;
             Controls.Add(detailsGroupBox);
             Controls.Add(generalGroupBox);
             Controls.Add(okAddButton);

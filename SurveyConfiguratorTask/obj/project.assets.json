@@ -477,9 +477,39 @@
           "buildTransitive/net6.0/_._": {}
         }
       },
+      "Localization/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "Shared": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Localization.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Localization.dll": {}
+        }
+      },
+      "Logging/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "Serilog": "4.3.0",
+          "Serilog.Sinks.File": "7.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Logging.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Logging.dll": {}
+        }
+      },
       "Models/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
+        "dependencies": {
+          "Shared": "1.0.0"
+        },
         "compile": {
           "bin/placeholder/Models.dll": {}
         },
@@ -1241,6 +1271,16 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "Localization/1.0.0": {
+      "type": "project",
+      "path": "../Localization/Localization.csproj",
+      "msbuildProject": "../Localization/Localization.csproj"
+    },
+    "Logging/1.0.0": {
+      "type": "project",
+      "path": "../Logging/Logging.csproj",
+      "msbuildProject": "../Logging/Logging.csproj"
+    },
     "Models/1.0.0": {
       "type": "project",
       "path": "../Models/Models.csproj",
@@ -1264,6 +1304,8 @@
   },
   "projectFileDependencyGroups": {
     "net10.0-windows7.0": [
+      "Localization >= 1.0.0",
+      "Logging >= 1.0.0",
       "Microsoft.Data.SqlClient >= 6.1.4",
       "Models >= 1.0.0",
       "Repository >= 1.0.0",
@@ -1304,6 +1346,12 @@
         "net10.0-windows7.0": {
           "targetAlias": "net10.0-windows",
           "projectReferences": {
+            "D:\\SurveyConfiguratorTask\\Localization\\Localization.csproj": {
+              "projectPath": "D:\\SurveyConfiguratorTask\\Localization\\Localization.csproj"
+            },
+            "D:\\SurveyConfiguratorTask\\Logging\\Logging.csproj": {
+              "projectPath": "D:\\SurveyConfiguratorTask\\Logging\\Logging.csproj"
+            },
             "D:\\SurveyConfiguratorTask\\Models\\Models.csproj": {
               "projectPath": "D:\\SurveyConfiguratorTask\\Models\\Models.csproj"
             },

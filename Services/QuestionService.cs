@@ -60,8 +60,8 @@ namespace Services
             catch (Exception ex) 
             {
                 tResult.Success = false;
-                tResult.Error = ErrorTypeEnum.UnknownError;
-                tResult.Message = ex.Message;
+                tResult.Error = ErrorTypeEnum.UnknownErrorQuestionsLoad;
+                tResult.Message = "Unexpected error occurred while loading questions.";
                 Log.Error(ex, "Error occurred while loading the question list.");
                  
             }
@@ -139,7 +139,7 @@ namespace Services
                 
                 tResult.Success = false;
                 tResult.Message = ex.Message;
-                tResult.Error = ErrorTypeEnum.ValidationError;
+                tResult.Error = ErrorTypeEnum.Validation_QuestionDataNull;
                 Log.Error(ex, "Validation failed: null value.");
             }
             catch (ArgumentOutOfRangeException ex)
@@ -147,7 +147,7 @@ namespace Services
                 
                 tResult.Success = false;
                 tResult.Message = ex.Message;
-                tResult.Error = ErrorTypeEnum.ValidationError;
+                tResult.Error = ErrorTypeEnum.Validation_OrderOutOfRangeAdd;
                 Log.Error(ex, "Validation failed: value out of range.");
             }
             catch (ArgumentException ex)
@@ -155,14 +155,14 @@ namespace Services
                 
                 tResult.Success = false;
                 tResult.Message = ex.Message;
-                tResult.Error = ErrorTypeEnum.ValidationError;
+                tResult.Error = ErrorTypeEnum.Validation_QuestionTypeInvalid;
                 Log.Error(ex, "Validation failed: invalid argument.");
             }
             catch (Exception ex)
             {
                 Log.Error(ex, "Error occurred while adding a question of type {Type}", (TypeQuestionEnum)pType);
                 tResult.Success=false;
-                tResult.Error=ErrorTypeEnum.UnknownError;
+                tResult.Error=ErrorTypeEnum.UnknownErrorAddQuestion;
                 tResult.Message = "An unexpected error occurred while adding your question. Please try again or contact support.";
             }
             return tResult;
@@ -207,7 +207,7 @@ namespace Services
             {
                 tResult.Success = false;
                 tResult.Message = ex.Message;
-                tResult.Error = ErrorTypeEnum.NotFoundError;
+                tResult.Error = ErrorTypeEnum.NotFound_DeleteQuestion;
                 Log.Error(ex, "Attempted to delete a question that does not exist. Id: {Id}", pId);
                 
                 
@@ -216,7 +216,7 @@ namespace Services
             {
                 tResult.Success = false;
                 tResult.Message = ex.Message;
-                tResult.Error = ErrorTypeEnum.UnknownError;
+                tResult.Error = ErrorTypeEnum.UnknownErrorDeleteQuestion;
                 Log.Error(ex, "Error occurred while deleting a question with Id {Id}", pId);
                 
                 
@@ -305,7 +305,7 @@ namespace Services
             {
                 tResult.Success = false;
                 tResult.Message = ex.Message;
-                tResult.Error = ErrorTypeEnum.NotFoundError;
+                tResult.Error = ErrorTypeEnum.NotFound_EditQuestion;
                 Log.Error(ex, "Attempted to edit a question a question with Id {Id}", pId);
                 
             }
@@ -314,7 +314,7 @@ namespace Services
 
                 tResult.Success = false;
                 tResult.Message = ex.Message;
-                tResult.Error = ErrorTypeEnum.ValidationError;
+                tResult.Error = ErrorTypeEnum.Validation_EditQuestionDataNull;
                 Log.Error(ex, "Validation failed: null value.");
             }
             catch (ArgumentOutOfRangeException ex)
@@ -322,7 +322,7 @@ namespace Services
 
                 tResult.Success = false;
                 tResult.Message = ex.Message;
-                tResult.Error = ErrorTypeEnum.ValidationError;
+                tResult.Error = ErrorTypeEnum.Validation_OrderOutOfRangeEdit;
                 Log.Error(ex, "Validation failed: value out of range.");
             }
             catch (ArgumentException ex)
@@ -330,14 +330,14 @@ namespace Services
 
                 tResult.Success = false;
                 tResult.Message = ex.Message;
-                tResult.Error = ErrorTypeEnum.ValidationError;
+                tResult.Error = ErrorTypeEnum.Validation_QuestionTypeInvalid;
                 Log.Error(ex, "Validation failed: invalid argument.");
             }
             catch (Exception ex)
             {
                 Log.Error(ex, "Error occurred while edit a question a question with Id {Id}", pId);
                 tResult.Success = false;
-                tResult.Error = ErrorTypeEnum.UnknownError;
+                tResult.Error = ErrorTypeEnum.UnknownErrorEditQuestion;
                 tResult.Message = "An unexpected error occurred while edit your question. Please try again or contact support.";
             }
             
@@ -374,7 +374,7 @@ namespace Services
             {
                 tResult.Success = false;
                 tResult.Message = ex.Message;
-                tResult.Error = ErrorTypeEnum.UnknownError; 
+                tResult.Error = ErrorTypeEnum.UnknownErrorEditOrder; 
                 Log.Error(ex, "Error occurred while editing the order of mQuestions.");
                 
             }
@@ -403,11 +403,17 @@ namespace Services
                 throw new KeyNotFoundException("The specified question was not found. Please check your selection.");
 
             }
+            catch(KeyNotFoundException ex)
+            {
+                tResult.Success = false;
+                tResult.Message = ex.Message;
+                tResult.Error =ErrorTypeEnum.NotFound_GetQuestion;
+            }
             catch (Exception ex)
             {
                 tResult.Success = false;
                 tResult.Message = ex.Message;
-                tResult.Error = ErrorTypeEnum.NotFoundError;
+                tResult.Error = ErrorTypeEnum.UnknownErrorGetQuestion;
                 Log.Error(ex, "Error occurred while retrieving the question with Id {Id}", pId);
                 
             }
@@ -426,7 +432,7 @@ namespace Services
             {
                 tResult.Success = false;
                 tResult.Message = ex.Message;
-                tResult.Error = ErrorTypeEnum.UnknownError;
+                tResult.Error = ErrorTypeEnum.UnknownErrorGetCount;
                 Log.Error(ex, "Error occurred while retrieving the question count from the repository.");
                 
             }
@@ -452,36 +458,69 @@ namespace Services
                 Log.Error(ex, "Error occurred while retrieving the last modified .");
                 tResult.Success = false;
                 tResult.Message= ex.Message;
-                tResult.Error= ErrorTypeEnum.UnknownError;
+                tResult.Error= ErrorTypeEnum.UnknownErrorGetLastModified;
             }
             return tResult;
         }
 
         public Result<bool> ChangeConnectionString(string pConnectionString)
         {
-            var tResult = mRepo.ChangeConnectionString(pConnectionString);
-            mConnectionValid = tResult.Success;
+            var tResult = new Result<bool>()
+            {
+                Success = true,
+            };
+
+            try
+            {
+                tResult = mRepo.ChangeConnectionString(pConnectionString);
+                mConnectionValid = tResult.Success;
+                return tResult;
+            }
+            catch (Exception ex)
+            {
+
+                Log.Error(ex, "Error occurred while Change Connection String  .");
+                tResult.Success = false;
+                tResult.Message = ex.Message;
+                tResult.Error = ErrorTypeEnum.UnknownErrorChangeConnectionString;
+            }
             return tResult;
         }
         public Result<bool> CheckConnection()
         {
-            var tSavedConnection = ConfigurationManager.ConnectionStrings["DbConnectionString"]?.ConnectionString;
+            var tResult = new Result<bool>()
+            {
+                Success = true,
+            };
 
-            if (!string.IsNullOrWhiteSpace(tSavedConnection))
+            try
             {
-                ChangeConnectionString(tSavedConnection);
+                var tSavedConnection = ConfigurationManager.ConnectionStrings["DbConnectionString"]?.ConnectionString;
+
+                if (!string.IsNullOrWhiteSpace(tSavedConnection))
+                {
+                    ChangeConnectionString(tSavedConnection);
+                }
+                tResult = new Result<bool>();
+                if (mConnectionValid)
+                {
+                    tResult.Success = true;
+                    tResult.Error = ErrorTypeEnum.None;
+                }
+                else
+                {
+                    tResult.Success = false;
+                    tResult.Message = "Database connection is not set or invalid.\n Go to Settings → Database Connection to set it up.";
+                    tResult.Error = ErrorTypeEnum.ConnectionStringNotSet;
+                }
             }
-            var tResult = new Result<bool>();
-            if(mConnectionValid)
+            catch (Exception ex)
             {
-                tResult.Success = true;
-                tResult.Error = ErrorTypeEnum.None;
-            }
-            else
-            {
+                Log.Error(ex, "Error occurred while Check Connection  .");
                 tResult.Success = false;
-                tResult.Message = "Database connection is not set or invalid.\n Go to Settings → Database Connection to set it up.";
-                tResult.Error = ErrorTypeEnum.ConnectionStringError; 
+                tResult.Message = ex.Message;
+                tResult.Error = ErrorTypeEnum.UnknownErrorConnectionTest;
+
             }
             return tResult; 
         }
@@ -519,24 +558,64 @@ namespace Services
         }
         public Result<bool> ConnectionTest(string connectionString)
         {
-           return mRepo.ConnectoinTest(connectionString);
-        }
-        public Result<SqlConnectionStringBuilder> GetConnectionString()
-        {
-            var tConnectionString = mRepo.GetConnectionString();
-            if (string.IsNullOrEmpty(tConnectionString.Data))
-            {
-                return new Result<SqlConnectionStringBuilder>() { Success = false };
-            }
-            var tSqlConnectionStringBuilder = new SqlConnectionStringBuilder(tConnectionString.Data);
-            return new Result<SqlConnectionStringBuilder>()
+            var tResult = new Result<bool>()
             {
                 Success = true,
-                Data = tSqlConnectionStringBuilder
-                ,
                 Error = ErrorTypeEnum.None
-            }; 
+            };
+
+            try
+            {
+                tResult = mRepo.ConnectoinTest(connectionString);
+                return tResult;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error occurred while testing connection.");
+                tResult.Success = false;
+                tResult.Message = ex.Message;
+                tResult.Error = ErrorTypeEnum.UnknownErrorConnectionTest;
+            }
+
+            return tResult;
         }
+
+        public Result<SqlConnectionStringBuilder> GetConnectionString()
+        {
+            var tResult = new Result<SqlConnectionStringBuilder>()
+            {
+                Success = true,
+                Error = ErrorTypeEnum.None
+            };
+
+            try
+            {
+                var tConnectionString = mRepo.GetConnectionString();
+
+                if (!tConnectionString.Success || string.IsNullOrEmpty(tConnectionString.Data))
+                {
+                    tResult.Success = false;
+                    tResult.Message = tConnectionString.Message;
+                    tResult.Error = tConnectionString.Error ;
+                    return tResult;
+                }
+
+                var tSqlConnectionStringBuilder = new SqlConnectionStringBuilder(tConnectionString.Data);
+
+                tResult.Data = tSqlConnectionStringBuilder;
+                return tResult;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Error occurred while retrieving the connection string.");
+                tResult.Success = false;
+                tResult.Message = ex.Message;
+                tResult.Error = ErrorTypeEnum.UnknownErrorGetConnectionString;
+            }
+
+            return tResult;
+        }
+
 
 
     }
