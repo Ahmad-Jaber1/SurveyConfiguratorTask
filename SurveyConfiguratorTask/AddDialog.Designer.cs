@@ -40,10 +40,10 @@
             textQuestionTextBox = new TextBox();
             questionTextLabel = new Label();
             generalGroupBox = new GroupBox();
-            detailsGroupBox = new GroupBox();
             starsPanel = new Panel();
             starsCountLabel = new Label();
             starsUpDown = new NumericUpDown();
+            detailsGroupBox = new GroupBox();
             smileyPanel = new Panel();
             smileyFacesCountLabel = new Label();
             smileyFacesUpDown = new NumericUpDown();
@@ -59,9 +59,9 @@
             typeQuestionGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)orderUpDown).BeginInit();
             generalGroupBox.SuspendLayout();
-            detailsGroupBox.SuspendLayout();
             starsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)starsUpDown).BeginInit();
+            detailsGroupBox.SuspendLayout();
             smileyPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)smileyFacesUpDown).BeginInit();
             sliderPanel.SuspendLayout();
@@ -150,15 +150,6 @@
             generalGroupBox.Name = "generalGroupBox";
             generalGroupBox.TabStop = false;
             // 
-            // detailsGroupBox
-            // 
-            resources.ApplyResources(detailsGroupBox, "detailsGroupBox");
-            detailsGroupBox.Controls.Add(starsPanel);
-            detailsGroupBox.Controls.Add(smileyPanel);
-            detailsGroupBox.Controls.Add(sliderPanel);
-            detailsGroupBox.Name = "detailsGroupBox";
-            detailsGroupBox.TabStop = false;
-            // 
             // starsPanel
             // 
             resources.ApplyResources(starsPanel, "starsPanel");
@@ -178,6 +169,15 @@
             starsUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             starsUpDown.Name = "starsUpDown";
             starsUpDown.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
+            // detailsGroupBox
+            // 
+            resources.ApplyResources(detailsGroupBox, "detailsGroupBox");
+            detailsGroupBox.Controls.Add(starsPanel);
+            detailsGroupBox.Controls.Add(smileyPanel);
+            detailsGroupBox.Controls.Add(sliderPanel);
+            detailsGroupBox.Name = "detailsGroupBox";
+            detailsGroupBox.TabStop = false;
             // 
             // smileyPanel
             // 
@@ -270,10 +270,10 @@
             ((System.ComponentModel.ISupportInitialize)orderUpDown).EndInit();
             generalGroupBox.ResumeLayout(false);
             generalGroupBox.PerformLayout();
-            detailsGroupBox.ResumeLayout(false);
             starsPanel.ResumeLayout(false);
             starsPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)starsUpDown).EndInit();
+            detailsGroupBox.ResumeLayout(false);
             smileyPanel.ResumeLayout(false);
             smileyPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)smileyFacesUpDown).EndInit();

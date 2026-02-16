@@ -12,7 +12,7 @@ namespace Shared
         ConnectionStringNotSet = 1, // "Database connection string is not set or invalid. Go to Settings → Database Connection to set it up."
         ConnectionStringInvalid = 2, // "Cannot connect to the database. Please check your server name, database name, username, and password."
         DatabaseConnectionFailed = 3, // "Failed to connect to the database. Contact the administrator to resolve the issue."
-
+        DatabaseUnavailable = 4, //The database could not be reached. It may be offline, deleted, or temporarily unavailable. Please verify the database server and try again.
         // SQL errors
         SqlErrorSliderLoad = 10, // "SQL error occurred while loading slider questions. Please contact support."
         SqlErrorSmileyLoad = 11, // "SQL error occurred while loading smiley questions."
@@ -57,5 +57,6 @@ namespace Shared
         NotFound_GetQuestion = 107, // "The specified question was not found. Please check your selection."
         //Connection_NotSetOrInvalid = 116, // "Database connection is not set or invalid. Go to Settings → Database Connection to set it up."
 
+        Database_Offline = 120 ,
     }
 }

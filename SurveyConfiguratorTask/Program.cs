@@ -22,12 +22,20 @@ namespace SurveyConfiguratorTask
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
-            LogConfiguration.Configure();
+            try
+            {
+                LogConfiguration.Configure();
 
 
-            ApplicationConfiguration.Initialize();
-            Application.Run(new MainForm());
+                ApplicationConfiguration.Initialize();
+                Application.Run(new MainForm());
 
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Unexpected error occurred while start app from program.cs .");
+                throw;
+            }
         }
     }
     

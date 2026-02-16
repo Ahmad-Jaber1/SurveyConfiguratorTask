@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SurveyConfiguratorTask")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4439a5d93569badf398dad17d270543f9e0d578f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1c985821c5ec0ab45d85217c47fb3b0171468be4")]
 [assembly: System.Reflection.AssemblyProductAttribute("SurveyConfiguratorTask")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SurveyConfiguratorTask")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

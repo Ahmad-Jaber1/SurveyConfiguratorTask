@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Localization")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+177a3550a7d54e8340e7f659bf27d9256988751e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1c985821c5ec0ab45d85217c47fb3b0171468be4")]
 [assembly: System.Reflection.AssemblyProductAttribute("Localization")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Localization")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

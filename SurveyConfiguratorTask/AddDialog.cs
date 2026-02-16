@@ -22,6 +22,7 @@ namespace SurveyConfiguratorTask
         private const string ERROR_START_VALUE_OUT_OF_RANGE = "Please enter a valid start value. It must be between 0 and {EndValue} ";
         private const string ERROR_END_VALUE_OUT_OF_RANGE = "Please enter a valid end value. It must be between {StartValue} and {Param2} ";
         private const string ERROR_CAPTION_TEXT_EMPTY = "Please enter a valid caption. The caption text cannot be empty or longer than 30 characters .";
+        private const string MAX_END_VALUE = "100";
         //private const string ERROR_Question_TEXT_EMPTY = "Please enter a valid caption. The caption text cannot be empty.";
 
         public AddDialog(QuestionService service)
@@ -39,7 +40,7 @@ namespace SurveyConfiguratorTask
                 if (!tResult.Success)
                 {
                     MessageBox.Show(
-                         ErrorLocalizer.GetMessage(tResult.Error),
+                         ErrorLocalizer.GetMessage(tResult.Error.ToString()),
                         ERROR,
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
@@ -105,23 +106,23 @@ namespace SurveyConfiguratorTask
                         MessageBoxIcon.Error);
                     return;
                 }
-                
+
                 var tQuestionsCount = mService.GetCount();
-                if(!tQuestionsCount.Success)
+                if (!tQuestionsCount.Success)
                 {
                     MessageBox.Show(
-                        ErrorLocalizer.GetMessage(tQuestionsCount.Error),
+                        ErrorLocalizer.GetMessage(tQuestionsCount.Error.ToString()),
                         ERROR,
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                     return;
                 }
                 //validate order
-                if((int)orderUpDown.Value > tQuestionsCount.Data + 1 || (int)orderUpDown.Value <1)
+                if ((int)orderUpDown.Value > tQuestionsCount.Data + 1 || (int)orderUpDown.Value < 1)
                 {
 
                     MessageBox.Show(
-                        ErrorLocalizer.GetMessage(nameof(ERROR_ORDER_VALUE_OUT_OF_RANGE),tQuestionsCount.Data + 1),
+                        ErrorLocalizer.GetMessage(nameof(ERROR_ORDER_VALUE_OUT_OF_RANGE), (tQuestionsCount.Data + 1).ToString()),
                         ERROR,
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
@@ -142,26 +143,26 @@ namespace SurveyConfiguratorTask
                         (int)startValueUpDown.Value >= (int)endValueUpDown.Value)
                     {
                         MessageBox.Show(
-                         ErrorLocalizer.GetMessage(nameof(ERROR_START_VALUE_OUT_OF_RANGE), (int)endValueUpDown.Value-1),
+                         ErrorLocalizer.GetMessage(nameof(ERROR_START_VALUE_OUT_OF_RANGE), ((int)endValueUpDown.Value - 1).ToString()),
                         ERROR,
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                         return;
                     }
-                    if ((int)endValueUpDown.Value>100 ||
-                        (int)endValueUpDown.Value<= (int)startValueUpDown.Value)
+                    if ((int)endValueUpDown.Value > 100 ||
+                        (int)endValueUpDown.Value <= (int)startValueUpDown.Value)
                     {
                         MessageBox.Show(
-                         ErrorLocalizer.GetMessage(nameof(ERROR_END_VALUE_OUT_OF_RANGE), (int)startValueUpDown.Value + 1 , 100),
+                         ErrorLocalizer.GetMessage(nameof(ERROR_END_VALUE_OUT_OF_RANGE), ((int)startValueUpDown.Value + 1).ToString(), MAX_END_VALUE),
                         ERROR,
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
                         return;
                     }
-                    if(string.IsNullOrEmpty(startCaptionTextBox.Text)||
-                                string.IsNullOrEmpty(endCaptionTextBox.Text)|| 
-                                startCaptionTextBox.Text.Length>30 ||
-                                endCaptionTextBox.Text.Length>30)
+                    if (string.IsNullOrEmpty(startCaptionTextBox.Text) ||
+                                string.IsNullOrEmpty(endCaptionTextBox.Text) ||
+                                startCaptionTextBox.Text.Length > 30 ||
+                                endCaptionTextBox.Text.Length > 30)
                     {
                         MessageBox.Show(
                          ErrorLocalizer.GetMessage(nameof(ERROR_CAPTION_TEXT_EMPTY)),
@@ -184,7 +185,7 @@ namespace SurveyConfiguratorTask
                 else if (smileyFacesQuestionRadioButton.Checked)
                 {
                     //validate smiley count 
-                    if((int)smileyFacesUpDown.Value < 2 || (int)smileyFacesUpDown.Value > 5)
+                    if ((int)smileyFacesUpDown.Value < 2 || (int)smileyFacesUpDown.Value > 5)
                     {
                         MessageBox.Show(
                         ErrorLocalizer.GetMessage(nameof(ERROR_SMILEY_COUNT_INVALID)),
@@ -203,7 +204,7 @@ namespace SurveyConfiguratorTask
                     if ((int)starsUpDown.Value < 1 || (int)starsUpDown.Value > 10)
                     {
                         MessageBox.Show(
-                        ErrorLocalizer.GetMessage(nameof(ERROR_SMILEY_COUNT_INVALID)),
+                        ErrorLocalizer.GetMessage(nameof(ERROR_STARS_COUNT_INVALID)),
                         ERROR,
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
@@ -217,7 +218,7 @@ namespace SurveyConfiguratorTask
                 if (!tResult.Success)
                 {
                     MessageBox.Show(
-                        ErrorLocalizer.GetMessage(tResult.Error),
+                        ErrorLocalizer.GetMessage(tResult.Error.ToString()),
                         ERROR,
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);

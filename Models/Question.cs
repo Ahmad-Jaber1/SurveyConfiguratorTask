@@ -103,7 +103,16 @@ namespace SurveyConfiguratorTask.Models
         //For sort question list based on order.
         int IComparable<Question>.CompareTo(Question other)
         {
-            return Order.CompareTo(other.Order);
+            try
+            {
+                return Order.CompareTo(other.Order);
+            }
+            catch (Exception ex)
+            {
+
+                Log.Error(ex, "Unexpected error occurred while comper questions based on order");
+                throw;
+            }
         }
     }
 }

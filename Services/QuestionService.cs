@@ -32,8 +32,17 @@ namespace Services
 
         public QuestionService()
         {
-            mQuestions = new List<Question>();
-            CreateCheckThread();
+            try
+            {
+                mQuestions = new List<Question>();
+                CreateCheckThread();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Unexpected error occurred while create Question Service object.");
+                throw;
+
+            }
 
         }
 
@@ -383,7 +392,16 @@ namespace Services
         public List<Question> GetQuestionsList()
         {
 
-            return mQuestions; 
+            try
+            {
+                return mQuestions;
+            }
+            catch (Exception ex)
+            {
+
+                Log.Error(ex, "Unexpected error occurred while get questions list.");
+                throw;
+            }
         }
         
         public Result<Question> GetQuestion(int pId)
@@ -507,6 +525,11 @@ namespace Services
                     tResult.Success = true;
                     tResult.Error = ErrorTypeEnum.None;
                 }
+                else if(!string.IsNullOrEmpty(tSavedConnection)) 
+                {
+                    tResult.Success = false;
+                    tResult.Error = ErrorTypeEnum.DatabaseUnavailable;
+                }
                 else
                 {
                     tResult.Success = false;
@@ -527,34 +550,60 @@ namespace Services
 
         public void CheckForUpdates()
         {
-            
+
+            try
+            {
                 while (mIsRunning)
                 {
                     var tResult = GetLastModified();
                     if (tResult.Success && tResult.Data != mDateTime)
                     {
                         mDateTime = tResult.Data;
-                    //Invoke(ReloadMainForm);
-                    CheckUpdateEvent?.Invoke();
+                        //Invoke(ReloadMainForm);
+                        CheckUpdateEvent?.Invoke();
                     }
 
                     Thread.Sleep(3000);
                 }
-            
+            }
+            catch (Exception ex)
+            {
+
+                Log.Error(ex, "Unexpected error occurred while Check updates");
+                throw; 
+            }
+
         }
         private void CreateCheckThread()
         {
 
+            try
+            {
                 mCheckForUpdate = new Thread(CheckForUpdates)
                 {
                     IsBackground = true
                 };
                 mCheckForUpdate.Start();
-            
+            }
+            catch (Exception ex)
+            {
+
+                Log.Error(ex, "Unexpected error occurred while create check thread .");
+                throw;
+            }
+
         }
         public void FormClosing()
         {
-            mIsRunning = false;
+            try
+            {
+                mIsRunning = false;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Unexpected error occurred while check if form closing");
+
+            }
         }
         public Result<bool> ConnectionTest(string connectionString)
         {

@@ -49,9 +49,20 @@ namespace SurveyConfiguratorTask
 
         public MainForm()
         {
-            InitializeComponent();
-            InitializeDataGridView();
-            mService.CheckUpdateEvent += ReloadMainForm;
+            try
+            {
+                InitializeComponent();
+                InitializeDataGridView();
+                mService.CheckUpdateEvent += ReloadMainForm;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Unexpected error occurred while create MainForm object.");
+                MessageBox.Show(ErrorLocalizer.GetMessage(UI_ERROR_MESSAGE), ERROR,
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+                throw;
+            }
 
         }
 
@@ -69,6 +80,8 @@ namespace SurveyConfiguratorTask
                 QuestionGridView.MultiSelect = false;
                 QuestionGridView.AllowUserToAddRows = false;
                 QuestionGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                englishToolStripMenuItem.Checked = true;
+
 
 
                 QuestionGridView.SelectionChanged += QuestionGridView_SelectionChanged;
@@ -113,8 +126,10 @@ namespace SurveyConfiguratorTask
                 if (!tConnResult.Success)
                 {
                     addButton.Enabled = false;
+                    editButton.Enabled = false;
+                    deleteButton.Enabled = false;
                     QuestionGridView.DataSource = null;
-                    MessageBox.Show(ErrorLocalizer.GetMessage(tConnResult.Error), ERROR,
+                    MessageBox.Show(ErrorLocalizer.GetMessage(tConnResult.Error.ToString()), ERROR,
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -123,17 +138,17 @@ namespace SurveyConfiguratorTask
                 if (!tResult.Success)
                 {
                     addButton.Enabled = false;
+                    editButton.Enabled = false;
+                    deleteButton.Enabled = false;
                     QuestionGridView.DataSource = null;
-                    MessageBox.Show(ErrorLocalizer.GetMessage(tResult.Error), ERROR,
+                    MessageBox.Show(ErrorLocalizer.GetMessage(tResult.Error.ToString()), ERROR,
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
                 addButton.Enabled = true;
-
-
-                //var bindingList = new BindingList<Question>(tResult.Data.ToList());
-                //QuestionGridView.DataSource = bindingList;
+                editButton.Enabled = true;
+                deleteButton.Enabled = true;
                 var tDataTable = new DataTable();
                 tDataTable.Columns.Add(COLUMN_ID, typeof(int));
                 tDataTable.Columns.Add(ErrorLocalizer.GetMessage(nameof(COLUMN_TEXT)), typeof(string));
@@ -193,17 +208,11 @@ namespace SurveyConfiguratorTask
                 var tResult = mService.GetQuestion((int)tRow.Cells[COLUMN_ID].Value);
                 if (!tResult.Success)
                 {
-                    MessageBox.Show(ErrorLocalizer.GetMessage(tResult.Error), ERROR,
+                    MessageBox.Show(ErrorLocalizer.GetMessage(tResult.Error.ToString()), ERROR,
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return null;
                 }
-                //var question =  new Question
-                //{
-                //    Id = (int)row.Cells["Id"].Value,
-                //    Text = row.Cells["Text"].Value.ToString(),
-                //    Order = (int)row.Cells["Order"].Value,
-                //    TypeQuestion = Enum.Parse<TypeQuestionEnum>(row.Cells["Question Type"].Value.ToString())
-                //};
+                
                 return tResult.Data;
             }
             catch (Exception ex)
@@ -235,7 +244,7 @@ namespace SurveyConfiguratorTask
 
                 if (!tResultDeleted.Success)
                 {
-                    MessageBox.Show(ErrorLocalizer.GetMessage(tResultDeleted.Error), ERROR,
+                    MessageBox.Show(ErrorLocalizer.GetMessage(tResultDeleted.Error.ToString()), ERROR,
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -309,7 +318,7 @@ namespace SurveyConfiguratorTask
                 var tResult = mService.GetQuestion(tQuestion.Id);
                 if (!tResult.Success)
                 {
-                    MessageBox.Show(ErrorLocalizer.GetMessage(tResult.Error), ERROR,
+                    MessageBox.Show(ErrorLocalizer.GetMessage(tResult.Error.ToString()), ERROR,
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
@@ -402,6 +411,8 @@ namespace SurveyConfiguratorTask
                 RightToLeft = RightToLeft.No;
                 QuestionGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 InitializeDataGridView();
+                englishToolStripMenuItem.Checked = true;
+                arabicToolStripMenuItem.Checked = false;
                 ReloadMainForm();
             }
             catch (Exception ex)
@@ -426,6 +437,8 @@ namespace SurveyConfiguratorTask
                 InitializeComponent();
                 QuestionGridView.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 InitializeDataGridView();
+                englishToolStripMenuItem.Checked = false;
+                arabicToolStripMenuItem.Checked = true;
 
                 ReloadMainForm();
             }

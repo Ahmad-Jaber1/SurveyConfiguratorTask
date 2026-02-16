@@ -415,6 +415,9 @@
         }
       },
       "Models/1.0.0": {
+        "dependencies": {
+          "Shared": "1.0.0"
+        },
         "runtime": {
           "Models.dll": {
             "assemblyVersion": "1.0.0.0",

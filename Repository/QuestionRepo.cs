@@ -20,7 +20,15 @@ namespace SurveyConfiguratorTask.Repo
         public List<Question> Questions { get; set; }
         public QuestionRepo()
         {
-            Questions = new List<Question>();
+            try
+            {
+                Questions = new List<Question>();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Unexpected error occurred while create Question Repository object.");
+                throw;
+            }
         }
 
 
@@ -28,21 +36,20 @@ namespace SurveyConfiguratorTask.Repo
 
         public Result<List<Question>> QuestionsLoad()
         {
-            //var savedConnection = ConfigurationManager.ConnectionStrings["DbConnectionString"]?.ConnectionString;
-            var tResult = new Result<List<Question>>() {Success = true , Error = ErrorTypeEnum.None ,Data = Questions };
-            if (string.IsNullOrWhiteSpace(mConnectionString))
-            {
-                Log.Error("Attempted to load questions but the database connection string is not set. ");
-                return new Result<List<Question>>
-                {
-                    Success = false,
-                    Error = ErrorTypeEnum.ConnectionStringNotSet,
-                    
-                };
-            }
-
             try
             {
+                var tResult = new Result<List<Question>>() { Success = true, Error = ErrorTypeEnum.None, Data = Questions };
+
+                if (string.IsNullOrWhiteSpace(mConnectionString))
+                {
+                    Log.Error("Attempted to load questions but the database connection string is not set. ");
+                    return new Result<List<Question>>
+                    {
+                        Success = false,
+                        Error = ErrorTypeEnum.ConnectionStringNotSet,
+
+                    };
+                }
                 Questions.Clear();
 
                 // Load Slider Questions
@@ -88,7 +95,7 @@ namespace SurveyConfiguratorTask.Repo
                     };
                 }
                 Questions.AddRange(tStarsResult.Data);
-
+                return tResult;
             }
             catch (Exception ex)
             {
@@ -99,22 +106,22 @@ namespace SurveyConfiguratorTask.Repo
                     Message = "Unexpected error occurred while loading questions."
                 };
             }
-            return tResult; 
         }
         public Result<List<Question>> SliderQuestionsLoad(string pConnectionString)
         {
-            var tResult = new Result<List<Question>> { Success = true, Error = ErrorTypeEnum.None };
             var tQuestions = new List<Question>();
 
             try
             {
+                var tResult = new Result<List<Question>> { Success = true, Error = ErrorTypeEnum.None };
+
                 using (var tConnection = new SqlConnection(pConnectionString))
                 using (var tCommand = tConnection.CreateCommand())
                 {
-                    tCommand.CommandText = $"SELECT {DbConsts.QuestionsSelectColumns}, {DbConsts.SliderSelectColumns} " +
-                                      $"FROM {DbConsts.QuestionsTableName} " +
-                                      $"INNER JOIN {DbConsts.SliderTableName} " +
-                                      $"ON {DbConsts.QuestionsTableName}.{DbConsts.QuestionsId} = {DbConsts.SliderTableName}.{DbConsts.SliderId}";
+                    tCommand.CommandText = $"SELECT {DbConsts.QUESTIONS_SELECT_COLUMNS}, {DbConsts.SLIDER_SELECT_COLUMNS} " +
+                                      $"FROM {DbConsts.QUESTIONS_TABLE_NAME} " +
+                                      $"INNER JOIN {DbConsts.SLIDER_TABLE_NAME} " +
+                                      $"ON {DbConsts.QUESTIONS_TABLE_NAME}.{DbConsts.QUESTIONS_ID} = {DbConsts.SLIDER_TABLE_NAME}.{DbConsts.SLIDER_ID}";
 
                     tConnection.Open();
                     using (var tReader = tCommand.ExecuteReader())
@@ -122,13 +129,13 @@ namespace SurveyConfiguratorTask.Repo
                         while (tReader.Read())
                         {
                             tQuestions.Add(new SliderQuestion(
-                                Convert.ToInt32(tReader[DbConsts.QuestionsId]),
-                                tReader[DbConsts.QuestionsQuestionText].ToString(),
-                                Convert.ToInt32(tReader[DbConsts.QuestionsQuestionOrder]),
-                                Convert.ToInt32(tReader[DbConsts.SliderStartValue]),
-                                Convert.ToInt32(tReader[DbConsts.SliderEndValue]),
-                                tReader[DbConsts.SliderStartCaption].ToString(),
-                                tReader[DbConsts.SliderEndCaption].ToString()
+                                Convert.ToInt32(tReader[DbConsts.QUESTIONS_ID]),
+                                tReader[DbConsts.QUESTIONS_QUESTIONS_TEXT].ToString(),
+                                Convert.ToInt32(tReader[DbConsts.QUESTIONS_QUESTIONS_ORDER]),
+                                Convert.ToInt32(tReader[DbConsts.SLIDER_START_VALUE]),
+                                Convert.ToInt32(tReader[DbConsts.SLIDER_END_VALUE]),
+                                tReader[DbConsts.SLIDER_START_CAPTION].ToString(),
+                                tReader[DbConsts.SLIDER_END_CAPTION].ToString()
                             ));
                         }
                     }
@@ -136,38 +143,51 @@ namespace SurveyConfiguratorTask.Repo
                 }
 
                 tResult.Data = tQuestions;
+                return tResult;
+
             }
             catch (SqlException sqlEx)
             {
-                tResult.Success = false;
-                tResult.Message = "SQL error occurred while loading slider questions.";
-                tResult.Error = ErrorTypeEnum.SqlErrorSliderLoad;
+                
                 Log.Error(sqlEx, "SQL error while loading slider questions.");
+                return new Result<List<Question>>
+                {
+                    Success = false,
+                    Message = "SQL error occurred while loading slider questions.",
+                    Error = ErrorTypeEnum.SqlErrorSliderLoad
+
+                };
+
+                
             }
             catch (Exception ex)
             {
-                tResult.Success = false;
-                tResult.Message = "Unexpected error occurred while loading slider questions.";
-                tResult.Error = ErrorTypeEnum.UnknownErrorSliderLoad;
                 Log.Error(ex, "Unexpected error while loading slider questions.");
+                return new Result<List<Question>>
+                {
+                    Success = false,
+                    Message = "Unexpected error occurred while loading slider questions.",
+                    Error = ErrorTypeEnum.UnknownErrorSliderLoad
+                };
+                
             }
-
-            return tResult;
         }
         public Result<List<Question>> SmileyQuestionsLoad(string pConnectionString)
         {
-            var tResult = new Result<List<Question>> { Success = true, Error = ErrorTypeEnum.None };
-            var tQuestions = new List<Question>();
 
             try
             {
+                var tResult = new Result<List<Question>> { Success = true, Error = ErrorTypeEnum.None };
+
+                var tQuestions = new List<Question>();
+
                 using (var tConnection = new SqlConnection(pConnectionString))
                 using (var tCommand = tConnection.CreateCommand())
                 {
-                    tCommand.CommandText = $"SELECT {DbConsts.QuestionsSelectColumns}, {DbConsts.SmileySelectColumns} " +
-                                      $"FROM {DbConsts.QuestionsTableName} " +
-                                      $"INNER JOIN {DbConsts.SmileyTableName} " +
-                                      $"ON {DbConsts.QuestionsTableName}.{DbConsts.QuestionsId} = {DbConsts.SmileyTableName}.{DbConsts.SmileyId}";
+                    tCommand.CommandText = $"SELECT {DbConsts.QUESTIONS_SELECT_COLUMNS}, {DbConsts.SMILEY_SELECT_COLUMNS} " +
+                                      $"FROM {DbConsts.QUESTIONS_TABLE_NAME} " +
+                                      $"INNER JOIN {DbConsts.SMILEY_TABLE_NAME} " +
+                                      $"ON {DbConsts.QUESTIONS_TABLE_NAME}.{DbConsts.QUESTIONS_ID} = {DbConsts.SMILEY_TABLE_NAME}.{DbConsts.SMILEY_ID}";
 
                     tConnection.Open();
                     using (var tReader = tCommand.ExecuteReader())
@@ -175,10 +195,10 @@ namespace SurveyConfiguratorTask.Repo
                         while (tReader.Read())
                         {
                             tQuestions.Add(new SmileyFacesQuestion(
-                                Convert.ToInt32(tReader[DbConsts.QuestionsId]),
-                                tReader[DbConsts.QuestionsQuestionText].ToString(),
-                                Convert.ToInt32(tReader[DbConsts.QuestionsQuestionOrder]),
-                                Convert.ToInt32(tReader[DbConsts.SmileySmileyCount])
+                                Convert.ToInt32(tReader[DbConsts.QUESTIONS_ID]),
+                                tReader[DbConsts.QUESTIONS_QUESTIONS_TEXT].ToString(),
+                                Convert.ToInt32(tReader[DbConsts.QUESTIONS_QUESTIONS_ORDER]),
+                                Convert.ToInt32(tReader[DbConsts.SMILEY_SMILEY_COUNT])
                             ));
                         }
                     }
@@ -186,38 +206,48 @@ namespace SurveyConfiguratorTask.Repo
                 }
 
                 tResult.Data = tQuestions;
+                return tResult;
+
             }
+            
             catch (SqlException sqlEx)
             {
-                tResult.Success = false;
-                tResult.Message = "SQL error occurred while loading smiley questions.";
-                tResult.Error = ErrorTypeEnum.SqlErrorSmileyLoad;
                 Log.Error(sqlEx, "SQL error while loading smiley questions.");
+                return new Result<List<Question>>
+                {
+                    Success = false,
+                    Message = "SQL error occurred while loading smiley questions.",
+                    Error = ErrorTypeEnum.SqlErrorSmileyLoad
+                };
             }
             catch (Exception ex)
             {
-                tResult.Success = false;
-                tResult.Message = "Unexpected error occurred while loading smiley questions.";
-                tResult.Error = ErrorTypeEnum.UnknownErrorSmileyLoad;
                 Log.Error(ex, "Unexpected error while loading smiley questions.");
+                return new Result<List<Question>>
+                {
+                    Success = false,
+                    Message = "Unexpected error occurred while loading smiley questions.",
+                    Error = ErrorTypeEnum.UnknownErrorSmileyLoad
+                };
             }
 
-            return tResult;
+
         }
         public Result<List<Question>> StarsQuestionsLoad(string pConnectionString)
         {
-            var tResult = new Result<List<Question>> { Success = true, Error = ErrorTypeEnum.None };
-            var tQuestions = new List<Question>();
+            
 
             try
             {
+                var tResult = new Result<List<Question>> { Success = true, Error = ErrorTypeEnum.None };
+                var tQuestions = new List<Question>();
                 using (var tConnection = new SqlConnection(pConnectionString))
                 using (var tCommand = tConnection.CreateCommand())
                 {
-                    tCommand.CommandText = $"SELECT {DbConsts.QuestionsSelectColumns}, {DbConsts.StarsSelectColumns} " +
-                                      $"FROM {DbConsts.QuestionsTableName} " +
-                                      $"INNER JOIN {DbConsts.StarsTableName} " +
-                                      $"ON {DbConsts.QuestionsTableName}.{DbConsts.QuestionsId} = {DbConsts.StarsTableName}.{DbConsts.StarsId}";
+                    tCommand.CommandText = $"SELECT {DbConsts.QUESTIONS_SELECT_COLUMNS}, {DbConsts.STARS_SELECT_COLUMNS} " +
+                                      $"FROM {DbConsts.QUESTIONS_TABLE_NAME} " +
+                                      $"INNER JOIN {DbConsts.STARS_TABLE_NAME} " +
+                                      $"ON {DbConsts.QUESTIONS_TABLE_NAME}.{DbConsts.QUESTIONS_ID} = {DbConsts.STARS_TABLE_NAME}.{DbConsts.STARS_ID}";
 
                     tConnection.Open();
                     using (var tReader = tCommand.ExecuteReader())
@@ -225,10 +255,10 @@ namespace SurveyConfiguratorTask.Repo
                         while (tReader.Read())
                         {
                             tQuestions.Add(new StarsQuestion(
-                                Convert.ToInt32(tReader[DbConsts.QuestionsId]),
-                                tReader[DbConsts.QuestionsQuestionText].ToString(),
-                                Convert.ToInt32(tReader[DbConsts.QuestionsQuestionOrder]),
-                                Convert.ToInt32(tReader[DbConsts.StarsStarsCount])
+                                Convert.ToInt32(tReader[DbConsts.QUESTIONS_ID]),
+                                tReader[DbConsts.QUESTIONS_QUESTIONS_TEXT].ToString(),
+                                Convert.ToInt32(tReader[DbConsts.QUESTIONS_QUESTIONS_ORDER]),
+                                Convert.ToInt32(tReader[DbConsts.STARS_STARS_COUNT])
                             ));
                         }
                     }
@@ -236,34 +266,41 @@ namespace SurveyConfiguratorTask.Repo
                 }
 
                 tResult.Data = tQuestions;
+                return tResult;
+
             }
             catch (SqlException sqlEx)
             {
-                tResult.Success = false;
-                tResult.Message = "SQL error occurred while loading star questions.";
-                tResult.Error = ErrorTypeEnum.SqlErrorStarsLoad;
                 Log.Error(sqlEx, "SQL error while loading star questions.");
+                return new Result<List<Question>>
+                {
+                    Success = false,
+                    Message = "SQL error occurred while loading star questions.",
+                    Error = ErrorTypeEnum.SqlErrorStarsLoad
+                };
             }
             catch (Exception ex)
             {
-                tResult.Success = false;
-                tResult.Message = "Unexpected error occurred while loading star questions.";
-                tResult.Error = ErrorTypeEnum.UnknownErrorStarsLoad;
                 Log.Error(ex, "Unexpected error while loading star questions.");
+                return new Result<List<Question>>
+                {
+                    Success = false,
+                    Message = "Unexpected error occurred while loading star questions.",
+                    Error = ErrorTypeEnum.UnknownErrorStarsLoad
+                };
             }
 
-            return tResult;
+
         }
         public Result<int> AddQuestion(Question pQuestion)
         {
-            Result<int> tResult = new Result<int>
-            {
-                Success = true,
-                Error = ErrorTypeEnum.None
-            };
-
             try
             {
+                Result<int> tResult = new Result<int>
+                {
+                    Success = true,
+                    Error = ErrorTypeEnum.None
+                };
                 using (var tConnection = new SqlConnection(mConnectionString))
                 {
                     tConnection.Open();
@@ -277,51 +314,51 @@ namespace SurveyConfiguratorTask.Repo
                                 tCommand.Transaction = tTransaction;
 
                                 // 1. Insert into Questions (Id is auto-generated)
-                                tCommand.CommandText = $"INSERT INTO {DbConsts.QuestionsTableName} " +
-                                                  $"({DbConsts.QuestionsQuestionText}, {DbConsts.QuestionsQuestionOrder}, {DbConsts.QuestionsQuestionType}) " +
-                                                  $"VALUES (@{DbConsts.QuestionsQuestionText}, @{DbConsts.QuestionsQuestionOrder}, @{DbConsts.QuestionsQuestionType}); " +
+                                tCommand.CommandText = $"INSERT INTO {DbConsts.QUESTIONS_TABLE_NAME} " +
+                                                  $"({DbConsts.QUESTIONS_QUESTIONS_TEXT}, {DbConsts.QUESTIONS_QUESTIONS_ORDER}, {DbConsts.QUESTIONS_QUESTIONS_TYPE}) " +
+                                                  $"VALUES (@{DbConsts.QUESTIONS_QUESTIONS_TEXT}, @{DbConsts.QUESTIONS_QUESTIONS_ORDER}, @{DbConsts.QUESTIONS_QUESTIONS_TYPE}); " +
                                                   "SELECT CAST(SCOPE_IDENTITY() AS INT);";
 
-                                tCommand.Parameters.Add($"@{DbConsts.QuestionsQuestionText}", SqlDbType.NVarChar,60).Value = pQuestion.Text;
-                                tCommand.Parameters.Add($"@{DbConsts.QuestionsQuestionOrder}", SqlDbType.Int).Value = pQuestion.Order;
-                                tCommand.Parameters.Add($"@{DbConsts.QuestionsQuestionType}", SqlDbType.Int).Value = (int)pQuestion.TypeQuestion;
+                                tCommand.Parameters.Add($"@{DbConsts.QUESTIONS_QUESTIONS_TEXT}", SqlDbType.NVarChar,60).Value = pQuestion.Text;
+                                tCommand.Parameters.Add($"@{DbConsts.QUESTIONS_QUESTIONS_ORDER}", SqlDbType.Int).Value = pQuestion.Order;
+                                tCommand.Parameters.Add($"@{DbConsts.QUESTIONS_QUESTIONS_TYPE}", SqlDbType.Int).Value = (int)pQuestion.TypeQuestion;
 
                                 // Get the generated Question Id
                                 int tQuestionId = (int)tCommand.ExecuteScalar();
 
                                 // 2. Insert into the specific question type table
-                                tCommand.Parameters.Clear(); 
+                                tCommand.Parameters.Clear();
 
                                 switch (pQuestion.TypeQuestion)
                                 {
                                     case TypeQuestionEnum.SliderQuestion:
                                         var tSliderQuestion = (SliderQuestion)pQuestion;
-                                        tCommand.CommandText = $"INSERT INTO {DbConsts.SliderTableName} " +
-                                                          $"({DbConsts.SliderId}, {DbConsts.SliderStartValue}, {DbConsts.SliderEndValue}, {DbConsts.SliderStartCaption}, {DbConsts.SliderEndCaption}) " +
-                                                          $"VALUES (@Id, @StartValue, @EndValue, @StartCaption, @EndCaption)";
-                                        tCommand.Parameters.Add("@Id", SqlDbType.Int).Value = tQuestionId;
-                                        tCommand.Parameters.Add("@StartValue", SqlDbType.Int).Value = tSliderQuestion.StartValue;
-                                        tCommand.Parameters.Add("@EndValue", SqlDbType.Int).Value = tSliderQuestion.EndValue;
-                                        tCommand.Parameters.Add("@StartCaption", SqlDbType.NVarChar,30).Value = tSliderQuestion.StartCaption;
-                                        tCommand.Parameters.Add("@EndCaption", SqlDbType.NVarChar,30).Value = tSliderQuestion.EndCaption;
+                                        tCommand.CommandText = $"INSERT INTO {DbConsts.SLIDER_TABLE_NAME} " +
+                                                          $"({DbConsts.SLIDER_ID}, {DbConsts.SLIDER_START_VALUE}, {DbConsts.SLIDER_END_VALUE}, {DbConsts.SLIDER_START_CAPTION}, {DbConsts.SLIDER_END_CAPTION}) " +
+                                                          $"VALUES (@{DbConsts.QUESTIONS_ID}, @{DbConsts.SLIDER_START_VALUE}, @{DbConsts.SLIDER_END_VALUE}, @{DbConsts.SLIDER_START_CAPTION}, @{DbConsts.SLIDER_END_CAPTION})";
+                                        tCommand.Parameters.Add($"@{DbConsts.QUESTIONS_ID}", SqlDbType.Int).Value = tQuestionId;
+                                        tCommand.Parameters.Add($"@{DbConsts.SLIDER_START_VALUE}", SqlDbType.Int).Value = tSliderQuestion.StartValue;
+                                        tCommand.Parameters.Add($"@{DbConsts.SLIDER_END_VALUE}", SqlDbType.Int).Value = tSliderQuestion.EndValue;
+                                        tCommand.Parameters.Add($"@{DbConsts.SLIDER_START_CAPTION}", SqlDbType.NVarChar, 30).Value = tSliderQuestion.StartCaption;
+                                        tCommand.Parameters.Add($"@{DbConsts.SLIDER_END_CAPTION}", SqlDbType.NVarChar, 30).Value = tSliderQuestion.EndCaption;
                                         break;
 
                                     case TypeQuestionEnum.SmileyFacesQuestion:
                                         var tSmileyFaceQuestion = (SmileyFacesQuestion)pQuestion;
-                                        tCommand.CommandText = $"INSERT INTO {DbConsts.SmileyTableName} " +
-                                                          $"({DbConsts.SmileyId}, {DbConsts.SmileySmileyCount}) " +
-                                                          $"VALUES (@Id, @SmileyCount)";
-                                        tCommand.Parameters.Add("@Id", SqlDbType.Int).Value = tQuestionId;
-                                        tCommand.Parameters.Add("@SmileyCount", SqlDbType.Int).Value = tSmileyFaceQuestion.SmileyCount;
+                                        tCommand.CommandText = $"INSERT INTO {DbConsts.SMILEY_TABLE_NAME} " +
+                                                          $"({DbConsts.SMILEY_ID}, {DbConsts.SMILEY_SMILEY_COUNT}) " +
+                                                          $"VALUES (@{DbConsts.QUESTIONS_ID}, @{DbConsts.SMILEY_SMILEY_COUNT})";
+                                        tCommand.Parameters.Add($"@{DbConsts.QUESTIONS_ID}", SqlDbType.Int).Value = tQuestionId;
+                                        tCommand.Parameters.Add($"@{DbConsts.SMILEY_SMILEY_COUNT}", SqlDbType.Int).Value = tSmileyFaceQuestion.SmileyCount;
                                         break;
 
                                     case TypeQuestionEnum.StarsQuestion:
                                         var tStarsQuestion = (StarsQuestion)pQuestion;
-                                        tCommand.CommandText = $"INSERT INTO {DbConsts.StarsTableName} " +
-                                                          $"({DbConsts.StarsId}, {DbConsts.StarsStarsCount}) " +
-                                                          $"VALUES (@Id, @StarsCount)";
-                                        tCommand.Parameters.Add("@Id", SqlDbType.Int).Value = tQuestionId;
-                                        tCommand.Parameters.Add("@StarsCount", SqlDbType.Int).Value = tStarsQuestion.StarsCount;
+                                        tCommand.CommandText = $"INSERT INTO {DbConsts.STARS_TABLE_NAME} " +
+                                                          $"({DbConsts.STARS_ID}, {DbConsts.STARS_STARS_COUNT}) " +
+                                                          $"VALUES (@{DbConsts.QUESTIONS_ID}, @{DbConsts.STARS_STARS_COUNT})";
+                                        tCommand.Parameters.Add($"@{DbConsts.QUESTIONS_ID}", SqlDbType.Int).Value = tQuestionId;
+                                        tCommand.Parameters.Add($"@{DbConsts.STARS_STARS_COUNT}", SqlDbType.Int).Value = tStarsQuestion.StarsCount;
                                         break;
 
                                     default:
@@ -336,56 +373,67 @@ namespace SurveyConfiguratorTask.Repo
 
                                 // Return the generated question Id
                                 tResult.Data = tQuestionId;
+                                return tResult;
+
                             }
                         }
                         catch (SqlException sqlEx)
                         {
                             tTransaction.Rollback();
-                            tResult.Success = false;
-                            tResult.Message = "We couldn't save your question at the moment. Please try again later.";
-                            tResult.Error = ErrorTypeEnum.SqlErrorAddQuestion;
                             Log.Error(sqlEx, "SQL error occurred while inserting question of type {Type}", pQuestion.TypeQuestion);
+                            return new Result<int>
+                            {
+                                Success = false,
+                                Message = "We couldn't save your question at the moment. Please try again later.",
+                                Error = ErrorTypeEnum.SqlErrorAddQuestion
+                            };
                         }
                         catch (Exception ex)
                         {
                             tTransaction.Rollback();
-                            tResult.Success = false;
-                            tResult.Message = "Unexpected error occurred while adding question.";
-                            tResult.Error = ErrorTypeEnum.UnknownErrorAddQuestion;
                             Log.Error(ex, "Unexpected error occurred while inserting question of type {Type}", pQuestion.TypeQuestion);
+                            return new Result<int>
+                            {
+                                Success = false,
+                                Message = "Unexpected error occurred while adding question.",
+                                Error = ErrorTypeEnum.UnknownErrorAddQuestion
+                            };
                         }
                     }
                 }
             }
             catch (Exception ex)
             {
-                tResult.Success = false;
-                tResult.Message = "Failed to connect to the database. Contact the administrator to resolve the issue.";
-                tResult.Error = ErrorTypeEnum.DatabaseConnectionFailed;
                 Log.Error(ex, "Database connection failed.");
+                return new Result<int>
+                {
+                    Success = false,
+                    Message = "Failed to connect to the database. Contact the administrator to resolve the issue.",
+                    Error = ErrorTypeEnum.DatabaseConnectionFailed
+                };
             }
 
-            return tResult;
+
         }
         public Result<object> DeleteQuestion(int pId)
         {
-            Result<object> tResult = new Result<object>();
-            tResult.Success = true;
-            tResult.Error = ErrorTypeEnum.None;
+            
             try
             {
+                Result<object> tResult = new Result<object>();
+                tResult.Success = true;
+                tResult.Error = ErrorTypeEnum.None;
                 using (var tConnection = new SqlConnection(mConnectionString))
                 {
                     using (var tCommand = tConnection.CreateCommand())
                     {
-                        tCommand.CommandText = $"DELETE FROM {DbConsts.QuestionsTableName} WHERE {DbConsts.QuestionsId} = @{DbConsts.QuestionsId}";
-                        tCommand.Parameters.Add($"@{DbConsts.QuestionsId}", System.Data.SqlDbType.Int).Value = pId;
+                        tCommand.CommandText = $"DELETE FROM {DbConsts.QUESTIONS_TABLE_NAME} WHERE {DbConsts.QUESTIONS_ID} = @{DbConsts.QUESTIONS_ID}";
+                        tCommand.Parameters.Add($"@{DbConsts.QUESTIONS_ID}", System.Data.SqlDbType.Int).Value = pId;
 
 
                         tConnection.Open();
                         tCommand.ExecuteNonQuery();
-
-
+                        return tResult;
 
                     }
 
@@ -394,30 +442,35 @@ namespace SurveyConfiguratorTask.Repo
             }
             catch (SqlException sqlEx)
             {
-
-                tResult.Success = false;
-                tResult.Message = "We couldn't delete your question at the moment. Please try again later.";
-                tResult.Error = ErrorTypeEnum.SqlErrorDeleteQuestion;
                 Log.Error(sqlEx, "SQL error occurred while deleting question ,Id: {Id}", pId);
+                return new Result<object>
+                {
+                    Success = false,
+                    Message = "We couldn't delete your question at the moment. Please try again later.",
+                    Error = ErrorTypeEnum.SqlErrorDeleteQuestion
+                };
             }
             catch (Exception ex)
             {
-                tResult.Success = false;
-                tResult.Message = "We couldn't delete your question due to an unexpected error. Please try again or contact support.";
-                tResult.Error = ErrorTypeEnum.UnknownErrorDeleteQuestion;
                 Log.Error(ex, "Unexpected error occurred while deleting question. QuestionId: {Id}", pId);
-
+                return new Result<object>
+                {
+                    Success = false,
+                    Message = "We couldn't delete your question due to an unexpected error. Please try again or contact support.",
+                    Error = ErrorTypeEnum.UnknownErrorDeleteQuestion
+                };
             }
-            return tResult; 
+
         }
         public Result<int> EditQuestion(Question pQuestion)
         {
-           Result<int> tResult = new Result<int>() ;
-            tResult.Success= true ;
-            tResult.Error = ErrorTypeEnum.None;
-            tResult.Data = 0;
+           
             try
             {
+                Result<int> tResult = new Result<int>();
+                tResult.Success = true;
+                tResult.Error = ErrorTypeEnum.None;
+                tResult.Data = 0;
                 using (var tConnection = new SqlConnection(mConnectionString))
                 {
                     tConnection.Open();
@@ -431,11 +484,11 @@ namespace SurveyConfiguratorTask.Repo
                             using (var tCommand = tConnection.CreateCommand())
                             {
                                 //edit object data in general question table in database 
-                                tCommand.CommandText = $"UPDATE {DbConsts.QuestionsTableName} " +
-                                    $"SET {DbConsts.QuestionsQuestionText} = @{DbConsts.QuestionsQuestionText} " +
-                                    $"WHERE {DbConsts.QuestionsTableName}.{DbConsts.QuestionsId} = @{DbConsts.QuestionsId}";
-                                tCommand.Parameters.Add($"@{DbConsts.QuestionsId}", System.Data.SqlDbType.Int).Value = pQuestion.Id;
-                                tCommand.Parameters.Add($"@{DbConsts.QuestionsQuestionText}", System.Data.SqlDbType.NVarChar,60).Value = pQuestion.Text;
+                                tCommand.CommandText = $"UPDATE {DbConsts.QUESTIONS_TABLE_NAME} " +
+                                    $"SET {DbConsts.QUESTIONS_QUESTIONS_TEXT} = @{DbConsts.QUESTIONS_QUESTIONS_TEXT} " +
+                                    $"WHERE {DbConsts.QUESTIONS_TABLE_NAME}.{DbConsts.QUESTIONS_ID} = @{DbConsts.QUESTIONS_ID}";
+                                tCommand.Parameters.Add($"@{DbConsts.QUESTIONS_ID}", System.Data.SqlDbType.Int).Value = pQuestion.Id;
+                                tCommand.Parameters.Add($"@{DbConsts.QUESTIONS_QUESTIONS_TEXT}", System.Data.SqlDbType.NVarChar,60).Value = pQuestion.Text;
                                 tCommand.Transaction = tTransaction;
                                 tCommand.ExecuteNonQuery();
 
@@ -443,36 +496,36 @@ namespace SurveyConfiguratorTask.Repo
                                 switch (pQuestion.TypeQuestion)
                                 {
                                     case TypeQuestionEnum.SliderQuestion:
-                                        tCommand.CommandText = $"UPDATE {DbConsts.SliderTableName} " +
-                                            $"SET {DbConsts.SliderStartValue} = @{DbConsts.SliderStartValue} ," +
-                                            $"{DbConsts.SliderEndValue} = @{DbConsts.SliderEndValue} " +
-                                            $", {DbConsts.SliderStartCaption} =@{DbConsts.SliderStartCaption} " +
-                                            $", {DbConsts.SliderEndCaption} = @{DbConsts.SliderEndCaption}" +
-                                            $" WHERE {DbConsts.SliderTableName}.{DbConsts.SliderId} = @{DbConsts.SliderId} ";
+                                        tCommand.CommandText = $"UPDATE {DbConsts.SLIDER_TABLE_NAME} " +
+                                            $"SET {DbConsts.SLIDER_START_VALUE} = @{DbConsts.SLIDER_START_VALUE} ," +
+                                            $"{DbConsts.SLIDER_END_VALUE} = @{DbConsts.SLIDER_END_VALUE} " +
+                                            $", {DbConsts.SLIDER_START_CAPTION} =@{DbConsts.SLIDER_START_CAPTION} " +
+                                            $", {DbConsts.SLIDER_END_CAPTION} = @{DbConsts.SLIDER_END_CAPTION}" +
+                                            $" WHERE {DbConsts.SLIDER_TABLE_NAME}.{DbConsts.SLIDER_ID} = @{DbConsts.SLIDER_ID} ";
 
                                         var tSliderQuestion = (SliderQuestion)pQuestion;
-                                        tCommand.Parameters.Add($"@{DbConsts.SliderStartValue}", System.Data.SqlDbType.Int).Value = tSliderQuestion.StartValue;
-                                        tCommand.Parameters.Add($"@{DbConsts.SliderEndValue}", System.Data.SqlDbType.Int).Value = tSliderQuestion.EndValue;
-                                        tCommand.Parameters.Add($"@{DbConsts.SliderStartCaption}", System.Data.SqlDbType.NVarChar,30).Value = tSliderQuestion.StartCaption;
-                                        tCommand.Parameters.Add($"@{DbConsts.SliderEndCaption}", System.Data.SqlDbType.NVarChar,30).Value = tSliderQuestion.EndCaption;
+                                        tCommand.Parameters.Add($"@{DbConsts.SLIDER_START_VALUE}", System.Data.SqlDbType.Int).Value = tSliderQuestion.StartValue;
+                                        tCommand.Parameters.Add($"@{DbConsts.SLIDER_END_VALUE}", System.Data.SqlDbType.Int).Value = tSliderQuestion.EndValue;
+                                        tCommand.Parameters.Add($"@{DbConsts.SLIDER_START_CAPTION}", System.Data.SqlDbType.NVarChar,30).Value = tSliderQuestion.StartCaption;
+                                        tCommand.Parameters.Add($"@{DbConsts.SLIDER_END_CAPTION}", System.Data.SqlDbType.NVarChar,30).Value = tSliderQuestion.EndCaption;
 
 
 
                                         break;
                                     case TypeQuestionEnum.SmileyFacesQuestion:
-                                        tCommand.CommandText = $"UPDATE {DbConsts.SmileyTableName} " +
-                                            $"SET {DbConsts.SmileySmileyCount} = @{DbConsts.SmileySmileyCount} " +
-                                            $"WHERE {DbConsts.SmileyTableName}.{DbConsts.SmileyId} = @{DbConsts.SmileyId} ";
+                                        tCommand.CommandText = $"UPDATE {DbConsts.SMILEY_TABLE_NAME} " +
+                                            $"SET {DbConsts.SMILEY_SMILEY_COUNT} = @{DbConsts.SMILEY_SMILEY_COUNT} " +
+                                            $"WHERE {DbConsts.SMILEY_TABLE_NAME}.{DbConsts.SMILEY_ID} = @{DbConsts.SMILEY_ID} ";
                                         var tSmileyFaceQuestion = (Models.SmileyFacesQuestion)pQuestion;
-                                        tCommand.Parameters.Add($"@{DbConsts.SmileySmileyCount}", System.Data.SqlDbType.Int).Value = tSmileyFaceQuestion.SmileyCount;
+                                        tCommand.Parameters.Add($"@{DbConsts.SMILEY_SMILEY_COUNT}", System.Data.SqlDbType.Int).Value = tSmileyFaceQuestion.SmileyCount;
 
                                         break;
                                     case TypeQuestionEnum.StarsQuestion:
-                                        tCommand.CommandText = $"UPDATE {DbConsts.StarsTableName} " +
-                                            $"SET {DbConsts.StarsStarsCount} = @{DbConsts.StarsStarsCount} " +
-                                            $"WHERE {DbConsts.StarsTableName}.{DbConsts.StarsId} = @{DbConsts.StarsId} ";
+                                        tCommand.CommandText = $"UPDATE {DbConsts.STARS_TABLE_NAME} " +
+                                            $"SET {DbConsts.STARS_STARS_COUNT} = @{DbConsts.STARS_STARS_COUNT} " +
+                                            $"WHERE {DbConsts.STARS_TABLE_NAME}.{DbConsts.STARS_ID} = @{DbConsts.STARS_ID} ";
                                         var tStarsQuestion = (StarsQuestion)pQuestion;
-                                        tCommand.Parameters.Add($"@{DbConsts.StarsStarsCount}", System.Data.SqlDbType.Int).Value = tStarsQuestion.StarsCount;
+                                        tCommand.Parameters.Add($"@{DbConsts.STARS_STARS_COUNT}", System.Data.SqlDbType.Int).Value = tStarsQuestion.StarsCount;
 
                                         break;
 
@@ -483,45 +536,57 @@ namespace SurveyConfiguratorTask.Repo
                             }
                             tTransaction.Commit();
                             tConnection.Close();
+                            return tResult;
 
                         }
                         catch (SqlException ex)
                         {
                             tTransaction.Rollback();
-                            tResult.Success = false;
-                            tResult.Message = "We couldn't update your question at the moment. Please try again later.";
-                            tResult.Error = ErrorTypeEnum.SqlErrorUpdateLastModified;
                             Log.Error(ex, "SQL error occurred while updating question. QuestionId: {Id}", pQuestion.Id);
+                            return new Result<int>
+                            {
+                                Success = false,
+                                Message = "We couldn't update your question at the moment. Please try again later.",
+                                Error = ErrorTypeEnum.SqlErrorUpdateLastModified
+                            };
                         }
                         catch (Exception ex)
                         {
                             tTransaction.Rollback();
-                            tResult.Success = false;
-                            tResult.Message = "Unexpected error occurred while adding question.";
-                            tResult.Error = ErrorTypeEnum.UnknownErrorUpdateLastModified;
                             Log.Error(ex, "Unexpected error occurred while inserting question of type {Type}", pQuestion.TypeQuestion);
+                            return new Result<int>
+                            {
+                                Success = false,
+                                Message = "Unexpected error occurred while adding question.",
+                                Error = ErrorTypeEnum.UnknownErrorUpdateLastModified
+                            };
                         }
+
                     }
 
                 }
             }
             catch (Exception ex)
             {
-                tResult.Success = false;
-                tResult.Message = "Failed to connect to the database. Contact the administrator to resolve the issue.";
-                tResult.Error = ErrorTypeEnum.DatabaseConnectionFailed;
                 Log.Error(ex, "Database connection failed.");
+                return new Result<int>
+                {
+                    Success = false,
+                    Message = "Failed to connect to the database. Contact the administrator to resolve the issue.",
+                    Error = ErrorTypeEnum.DatabaseConnectionFailed
+                };
             }
-            return tResult; 
+
         }
         public Result<int> EditOrder(List<int> pIds, List<int> pOrders)
         {
-            Result<int> tResult = new Result<int>();
-            tResult.Success = true;
-            tResult.Error = ErrorTypeEnum.None;
+           
 
             try
             {
+                Result<int> tResult = new Result<int>();
+                tResult.Success = true;
+                tResult.Error = ErrorTypeEnum.None;
                 using (var tConnection = new SqlConnection(mConnectionString))
                 {
 
@@ -535,12 +600,12 @@ namespace SurveyConfiguratorTask.Repo
                             using (var cmd = tConnection.CreateCommand())
                             {
                                 var tStringBuilder = new StringBuilder();
-                                tStringBuilder.Append($"UPDATE {DbConsts.QuestionsTableName} SET {DbConsts.QuestionsQuestionOrder} = CASE {DbConsts.QuestionsId} ");
+                                tStringBuilder.Append($"UPDATE {DbConsts.QUESTIONS_TABLE_NAME} SET {DbConsts.QUESTIONS_QUESTIONS_ORDER} = CASE {DbConsts.QUESTIONS_ID} ");
                                 for (int i = 0; i < pIds.Count; i++)
                                 {
                                     tStringBuilder.Append($"WHEN '{pIds[i]}' THEN {pOrders[i]}\n");
                                 }
-                                tStringBuilder.Append($"\n END WHERE {DbConsts.QuestionsId} IN (");
+                                tStringBuilder.Append($"\n END WHERE {DbConsts.QUESTIONS_ID} IN (");
 
                                 for (int i = 0; i < pIds.Count - 1; i++)
                                     tStringBuilder.Append($"'{pIds[i]}',");
@@ -553,50 +618,62 @@ namespace SurveyConfiguratorTask.Repo
                                 tTransaction.Commit();
                                 tConnection.Close();
                             }
+                            return tResult;
+
 
                         }
 
                         catch (SqlException ex)
                         {
                             tTransaction.Rollback();
-                            tResult.Success = false;
-                            tResult.Message = "We couldn't update order at the moment. Please try again later.";
-                            tResult.Error = ErrorTypeEnum.SqlErrorEditOrder;
                             Log.Error(ex, "SQL error occurred while updating order. ");
+                            return new Result<int>
+                            {
+                                Success = false,
+                                Message = "We couldn't update order at the moment. Please try again later.",
+                                Error = ErrorTypeEnum.SqlErrorEditOrder
+                            };
                         }
                         catch (Exception ex)
                         {
                             tTransaction.Rollback();
-                            tResult.Success = false;
-                            tResult.Message = "Unexpected error occurred while update order.";
-                            tResult.Error = ErrorTypeEnum.UnknownErrorEditOrder;
                             Log.Error(ex, "Unexpected error occurred while updating order ");
+                            return new Result<int>
+                            {
+                                Success = false,
+                                Message = "Unexpected error occurred while update order.",
+                                Error = ErrorTypeEnum.UnknownErrorEditOrder
+                            };
                         }
+
                     }
                 }
             }
             catch (Exception ex)
             {
-
-                tResult.Success = false;
-                tResult.Message = "Failed to connect to the database. Contact the administrator to resolve the issue.";
-                tResult.Error = ErrorTypeEnum.DatabaseConnectionFailed;
                 Log.Error(ex, "Database connection failed.");
+                return new Result<int>
+                {
+                    Success = false,
+                    Message = "Failed to connect to the database. Contact the administrator to resolve the issue.",
+                    Error = ErrorTypeEnum.DatabaseConnectionFailed
+                };
             }
-            return tResult;
         }
         public Result<int> GetCount()
         {
-            Result<int> tResult = new Result<int> { Success = true , Error = ErrorTypeEnum.None , Data = 0};
-            int tQuestionCount;
             try
             {
+                Result<int> tResult = new Result<int> { Success = true, Error = ErrorTypeEnum.None, Data = 0 };
+
                 // Get count of question in database 
+
+                int tQuestionCount;
                 using (var tConnection = new SqlConnection(mConnectionString))
                 {
                     using (var tCommand = tConnection.CreateCommand())
                     {
-                        tCommand.CommandText = $"SELECT COUNT({DbConsts.QuestionsId}) FROM Questions";
+                        tCommand.CommandText = $"SELECT COUNT({DbConsts.QUESTIONS_ID}) FROM Questions";
 
 
 
@@ -606,6 +683,7 @@ namespace SurveyConfiguratorTask.Repo
                         tQuestionCount = Convert.ToInt32(tReader[0]);
                         tResult.Data = tQuestionCount;
 
+                        return tResult;
 
                     }
 
@@ -614,228 +692,277 @@ namespace SurveyConfiguratorTask.Repo
             }
             catch (SqlException sqlEx)
             {
-
-                tResult.Success = false;
-                tResult.Message = "We couldn't retrieve the question count at the moment. Please try again later.";
-                tResult.Error = ErrorTypeEnum.SqlErrorGetCount;
                 Log.Error(sqlEx, "SQL error occurred while retrieving question count.");
+                return new Result<int>
+                {
+                    Success = false,
+                    Message = "We couldn't retrieve the question count at the moment. Please try again later.",
+                    Error = ErrorTypeEnum.SqlErrorGetCount
+                };
             }
             catch (Exception ex)
             {
-                tResult.Success = false;
-                tResult.Message = "We couldn't retrieve the question count due to an unexpected error. Please contact support.";
-                tResult.Error = ErrorTypeEnum.UnknownErrorGetCount;
                 Log.Error(ex, "Unexpected error occurred while retrieving question count.");
-            
+                return new Result<int>
+                {
+                    Success = false,
+                    Message = "We couldn't retrieve the question count due to an unexpected error. Please contact support.",
+                    Error = ErrorTypeEnum.UnknownErrorGetCount
+                };
             }
-            return tResult;
         }
         public Result<Question> GetQuestion(int pId)
         {
-            Result<Question> tResult = new Result<Question> { Success = true, Error = ErrorTypeEnum.None };
-            
+            Question tQuestion = null;
+
+            try
+            {
+                Result<Question> tResult = new Result<Question> { Success = true, Error = ErrorTypeEnum.None };
+
                 //Get question object (general and specific type information ) based on Id 
                 using (var tConnection = new SqlConnection(mConnectionString))
                 {
                     using (var tCommand = tConnection.CreateCommand())
                     {
-                    Question tQuestion = null;
 
-                    try
-                    {
-
-                        tCommand.CommandText = $"SELECT * FROM {DbConsts.QuestionsTableName} WHERE {DbConsts.QuestionsId} =@{DbConsts.QuestionsId}";
-                        tCommand.Parameters.Add($"@{DbConsts.QuestionsId}", System.Data.SqlDbType.Int).Value = pId;
-
-                        tConnection.Open();
-                        var tReader = tCommand.ExecuteReader();
-                        tReader.Read();
-
-                        switch ((TypeQuestionEnum)tReader[DbConsts.QuestionsQuestionType])
+                        try
                         {
-                            case TypeQuestionEnum.SliderQuestion:
-                                tConnection.Close();
-                                tCommand.CommandText = $"SELECT {DbConsts.QuestionsTableName}.*,{DbConsts.SliderTableName}.* " +
-                                    $"FROM {DbConsts.QuestionsTableName} INNER JOIN {DbConsts.SliderTableName}  " +
-                                    $"ON {DbConsts.QuestionsTableName}.{DbConsts.QuestionsId} = @{DbConsts.QuestionsId} " +
-                                    $"WHERE {DbConsts.QuestionsTableName}.{DbConsts.QuestionsId} = @{DbConsts.QuestionsId};";
-                                tConnection.Open();
 
-                                tReader = tCommand.ExecuteReader();
-                                tReader.Read();
-                                tQuestion = new SliderQuestion(
-                                    (int)tReader[DbConsts.QuestionsId],
-                                    (string)tReader[DbConsts.QuestionsQuestionText],
-                                    (int)tReader[DbConsts.QuestionsQuestionOrder],
-                                    (int)tReader[DbConsts.SliderStartValue],
-                                    (int)tReader[DbConsts.SliderEndValue],
-                                    (string)tReader[DbConsts.SliderStartCaption],
-                                    (string)tReader[DbConsts.SliderEndCaption]
-                                    );
-                                break;
-                            case TypeQuestionEnum.SmileyFacesQuestion:
-                                tConnection.Close();
+                            tCommand.CommandText = $"SELECT * FROM {DbConsts.QUESTIONS_TABLE_NAME} WHERE {DbConsts.QUESTIONS_ID} =@{DbConsts.QUESTIONS_ID}";
+                            tCommand.Parameters.Add($"@{DbConsts.QUESTIONS_ID}", System.Data.SqlDbType.Int).Value = pId;
 
-                                tCommand.CommandText = $"SELECT {DbConsts.QuestionsTableName}.*,{DbConsts.SmileyTableName}.* FROM {DbConsts.QuestionsTableName} " +
-                                    $"INNER JOIN {DbConsts.SmileyTableName}  ON {DbConsts.QuestionsTableName}.{DbConsts.QuestionsId}= @{DbConsts.QuestionsId} " +
-                                    $"WHERE {DbConsts.QuestionsTableName}.{DbConsts.QuestionsId} = @{DbConsts.QuestionsId};";
-                                tConnection.Open();
+                            tConnection.Open();
+                            var tReader = tCommand.ExecuteReader();
+                            tReader.Read();
 
-                                tReader = tCommand.ExecuteReader();
-                                tReader.Read();
-                                tQuestion = new Models.SmileyFacesQuestion(
-                                    (int)tReader[DbConsts.QuestionsId],
-                                    (string)tReader[DbConsts.QuestionsQuestionText],
-                                    (int)tReader[DbConsts.QuestionsQuestionOrder],
-                                    (int)tReader[DbConsts.SmileySmileyCount]
-                                    );
-                                break;
-                            case TypeQuestionEnum.StarsQuestion:
-                                tConnection.Close();
+                            switch ((TypeQuestionEnum)tReader[DbConsts.QUESTIONS_QUESTIONS_TYPE])
+                            {
+                                case TypeQuestionEnum.SliderQuestion:
+                                    tConnection.Close();
+                                    tCommand.CommandText = $"SELECT {DbConsts.QUESTIONS_TABLE_NAME}.*,{DbConsts.SLIDER_TABLE_NAME}.* " +
+                                        $"FROM {DbConsts.QUESTIONS_TABLE_NAME} INNER JOIN {DbConsts.SLIDER_TABLE_NAME}  " +
+                                        $"ON {DbConsts.QUESTIONS_TABLE_NAME}.{DbConsts.QUESTIONS_ID} = @{DbConsts.QUESTIONS_ID} " +
+                                        $"WHERE {DbConsts.QUESTIONS_TABLE_NAME}.{DbConsts.QUESTIONS_ID} = @{DbConsts.QUESTIONS_ID};";
+                                    tConnection.Open();
 
-                                tCommand.CommandText = $"SELECT {DbConsts.QuestionsTableName}.*,{DbConsts.StarsTableName}.* FROM {DbConsts.QuestionsTableName} " +
-                                    $"INNER JOIN {DbConsts.StarsTableName}  ON  {DbConsts.QuestionsTableName}.{DbConsts.QuestionsId}= @{DbConsts.QuestionsId}" +
-                                    $"   WHERE {DbConsts.QuestionsTableName}.{DbConsts.QuestionsId} = @{DbConsts.QuestionsId};";
-                                tConnection.Open();
+                                    tReader = tCommand.ExecuteReader();
+                                    tReader.Read();
+                                    tQuestion = new SliderQuestion(
+                                        (int)tReader[DbConsts.QUESTIONS_ID],
+                                        (string)tReader[DbConsts.QUESTIONS_QUESTIONS_TEXT],
+                                        (int)tReader[DbConsts.QUESTIONS_QUESTIONS_ORDER],
+                                        (int)tReader[DbConsts.SLIDER_START_VALUE],
+                                        (int)tReader[DbConsts.SLIDER_END_VALUE],
+                                        (string)tReader[DbConsts.SLIDER_START_CAPTION],
+                                        (string)tReader[DbConsts.SLIDER_END_CAPTION]
+                                        );
+                                    break;
+                                case TypeQuestionEnum.SmileyFacesQuestion:
+                                    tConnection.Close();
 
-                                tReader = tCommand.ExecuteReader();
-                                tReader.Read();
-                                tQuestion = new StarsQuestion(
-                                    (int)tReader[DbConsts.QuestionsId],
-                                    (string)tReader[DbConsts.QuestionsQuestionText],
-                                    (int)tReader[DbConsts.QuestionsQuestionOrder],
-                                    (int)tReader[DbConsts.StarsStarsCount]
-                                    );
-                                break;
+                                    tCommand.CommandText = $"SELECT {DbConsts.QUESTIONS_TABLE_NAME}.*,{DbConsts.SMILEY_TABLE_NAME}.* FROM {DbConsts.QUESTIONS_TABLE_NAME} " +
+                                        $"INNER JOIN {DbConsts.SMILEY_TABLE_NAME}  ON {DbConsts.QUESTIONS_TABLE_NAME}.{DbConsts.QUESTIONS_ID}= @{DbConsts.QUESTIONS_ID} " +
+                                        $"WHERE {DbConsts.QUESTIONS_TABLE_NAME}.{DbConsts.QUESTIONS_ID} = @{DbConsts.QUESTIONS_ID};";
+                                    tConnection.Open();
+
+                                    tReader = tCommand.ExecuteReader();
+                                    tReader.Read();
+                                    tQuestion = new Models.SmileyFacesQuestion(
+                                        (int)tReader[DbConsts.QUESTIONS_ID],
+                                        (string)tReader[DbConsts.QUESTIONS_QUESTIONS_TEXT],
+                                        (int)tReader[DbConsts.QUESTIONS_QUESTIONS_ORDER],
+                                        (int)tReader[DbConsts.SMILEY_SMILEY_COUNT]
+                                        );
+                                    break;
+                                case TypeQuestionEnum.StarsQuestion:
+                                    tConnection.Close();
+
+                                    tCommand.CommandText = $"SELECT {DbConsts.QUESTIONS_TABLE_NAME}.*,{DbConsts.STARS_TABLE_NAME}.* FROM {DbConsts.QUESTIONS_TABLE_NAME} " +
+                                        $"INNER JOIN {DbConsts.STARS_TABLE_NAME}  ON  {DbConsts.QUESTIONS_TABLE_NAME}.{DbConsts.QUESTIONS_ID}= @{DbConsts.QUESTIONS_ID}" +
+                                        $"   WHERE {DbConsts.QUESTIONS_TABLE_NAME}.{DbConsts.QUESTIONS_ID} = @{DbConsts.QUESTIONS_ID};";
+                                    tConnection.Open();
+
+                                    tReader = tCommand.ExecuteReader();
+                                    tReader.Read();
+                                    tQuestion = new StarsQuestion(
+                                        (int)tReader[DbConsts.QUESTIONS_ID],
+                                        (string)tReader[DbConsts.QUESTIONS_QUESTIONS_TEXT],
+                                        (int)tReader[DbConsts.QUESTIONS_QUESTIONS_ORDER],
+                                        (int)tReader[DbConsts.STARS_STARS_COUNT]
+                                        );
+                                    break;
+                            }
+                            tResult.Data = tQuestion;
+
                         }
-                        tResult.Data = tQuestion; 
-                        
-                    }
-                    catch (SqlException sqlEx)
-                    {
+                        catch (SqlException sqlEx)
+                        {
 
-                        tResult.Success = false;
-                        tResult.Message = "We couldn't retrieve the question . Please try again later.";
-                        tResult.Error = ErrorTypeEnum.SqlErrorGetQuestion;
-                        Log.Error(sqlEx, "SQL error occurred while retrieving question with Id {id}." , tQuestion.Id);
-                    }
-                    catch (Exception ex)
-                    {
-                        tResult.Success = false;
-                        tResult.Message = "We couldn't retrieve the question count due to an unexpected error. Please contact support.";
-                        tResult.Error = ErrorTypeEnum.UnknownErrorGetQuestion;
-                        Log.Error(ex, "Unexpected error occurred while retrieving question with Id {id}." , tQuestion.Id);
+                            tResult.Success = false;
+                            tResult.Message = "We couldn't retrieve the question . Please try again later.";
+                            tResult.Error = ErrorTypeEnum.SqlErrorGetQuestion;
+                            Log.Error(sqlEx, "SQL error occurred while retrieving question with Id {id}.", tQuestion.Id);
+                        }
+                        catch (Exception ex)
+                        {
+                            tResult.Success = false;
+                            tResult.Message = "We couldn't retrieve the question count due to an unexpected error. Please contact support.";
+                            tResult.Error = ErrorTypeEnum.UnknownErrorGetQuestion;
+                            Log.Error(ex, "Unexpected error occurred while retrieving question with Id {id}.", tQuestion.Id);
+
+                        }
+                        return tResult;
 
                     }
-                    return tResult;
 
                 }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Unexpected error occurred while retrieving question with Id {id}.", tQuestion.Id);
+                return new Result<Question>
+                {
+                    Success = false,
+                    Message = "We couldn't retrieve the question count due to an unexpected error. Please contact support.",
+                    Error = ErrorTypeEnum.UnknownErrorGetQuestion
+                };
+            }
 
-        }
-            
-            
+
+
         }
         public Result<DateTime> GetLastModified()
         {
-            Result<DateTime> tResult = new Result<DateTime>()
-            {
-                Success = true,
-                Error = ErrorTypeEnum.None,
-                
-            };
-            //Questions = new List<Question>();
-           
-
-            using (var tConnection = new SqlConnection(mConnectionString))
-            {
-                using (var tCommand = tConnection.CreateCommand())
-                {
-
-
-                    try
-                    {
-                        tCommand.CommandText = $"SELECT * FROM {DbConsts.DatabaseChangeTableName}";
-
-                        tConnection.Open();
-                        var tReader = tCommand.ExecuteReader();
-                        tReader.Read();
-                        DateTime tLastModified = (DateTime)tReader[0];
-                        tResult.Data = tLastModified;
-                        return tResult;
-                    }
-                    catch (SqlException sqlEx)
-                    {
-
-                        tResult.Success = false;
-                        tResult.Message = "We couldn't retrieve Last Modified . Please try again later.";
-                        tResult.Error = ErrorTypeEnum.SqlErrorGetLastModified;
-                        Log.Error(sqlEx, "SQL error occurred while retrieving Last Modified .");
-                    }
-                    catch (Exception ex)
-                    {
-                        tResult.Success = false;
-                        tResult.Message = "We couldn't retrieve Last Modified due to an unexpected error. Please contact support.";
-                        tResult.Error = ErrorTypeEnum.UnknownErrorGetLastModified;
-                        //Log.Error(ex, "Unexpected error occurred while retrieving Last Modified.");
-
-                    }
-                    return tResult; 
-                }
-
-
-            }
-        }
-        public Result<int> UpdateLastModified()
-        {
-            Questions = new List<Question>();
-            Result<int> tResult = new Result<int>() 
-            { 
-                Success = true, 
-                Error = ErrorTypeEnum.None,
-
-            };  
-
-            using (var tConnection = new SqlConnection(mConnectionString))
-            {
-                using (var tCommand = tConnection.CreateCommand())
-                {
-                    try
-                    {
-                        tCommand.CommandText = $"UPDATE {DbConsts.DatabaseChangeTableName} SET {DbConsts.DatabaseChangeLastModified}= SYSDATETIME();";
-                        tConnection.Open();
-                        tCommand.ExecuteNonQuery();
-                        
-                    }
-                    catch (SqlException sqlEx)
-                    {
-
-                        tResult.Success = false;
-                        tResult.Message = "We couldn't update Last Modified . Please try again later.";
-                        tResult.Error = ErrorTypeEnum.SqlErrorUpdateLastModified;
-                        Log.Error(sqlEx, "SQL error occurred while updating Last Modified .");
-                    }
-                    catch (Exception ex)
-                    {
-                        tResult.Success = false;
-                        tResult.Message = "We couldn't update Last Modified due to an unexpected error. Please contact support.";
-                        tResult.Error = ErrorTypeEnum.UnknownErrorUpdateLastModified;
-                        Log.Error(ex, "Unexpected error occurred while updating Last Modified.");
-
-                    }
-                    return tResult;
-                }
-            }
-        }
-        public Result<bool> ChangeConnectionString(string pConnectionString)
-        {
-            var tResult = new Result<bool>
-            {
-                Success = true,
-                Error = ErrorTypeEnum.None
-            };
+            
 
             try
             {
+                Result<DateTime> tResult = new Result<DateTime>()
+                {
+                    Success = true,
+                    Error = ErrorTypeEnum.None,
+
+                };
+                using (var tConnection = new SqlConnection(mConnectionString))
+                {
+                    using (var tCommand = tConnection.CreateCommand())
+                    {
+                        try
+                        {
+                            tCommand.CommandText = $"SELECT * FROM {DbConsts.DATABASE_CHANGE_TABLE_NAME}";
+
+                            tConnection.Open();
+                            var tReader = tCommand.ExecuteReader();
+                            tReader.Read();
+                            DateTime tLastModified = (DateTime)tReader[0];
+                            tResult.Data = tLastModified;
+                            return tResult;
+                        }
+                        catch (SqlException sqlEx)
+                        {
+
+                            tResult.Success = false;
+                            tResult.Message = "We couldn't retrieve Last Modified . Please try again later.";
+                            tResult.Error = ErrorTypeEnum.SqlErrorGetLastModified;
+                            Log.Error(sqlEx, "SQL error occurred while retrieving Last Modified .");
+                        }
+                        catch (Exception ex)
+                        {
+                            tResult.Success = false;
+                            tResult.Message = "We couldn't retrieve Last Modified due to an unexpected error. Please contact support.";
+                            tResult.Error = ErrorTypeEnum.UnknownErrorGetLastModified;
+                            //Log.Error(ex, "Unexpected error occurred while retrieving Last Modified.");
+
+                        }
+                        return tResult;
+
+
+                    }
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                //Log.Error(ex, "Unexpected error occurred while retrieving Last Modified.");
+                return new Result<DateTime>
+                {
+                    Success = false,
+                    Message = "We couldn't retrieve Last Modified due to an unexpected error. Please contact support.",
+                    Error = ErrorTypeEnum.UnknownErrorGetLastModified
+                };
+            }
+
+        }
+        public Result<int> UpdateLastModified()
+        {
+            
+
+            try
+            {
+                Questions = new List<Question>();
+                Result<int> tResult = new Result<int>()
+                {
+                    Success = true,
+                    Error = ErrorTypeEnum.None,
+
+                };
+                using (var tConnection = new SqlConnection(mConnectionString))
+                {
+                    using (var tCommand = tConnection.CreateCommand())
+                    {
+                        try
+                        {
+                            tCommand.CommandText = $"UPDATE {DbConsts.DATABASE_CHANGE_TABLE_NAME} SET {DbConsts.DATABASE_CHANGE_LAST_MODIFIED}= SYSDATETIME();";
+                            tConnection.Open();
+                            tCommand.ExecuteNonQuery();
+                            
+
+                        }
+                        catch (SqlException sqlEx)
+                        {
+
+                            tResult.Success = false;
+                            tResult.Message = "We couldn't update Last Modified . Please try again later.";
+                            tResult.Error = ErrorTypeEnum.SqlErrorUpdateLastModified;
+                            Log.Error(sqlEx, "SQL error occurred while updating Last Modified .");
+                        }
+                        catch (Exception ex)
+                        {
+                            tResult.Success = false;
+                            tResult.Message = "We couldn't update Last Modified due to an unexpected error. Please contact support.";
+                            tResult.Error = ErrorTypeEnum.UnknownErrorUpdateLastModified;
+                            Log.Error(ex, "Unexpected error occurred while updating Last Modified.");
+
+                        }
+                        return tResult;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Unexpected error occurred while updating Last Modified.");
+                return new Result<int>
+                {
+                    Success = false,
+                    Message = "We couldn't update Last Modified due to an unexpected error. Please contact support.",
+                    Error = ErrorTypeEnum.UnknownErrorUpdateLastModified
+                };
+            }
+
+
+        }
+        public Result<bool> ChangeConnectionString(string pConnectionString)
+        {
+            
+
+            try
+            {
+                var tResult = new Result<bool>
+                {
+                    Success = true,
+                    Error = ErrorTypeEnum.None
+                };
                 Exception tExceptionError;
                 var tTestResult = SqlConnectionTest.TestConnection(pConnectionString, out tExceptionError);
                 if (!tTestResult.Success)
@@ -854,28 +981,34 @@ namespace SurveyConfiguratorTask.Repo
                 ConfigurationManager.RefreshSection("connectionStrings");
 
                 tResult.Data = true;
+                return tResult;
+
             }
             catch (Exception ex)
             {
                 Log.Error(ex, "Error occurred while changing the connection string.");
-                tResult.Success = false;
-                tResult.Message = "We couldn't change connection string due to an unexpected error. Please contact support.";
-                tResult.Error = ErrorTypeEnum.UnknownErrorChangeConnectionString;
+                return new Result<bool>
+                {
+                    Success = false,
+                    Message = "We couldn't change connection string due to an unexpected error. Please contact support.",
+                    Error = ErrorTypeEnum.UnknownErrorChangeConnectionString
+                };
             }
 
-            return tResult;
+
         }
 
         public Result<bool> ConnectoinTest(string pConnectionString)
         {
-            var tResult = new Result<bool>
-            {
-                Success = true,
-                Error = ErrorTypeEnum.None
-            };
+            
 
             try
             {
+                var tResult = new Result<bool>
+                {
+                    Success = true,
+                    Error = ErrorTypeEnum.None
+                };
                 Exception tExceptionError;
                 var tTestResult = SqlConnectionTest.TestConnection(pConnectionString, out tExceptionError);
                 if (!tTestResult.Success)
@@ -885,25 +1018,31 @@ namespace SurveyConfiguratorTask.Repo
                     tResult.Error = ErrorTypeEnum.ConnectionStringInvalid;
                     tResult.Message = "Cannot connect to the database. Please check your server name, database name, username, and password.";
                 }
+                return tResult;
+
             }
             catch (Exception ex)
             {
                 Log.Error(ex, "Error occurred while testing connection.");
-                tResult.Success = false;
-                tResult.Message = "We couldn't test connection  due to an unexpected error. Please contact support.";
-                tResult.Error = ErrorTypeEnum.UnknownErrorConnectionTest;
+                return new Result<bool>
+                {
+                    Success = false,
+                    Message = "We couldn't test connection due to an unexpected error. Please contact support.",
+                    Error = ErrorTypeEnum.UnknownErrorConnectionTest
+                };
             }
 
-            return tResult;
         }
 
         public Result<string> GetConnectionString()
         {
             try
             {
+                Configuration tConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                var tConnectionStringt=tConfig.ConnectionStrings.ConnectionStrings["DbConnectionString"].ConnectionString;
                 return new Result<string>
                 {
-                    Data = mConnectionString,
+                    Data = tConnectionStringt,
                     Success = true,
                     Error = ErrorTypeEnum.None
                 };

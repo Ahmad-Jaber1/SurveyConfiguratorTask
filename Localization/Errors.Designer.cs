@@ -133,6 +133,15 @@ namespace Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The database could not be reached. It may be offline, deleted, or temporarily unavailable.  Please verify the database server and try again..
+        /// </summary>
+        internal static string DatabaseUnavailable {
+            get {
+                return ResourceManager.GetString("DatabaseUnavailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter a valid caption. The caption text cannot be empty or longer than 30 characters ..
         /// </summary>
         internal static string ERROR_CAPTION_TEXT_EMPTY {

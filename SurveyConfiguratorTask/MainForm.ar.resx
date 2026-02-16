@@ -117,59 +117,84 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="QuestionGridView.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 22</value>
+  </data>
+  <data name="QuestionGridView.Size" type="System.Drawing.Size, System.Drawing">
+    <value>551, 284</value>
+  </data>
+  <data name="questionsGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 26</value>
+  </data>
+  <data name="questionsGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>569, 314</value>
+  </data>
   <data name="questionsGroupBox.Text" xml:space="preserve">
     <value>الأسئلة</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="smileyCountValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>437, 33</value>
+    <value>382, 25</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="smileyCountValue.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
     <value>Yes</value>
   </data>
   <data name="smileyCountValue.Size" type="System.Drawing.Size, System.Drawing">
-    <value>46, 20</value>
+    <value>38, 15</value>
   </data>
   <data name="smileyCountValue.Text" xml:space="preserve">
     <value>count</value>
   </data>
   <data name="smileyCountLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>487, 33</value>
+    <value>426, 25</value>
   </data>
   <data name="smileyCountLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 20</value>
+    <value>115, 15</value>
   </data>
   <data name="smileyCountLabel.Text" xml:space="preserve">
     <value>عدد الوجوه المبتسمة :</value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="smileyPanel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 2, 3, 2</value>
+  </data>
   <data name="smileyPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>630, 76</value>
+    <value>551, 57</value>
   </data>
   <data name="starsCountValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>538, 21</value>
+    <value>471, 16</value>
+  </data>
+  <data name="starsCountValue.Size" type="System.Drawing.Size, System.Drawing">
+    <value>0, 15</value>
   </data>
   <data name="starsCountLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>545, 21</value>
+    <value>477, 16</value>
+  </data>
+  <data name="starsCountLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 15</value>
   </data>
   <data name="starsCountLabel.Text" xml:space="preserve">
     <value>عدد النجوم : </value>
   </data>
+  <data name="starsPanel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 2, 3, 2</value>
+  </data>
   <data name="starsPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>630, 76</value>
+    <value>551, 57</value>
   </data>
   <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="endCaptionValue.AutoSize" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="endCaptionValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>132, 45</value>
+    <value>116, 34</value>
   </data>
   <data name="endCaptionValue.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
     <value>Yes</value>
   </data>
   <data name="endCaptionValue.Size" type="System.Drawing.Size, System.Drawing">
-    <value>411, 31</value>
+    <value>360, 23</value>
   </data>
   <data name="endCaptionValue.Text" xml:space="preserve">
     <value>نص النهاية </value>
@@ -178,70 +203,97 @@
     <value>False</value>
   </data>
   <data name="startCaptionValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>132, 21</value>
+    <value>116, 16</value>
   </data>
   <data name="startCaptionValue.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
     <value>Yes</value>
   </data>
   <data name="startCaptionValue.Size" type="System.Drawing.Size, System.Drawing">
-    <value>411, 24</value>
+    <value>360, 18</value>
   </data>
   <data name="startCaptionValue.Text" xml:space="preserve">
     <value>نص البداية </value>
   </data>
   <data name="endCaptionLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>549, 45</value>
+    <value>480, 34</value>
   </data>
   <data name="endCaptionLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 20</value>
+    <value>66, 15</value>
   </data>
   <data name="endCaptionLabel.Text" xml:space="preserve">
     <value>نص النهاية :</value>
   </data>
   <data name="startCaptionLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>549, 21</value>
+    <value>480, 16</value>
   </data>
   <data name="startCaptionLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 20</value>
+    <value>66, 15</value>
   </data>
   <data name="startCaptionLabel.Text" xml:space="preserve">
     <value>نص البداية :</value>
   </data>
   <data name="endValueValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 45</value>
+    <value>14, 34</value>
+  </data>
+  <data name="endValueValue.Size" type="System.Drawing.Size, System.Drawing">
+    <value>0, 15</value>
   </data>
   <data name="startValueValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>16, 21</value>
+    <value>14, 16</value>
+  </data>
+  <data name="startValueValue.Size" type="System.Drawing.Size, System.Drawing">
+    <value>0, 15</value>
   </data>
   <data name="endValueLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>39, 45</value>
+    <value>34, 34</value>
   </data>
   <data name="endValueLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 20</value>
+    <value>69, 15</value>
   </data>
   <data name="endValueLabel.Text" xml:space="preserve">
     <value>قيمة النهاية :</value>
   </data>
   <data name="startValueLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>37, 21</value>
+    <value>32, 16</value>
   </data>
   <data name="startValueLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 20</value>
+    <value>69, 15</value>
   </data>
   <data name="startValueLabel.Text" xml:space="preserve">
     <value>قيمة البداية :</value>
   </data>
   <data name="sliderPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>1, 3</value>
+    <value>1, 2</value>
+  </data>
+  <data name="sliderPanel.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>3, 2, 3, 2</value>
   </data>
   <data name="sliderPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>630, 76</value>
+    <value>551, 57</value>
+  </data>
+  <data name="addButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>339, 530</value>
+  </data>
+  <data name="addButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
   </data>
   <data name="addButton.Text" xml:space="preserve">
     <value>إضافة...</value>
   </data>
+  <data name="editButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>419, 530</value>
+  </data>
+  <data name="editButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
+  </data>
   <data name="editButton.Text" xml:space="preserve">
     <value>تعديل...</value>
+  </data>
+  <data name="deleteButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>500, 530</value>
+  </data>
+  <data name="deleteButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>75, 23</value>
   </data>
   <data name="deleteButton.Text" xml:space="preserve">
     <value>حذف</value>
@@ -250,98 +302,118 @@
     <value>False</value>
   </data>
   <data name="questionTypeValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>385, 49</value>
+    <value>337, 37</value>
   </data>
   <data name="questionTypeValue.Size" type="System.Drawing.Size, System.Drawing">
-    <value>158, 31</value>
+    <value>138, 23</value>
   </data>
   <data name="questionTypeValue.Text" xml:space="preserve">
     <value>نوع السؤال</value>
   </data>
   <data name="questionOrderValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>243, 49</value>
+    <value>213, 37</value>
+  </data>
+  <data name="questionOrderValue.Size" type="System.Drawing.Size, System.Drawing">
+    <value>35, 15</value>
   </data>
   <data name="questionTextValue.AutoSize" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="questionTextValue.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 16</value>
+    <value>3, 12</value>
   </data>
   <data name="questionTextValue.Size" type="System.Drawing.Size, System.Drawing">
-    <value>540, 33</value>
+    <value>472, 25</value>
   </data>
   <data name="questionTextValue.Text" xml:space="preserve">
     <value>نص السؤال</value>
   </data>
   <data name="label18.Location" type="System.Drawing.Point, System.Drawing">
-    <value>547, 49</value>
+    <value>479, 37</value>
   </data>
   <data name="label18.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 20</value>
+    <value>67, 15</value>
   </data>
   <data name="label18.Text" xml:space="preserve">
     <value>نوع السؤال :</value>
   </data>
   <data name="label21.Location" type="System.Drawing.Point, System.Drawing">
-    <value>281, 49</value>
+    <value>246, 37</value>
   </data>
   <data name="label21.Size" type="System.Drawing.Size, System.Drawing">
-    <value>98, 20</value>
+    <value>77, 15</value>
   </data>
   <data name="label21.Text" xml:space="preserve">
     <value>ترتيب السؤال :</value>
   </data>
   <data name="label22.Location" type="System.Drawing.Point, System.Drawing">
-    <value>544, 16</value>
+    <value>476, 12</value>
   </data>
   <data name="label22.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 20</value>
+    <value>70, 15</value>
   </data>
   <data name="label22.Text" xml:space="preserve">
     <value>نص السؤال :</value>
   </data>
+  <data name="generalPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 21</value>
+  </data>
+  <data name="generalPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>551, 69</value>
+  </data>
   <data name="panel1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 135</value>
+    <value>4, 101</value>
   </data>
   <data name="panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>634, 80</value>
+    <value>555, 60</value>
+  </data>
+  <data name="detailsGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>10, 345</value>
+  </data>
+  <data name="detailsGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>563, 167</value>
   </data>
   <data name="detailsGroupBox.Text" xml:space="preserve">
     <value>تفاصيل السؤال</value>
   </data>
   <data name="databaseConToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>230, 26</value>
+    <value>183, 22</value>
   </data>
   <data name="databaseConToolStripMenuItem.Text" xml:space="preserve">
     <value>اتصال قاعدة البيانات...</value>
   </data>
   <data name="settingsToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>83, 24</value>
+    <value>65, 19</value>
   </data>
   <data name="settingsToolStripMenuItem.Text" xml:space="preserve">
     <value>الإعدادات</value>
   </data>
   <data name="englishToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 26</value>
+    <value>180, 22</value>
   </data>
   <data name="englishToolStripMenuItem.Text" xml:space="preserve">
     <value>الإنجليزية</value>
   </data>
   <data name="arabicToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>149, 26</value>
+    <value>180, 22</value>
   </data>
   <data name="arabicToolStripMenuItem.Text" xml:space="preserve">
     <value>العربية </value>
   </data>
   <data name="languageStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>54, 24</value>
+    <value>43, 19</value>
   </data>
   <data name="languageStripMenuItem.Text" xml:space="preserve">
     <value>اللغة</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 4, 3, 4</value>
+  <data name="menuStrip1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>585, 25</value>
+  </data>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>7, 15</value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>585, 569</value>
   </data>
   <data name="$this.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
     <value>Yes</value>

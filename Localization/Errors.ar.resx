@@ -141,6 +141,9 @@
   <data name="DatabaseConnectionFailed" xml:space="preserve">
     <value>فشل الاتصال بقاعدة البيانات. يرجى التواصل مع المسؤول لحل المشكلة.</value>
   </data>
+  <data name="DatabaseUnavailable" xml:space="preserve">
+    <value>تعذر الوصول إلى قاعدة البيانات. قد تكون غير متصلة ، أو محذوفة، أو غير متاحة مؤقتًا.  يرجى التحقق من خادم قاعدة البيانات والمحاولة مرة أخرى.</value>
+  </data>
   <data name="ERROR_CAPTION_TEXT_EMPTY" xml:space="preserve">
     <value>يرجى إدخال نص بداية أو نهاية صحيح. لا يمكن أن يكون نص البداية أو النهاية فارغاً او يزيد طوله عن 30 حرفا .</value>
   </data>

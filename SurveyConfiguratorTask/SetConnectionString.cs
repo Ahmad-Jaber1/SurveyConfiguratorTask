@@ -114,7 +114,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 if (!tResult.Success)
                 {
                     MessageBox.Show(
-                        ErrorLocalizer.GetMessage(tResult.Error),
+                        ErrorLocalizer.GetMessage(tResult.Error.ToString()),
                         ERROR,
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);
@@ -175,7 +175,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 if (!tResult.Success)
                 {
                     MessageBox.Show(
-                        ErrorLocalizer.GetMessage(tResult.Error),
+                        ErrorLocalizer.GetMessage(tResult.Error.ToString()),
                         ERROR,
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error);

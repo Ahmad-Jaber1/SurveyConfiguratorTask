@@ -117,248 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="starsCountLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="starsCountLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>570, 16</value>
-  </data>
-  <data name="starsCountLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>49, 20</value>
-  </data>
-  <data name="starsCountLabel.Text" xml:space="preserve">
-    <value>النجوم</value>
-  </data>
-  <data name="starsUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 13</value>
-  </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="starsUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 4, 3, 4</value>
-  </data>
-  <data name="starsUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>498, 27</value>
-  </data>
-  <data name="starsPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 32</value>
-  </data>
-  <data name="starsPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>621, 51</value>
-  </data>
-  <data name="smileyFacesCountLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="smileyFacesCountLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>518, 16</value>
-  </data>
-  <data name="smileyFacesCountLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>113, 20</value>
-  </data>
-  <data name="smileyFacesCountLabel.Text" xml:space="preserve">
-    <value>الوجوه المبتسمة</value>
-  </data>
-  <data name="smileyFacesUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 12</value>
-  </data>
-  <data name="smileyFacesUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 4, 3, 4</value>
-  </data>
-  <data name="smileyFacesUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>498, 27</value>
-  </data>
-  <data name="smileyPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 29</value>
-  </data>
-  <data name="smileyPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>621, 51</value>
-  </data>
-  <data name="endCaptionTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 121</value>
-  </data>
-  <data name="endCaptionTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 4, 3, 4</value>
-  </data>
-  <data name="endCaptionTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>498, 27</value>
-  </data>
-  <data name="startCaptionTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 84</value>
-  </data>
-  <data name="startCaptionTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 4, 3, 4</value>
-  </data>
-  <data name="startCaptionTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>498, 27</value>
-  </data>
-  <data name="endValueUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 51</value>
-  </data>
-  <data name="endValueUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 4, 3, 4</value>
-  </data>
-  <data name="endValueUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>498, 27</value>
-  </data>
-  <data name="endCaptionLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="endCaptionLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>529, 125</value>
-  </data>
-  <data name="endCaptionLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>98, 20</value>
-  </data>
-  <data name="endCaptionLabel.Text" xml:space="preserve">
-    <value>النص النهائي :</value>
-  </data>
-  <data name="startCaptionLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="startCaptionLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>538, 88</value>
-  </data>
-  <data name="startCaptionLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 20</value>
-  </data>
-  <data name="startCaptionLabel.Text" xml:space="preserve">
-    <value>نص البداية :</value>
-  </data>
-  <data name="endValueLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="endValueLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>538, 53</value>
-  </data>
-  <data name="endValueLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 20</value>
-  </data>
-  <data name="endValueLabel.Text" xml:space="preserve">
-    <value>قيمة النهاية :</value>
-  </data>
-  <data name="startValueUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 7</value>
-  </data>
-  <data name="startValueUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 4, 3, 4</value>
-  </data>
-  <data name="startValueUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>498, 27</value>
-  </data>
-  <data name="startValueLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="startValueLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>535, 9</value>
-  </data>
-  <data name="startValueLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 20</value>
-  </data>
-  <data name="startValueLabel.Text" xml:space="preserve">
-    <value>قيمة البداية :</value>
-  </data>
-  <data name="sliderPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 29</value>
-  </data>
-  <data name="sliderPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>621, 155</value>
-  </data>
-  <data name="detailsGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 269</value>
-  </data>
-  <data name="detailsGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>639, 184</value>
-  </data>
-  <data name="detailsGroupBox.Text" xml:space="preserve">
-    <value>تفاصيل السؤال </value>
-  </data>
   <data name="orderUpDown.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 67</value>
-  </data>
-  <data name="orderUpDown.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 4, 3, 4</value>
-  </data>
-  <data name="orderUpDown.Size" type="System.Drawing.Size, System.Drawing">
-    <value>498, 27</value>
+    <value>11, 50</value>
   </data>
   <data name="textQuestionTextBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 28</value>
-  </data>
-  <data name="textQuestionTextBox.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 4, 3, 4</value>
-  </data>
-  <data name="textQuestionTextBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>498, 27</value>
-  </data>
-  <data name="starsQuestionRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="starsQuestionRadioButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>501, 104</value>
-  </data>
-  <data name="starsQuestionRadioButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 4, 3, 4</value>
-  </data>
-  <data name="starsQuestionRadioButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>109, 24</value>
-  </data>
-  <data name="starsQuestionRadioButton.Text" xml:space="preserve">
-    <value>سؤال النجوم</value>
-  </data>
-  <data name="smileyFacesQuestionRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="smileyFacesQuestionRadioButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>441, 75</value>
-  </data>
-  <data name="smileyFacesQuestionRadioButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 4, 3, 4</value>
-  </data>
-  <data name="smileyFacesQuestionRadioButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>177, 24</value>
-  </data>
-  <data name="smileyFacesQuestionRadioButton.Text" xml:space="preserve">
-    <value>سؤال الوجوه المبتسمة </value>
-  </data>
-  <data name="sliderQuestionRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="sliderQuestionRadioButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>462, 41</value>
-  </data>
-  <data name="sliderQuestionRadioButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 4, 3, 4</value>
-  </data>
-  <data name="sliderQuestionRadioButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>150, 24</value>
-  </data>
-  <data name="sliderQuestionRadioButton.Text" xml:space="preserve">
-    <value>سؤال شريط التمرير</value>
-  </data>
-  <data name="typeQuestionGroup.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 111</value>
-  </data>
-  <data name="typeQuestionGroup.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 4, 3, 4</value>
-  </data>
-  <data name="typeQuestionGroup.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 4, 3, 4</value>
-  </data>
-  <data name="typeQuestionGroup.Size" type="System.Drawing.Size, System.Drawing">
-    <value>619, 129</value>
+    <value>11, 21</value>
   </data>
   <data name="typeQuestionGroup.Text" xml:space="preserve">
     <value>نوع السؤال </value>
   </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="questionTextLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="questionTextLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>531, 32</value>
+    <value>465, 24</value>
   </data>
   <data name="questionTextLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 20</value>
+    <value>70, 15</value>
   </data>
   <data name="questionTextLabel.Text" xml:space="preserve">
     <value>نص السؤال :</value>
@@ -367,34 +144,61 @@
     <value>NoControl</value>
   </data>
   <data name="orderLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>558, 69</value>
+    <value>488, 52</value>
   </data>
   <data name="orderLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>59, 20</value>
+    <value>47, 15</value>
   </data>
   <data name="orderLabel.Text" xml:space="preserve">
     <value>الترتيب :</value>
   </data>
   <data name="generalGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>15, 15</value>
-  </data>
-  <data name="generalGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>639, 249</value>
+    <value>13, 11</value>
   </data>
   <data name="generalGroupBox.Text" xml:space="preserve">
     <value>عام</value>
+  </data>
+  <data name="starsQuestionRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="starsQuestionRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>438, 69</value>
+  </data>
+  <data name="starsQuestionRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>86, 19</value>
+  </data>
+  <data name="starsQuestionRadioButton.Text" xml:space="preserve">
+    <value>سؤال النجوم</value>
+  </data>
+  <data name="smileyFacesQuestionRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="smileyFacesQuestionRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>386, 47</value>
+  </data>
+  <data name="smileyFacesQuestionRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>138, 19</value>
+  </data>
+  <data name="smileyFacesQuestionRadioButton.Text" xml:space="preserve">
+    <value>سؤال الوجوه المبتسمة </value>
+  </data>
+  <data name="sliderQuestionRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="sliderQuestionRadioButton.Location" type="System.Drawing.Point, System.Drawing">
+    <value>404, 22</value>
+  </data>
+  <data name="sliderQuestionRadioButton.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 19</value>
+  </data>
+  <data name="sliderQuestionRadioButton.Text" xml:space="preserve">
+    <value>سؤال شريط التمرير</value>
   </data>
   <data name="okAddButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="okAddButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>477, 485</value>
-  </data>
-  <data name="okAddButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 4, 3, 4</value>
-  </data>
-  <data name="okAddButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 31</value>
+    <value>417, 364</value>
   </data>
   <data name="okAddButton.Text" xml:space="preserve">
     <value>موافق</value>
@@ -403,25 +207,139 @@
     <value>NoControl</value>
   </data>
   <data name="CancelAddButton.Location" type="System.Drawing.Point, System.Drawing">
-    <value>568, 485</value>
-  </data>
-  <data name="CancelAddButton.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 4, 3, 4</value>
-  </data>
-  <data name="CancelAddButton.Size" type="System.Drawing.Size, System.Drawing">
-    <value>86, 31</value>
+    <value>497, 364</value>
   </data>
   <data name="CancelAddButton.Text" xml:space="preserve">
     <value>إلغاء</value>
   </data>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>8, 20</value>
+  <data name="detailsGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 202</value>
   </data>
-  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>667, 532</value>
+  <data name="detailsGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>559, 131</value>
   </data>
-  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>3, 4, 3, 4</value>
+  <data name="detailsGroupBox.Text" xml:space="preserve">
+    <value>تفاصيل السؤال </value>
+  </data>
+  <data name="starsPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 17</value>
+  </data>
+  <data name="starsPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>543, 38</value>
+  </data>
+  <data name="starsCountLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="starsCountLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>492, 10</value>
+  </data>
+  <data name="starsCountLabel.Text" xml:space="preserve">
+    <value>النجوم</value>
+  </data>
+  <data name="starsUpDown.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 8</value>
+  </data>
+  <data name="starsUpDown.Size" type="System.Drawing.Size, System.Drawing">
+    <value>436, 23</value>
+  </data>
+  <data name="smileyPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 15</value>
+  </data>
+  <data name="smileyFacesCountLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="smileyFacesCountLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>453, 12</value>
+  </data>
+  <data name="smileyFacesCountLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>87, 15</value>
+  </data>
+  <data name="smileyFacesCountLabel.Text" xml:space="preserve">
+    <value>الوجوه المبتسمة</value>
+  </data>
+  <data name="smileyFacesUpDown.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 9</value>
+  </data>
+  <data name="smileyFacesUpDown.Size" type="System.Drawing.Size, System.Drawing">
+    <value>436, 23</value>
+  </data>
+  <data name="sliderPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 15</value>
+  </data>
+  <data name="sliderPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>543, 108</value>
+  </data>
+  <data name="endCaptionTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 81</value>
+  </data>
+  <data name="endCaptionTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>436, 23</value>
+  </data>
+  <data name="startCaptionTextBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 56</value>
+  </data>
+  <data name="startCaptionTextBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>436, 23</value>
+  </data>
+  <data name="endValueUpDown.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 32</value>
+  </data>
+  <data name="endValueUpDown.Size" type="System.Drawing.Size, System.Drawing">
+    <value>436, 23</value>
+  </data>
+  <data name="endCaptionLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="endCaptionLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>471, 84</value>
+  </data>
+  <data name="endCaptionLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 15</value>
+  </data>
+  <data name="endCaptionLabel.Text" xml:space="preserve">
+    <value>نص النهاية :</value>
+  </data>
+  <data name="startCaptionLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="startCaptionLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>471, 59</value>
+  </data>
+  <data name="startCaptionLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>66, 15</value>
+  </data>
+  <data name="startCaptionLabel.Text" xml:space="preserve">
+    <value>نص البداية :</value>
+  </data>
+  <data name="startValueLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="startValueLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>468, 9</value>
+  </data>
+  <data name="startValueLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 15</value>
+  </data>
+  <data name="startValueLabel.Text" xml:space="preserve">
+    <value>قيمة البداية :</value>
+  </data>
+  <data name="endValueLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="endValueLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>468, 34</value>
+  </data>
+  <data name="endValueLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>69, 15</value>
+  </data>
+  <data name="endValueLabel.Text" xml:space="preserve">
+    <value>قيمة النهاية :</value>
+  </data>
+  <data name="startValueUpDown.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 7</value>
+  </data>
+  <data name="startValueUpDown.Size" type="System.Drawing.Size, System.Drawing">
+    <value>436, 23</value>
   </data>
   <data name="$this.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
     <value>Yes</value>

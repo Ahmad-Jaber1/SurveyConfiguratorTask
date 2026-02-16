@@ -1,4 +1,5 @@
 ﻿using Localization;
+using Serilog;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -11,35 +12,27 @@ namespace Shared
     {
         
 
-        public static string GetMessage(ErrorTypeEnum pErrorCode )
+        
+        public static string GetMessage(string pVariable ,params string[] pParameters)
         {
-            return Errors.ResourceManager.GetString(
-                pErrorCode.ToString() , Thread.CurrentThread.CurrentUICulture
-                );
-        }
-        public static string GetMessage(string pVariable)
-        {
-            return Errors.ResourceManager.GetString(
-                pVariable.ToString(), Thread.CurrentThread.CurrentUICulture
-                );
+            try
+            {
+                var tMessage = Errors.ResourceManager.GetString(
+                        pVariable, Thread.CurrentThread.CurrentUICulture
+                        );
+
+                return string.Format(tMessage, pParameters);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Unexpected error occurred while try get error message using localizer .");
+
+                throw;
+            }
+
         }
 
-        public static string GetMessage(string pVariable , int pParam)
-        {
-            var message = Errors.ResourceManager.GetString(
-                pVariable.ToString(), Thread.CurrentThread.CurrentUICulture
-                );
-
-            return string.Format(message , pParam);
-        }
-        public static string GetMessage(string pVariable, int pParam1 , int pParam2)
-        {
-            var message = Errors.ResourceManager.GetString(
-                pVariable.ToString(), Thread.CurrentThread.CurrentUICulture
-                );
-
-            return string.Format(message, pParam1 , pParam2);
-        }
+        
         
     }
 }
