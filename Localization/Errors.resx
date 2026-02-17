@@ -151,7 +151,7 @@
     <value>Please enter a valid end value. It must be between {0} and {1} </value>
   </data>
   <data name="ERROR_ORDER_VALUE_OUT_OF_RANGE" xml:space="preserve">
-    <value>Please enter a valid order value. The value must be between 1 and {0}.</value>
+    <value>Please enter a valid order value. The value must be non negative number .</value>
   </data>
   <data name="ERROR_QUESTION_TEXT_EMPTY" xml:space="preserve">
     <value>Please enter a valid question. The question text cannot be empty or longer than 60 characters.</value>

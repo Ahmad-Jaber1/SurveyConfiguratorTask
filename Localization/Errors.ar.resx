@@ -151,7 +151,7 @@
     <value>الرجاء إدخال قيمة نهائية صحيحة. يجب أن تكون القيمة بين {0} و {1}</value>
   </data>
   <data name="ERROR_ORDER_VALUE_OUT_OF_RANGE" xml:space="preserve">
-    <value>يرجى إدخال قيمة طلب صحيحة. يجب أن تكون القيمة بين 1 و {0}.</value>
+    <value>يجب أن يكون السؤال قيمة موجبة , يرجى ادخال قيمة صحيحة</value>
   </data>
   <data name="ERROR_QUESTION_TEXT_EMPTY" xml:space="preserve">
     <value>يرجى إدخال سؤال صحيح. لا يمكن أن يكون نص السؤال فارغاً أو يزيد طوله عن 60 حرفاً.</value>

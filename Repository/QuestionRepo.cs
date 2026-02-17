@@ -30,10 +30,6 @@ namespace SurveyConfiguratorTask.Repo
                 throw;
             }
         }
-
-
-        
-
         public Result<List<Question>> QuestionsLoad()
         {
             try
@@ -486,9 +482,12 @@ namespace SurveyConfiguratorTask.Repo
                                 //edit object data in general question table in database 
                                 tCommand.CommandText = $"UPDATE {DbConsts.QUESTIONS_TABLE_NAME} " +
                                     $"SET {DbConsts.QUESTIONS_QUESTIONS_TEXT} = @{DbConsts.QUESTIONS_QUESTIONS_TEXT} " +
+                                    $",{DbConsts.QUESTIONS_QUESTIONS_ORDER}=@{DbConsts.QUESTIONS_QUESTIONS_ORDER} "+
                                     $"WHERE {DbConsts.QUESTIONS_TABLE_NAME}.{DbConsts.QUESTIONS_ID} = @{DbConsts.QUESTIONS_ID}";
                                 tCommand.Parameters.Add($"@{DbConsts.QUESTIONS_ID}", System.Data.SqlDbType.Int).Value = pQuestion.Id;
                                 tCommand.Parameters.Add($"@{DbConsts.QUESTIONS_QUESTIONS_TEXT}", System.Data.SqlDbType.NVarChar,60).Value = pQuestion.Text;
+                                tCommand.Parameters.Add($"@{DbConsts.QUESTIONS_QUESTIONS_ORDER}", System.Data.SqlDbType.Int).Value = pQuestion.Order;
+
                                 tCommand.Transaction = tTransaction;
                                 tCommand.ExecuteNonQuery();
 
@@ -597,7 +596,7 @@ namespace SurveyConfiguratorTask.Repo
                         try
                         {
                             //edit order of all questions based on indexes in local list .
-                            using (var cmd = tConnection.CreateCommand())
+                            using (var tCommand = tConnection.CreateCommand())
                             {
                                 var tStringBuilder = new StringBuilder();
                                 tStringBuilder.Append($"UPDATE {DbConsts.QUESTIONS_TABLE_NAME} SET {DbConsts.QUESTIONS_QUESTIONS_ORDER} = CASE {DbConsts.QUESTIONS_ID} ");
@@ -612,9 +611,9 @@ namespace SurveyConfiguratorTask.Repo
                                 tStringBuilder.Append($"'{pIds[pIds.Count - 1]}'");
 
                                 tStringBuilder.Append(");");
-                                cmd.CommandText = tStringBuilder.ToString();
-                                cmd.Transaction = tTransaction;
-                                cmd.ExecuteNonQuery();
+                                tCommand.CommandText = tStringBuilder.ToString();
+                                tCommand.Transaction = tTransaction;
+                                tCommand.ExecuteNonQuery();
                                 tTransaction.Commit();
                                 tConnection.Close();
                             }
@@ -894,7 +893,7 @@ namespace SurveyConfiguratorTask.Repo
             }
 
         }
-        public Result<int> UpdateLastModified()
+        public Result<int> UpdateLastModified()  
         {
             
 

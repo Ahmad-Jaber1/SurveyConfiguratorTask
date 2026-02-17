@@ -71,10 +71,10 @@
             // 
             // typeQuestionGroup
             // 
-            resources.ApplyResources(typeQuestionGroup, "typeQuestionGroup");
             typeQuestionGroup.Controls.Add(starsQuestionRadioButton);
             typeQuestionGroup.Controls.Add(smileyFacesQuestionRadioButton);
             typeQuestionGroup.Controls.Add(sliderQuestionRadioButton);
+            resources.ApplyResources(typeQuestionGroup, "typeQuestionGroup");
             typeQuestionGroup.Name = "typeQuestionGroup";
             typeQuestionGroup.TabStop = false;
             // 
@@ -119,7 +119,7 @@
             // orderUpDown
             // 
             resources.ApplyResources(orderUpDown, "orderUpDown");
-            orderUpDown.Maximum = new decimal(new int[] { 1000, 0, 0, 0 });
+            orderUpDown.Maximum = new decimal(new int[] { int.MaxValue, 0, 0, 0 });
             orderUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             orderUpDown.Name = "orderUpDown";
             orderUpDown.Value = new decimal(new int[] { 1, 0, 0, 0 });
@@ -141,20 +141,20 @@
             // 
             // generalGroupBox
             // 
-            resources.ApplyResources(generalGroupBox, "generalGroupBox");
             generalGroupBox.Controls.Add(orderUpDown);
             generalGroupBox.Controls.Add(textQuestionTextBox);
             generalGroupBox.Controls.Add(typeQuestionGroup);
             generalGroupBox.Controls.Add(questionTextLabel);
             generalGroupBox.Controls.Add(orderLabel);
+            resources.ApplyResources(generalGroupBox, "generalGroupBox");
             generalGroupBox.Name = "generalGroupBox";
             generalGroupBox.TabStop = false;
             // 
             // starsPanel
             // 
-            resources.ApplyResources(starsPanel, "starsPanel");
             starsPanel.Controls.Add(starsCountLabel);
             starsPanel.Controls.Add(starsUpDown);
+            resources.ApplyResources(starsPanel, "starsPanel");
             starsPanel.Name = "starsPanel";
             // 
             // starsCountLabel
@@ -172,18 +172,18 @@
             // 
             // detailsGroupBox
             // 
-            resources.ApplyResources(detailsGroupBox, "detailsGroupBox");
             detailsGroupBox.Controls.Add(starsPanel);
             detailsGroupBox.Controls.Add(smileyPanel);
             detailsGroupBox.Controls.Add(sliderPanel);
+            resources.ApplyResources(detailsGroupBox, "detailsGroupBox");
             detailsGroupBox.Name = "detailsGroupBox";
             detailsGroupBox.TabStop = false;
             // 
             // smileyPanel
             // 
-            resources.ApplyResources(smileyPanel, "smileyPanel");
             smileyPanel.Controls.Add(smileyFacesCountLabel);
             smileyPanel.Controls.Add(smileyFacesUpDown);
+            resources.ApplyResources(smileyPanel, "smileyPanel");
             smileyPanel.Name = "smileyPanel";
             // 
             // smileyFacesCountLabel
@@ -201,7 +201,6 @@
             // 
             // sliderPanel
             // 
-            resources.ApplyResources(sliderPanel, "sliderPanel");
             sliderPanel.Controls.Add(endCaptionTextBox);
             sliderPanel.Controls.Add(startCaptionTextBox);
             sliderPanel.Controls.Add(endValueUpDown);
@@ -210,6 +209,7 @@
             sliderPanel.Controls.Add(startValueLabel);
             sliderPanel.Controls.Add(endValueLabel);
             sliderPanel.Controls.Add(startValueUpDown);
+            resources.ApplyResources(sliderPanel, "sliderPanel");
             sliderPanel.Name = "sliderPanel";
             // 
             // endCaptionTextBox

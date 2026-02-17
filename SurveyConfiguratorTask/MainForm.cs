@@ -42,9 +42,7 @@ namespace SurveyConfiguratorTask
         #endregion
 
         private QuestionService mService = new();
-        //private DateTime dateTime = DateTime.Now;
-        //private bool isRunning = true;
-        //private Thread checkForUpdate;
+        
         public static string Language = LANGUAGE_ENGLISH;
 
         public MainForm()
@@ -61,7 +59,7 @@ namespace SurveyConfiguratorTask
                 MessageBox.Show(ErrorLocalizer.GetMessage(UI_ERROR_MESSAGE), ERROR,
                         MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
-                throw;
+                
             }
 
         }
@@ -115,13 +113,14 @@ namespace SurveyConfiguratorTask
 
         private void ReloadMainForm()
         {
-            if (this.InvokeRequired)
-            {
-                this.Invoke(new Action(() => ReloadMainForm()));
-                return;
-            }
+            
             try
             {
+                if (this.InvokeRequired)
+                {
+                    this.Invoke(new Action(() => ReloadMainForm()));
+                    return;
+                }
                 var tConnResult = mService.CheckConnection();
                 if (!tConnResult.Success)
                 {
@@ -155,22 +154,22 @@ namespace SurveyConfiguratorTask
                 tDataTable.Columns.Add(ErrorLocalizer.GetMessage(nameof(COLUMN_ORDER)), typeof(int));
                 tDataTable.Columns.Add(ErrorLocalizer.GetMessage(nameof(COLUMN_QUESTION_TYPE)), typeof(string));
 
-                foreach (var question in tResult.Data)
+                foreach (var tQuestion in tResult.Data)
                 {
-                    switch (question.TypeQuestion)
+                    switch (tQuestion.TypeQuestion)
                     {
                         case TypeQuestionEnum.SliderQuestion:
-                            tDataTable.Rows.Add(question.Id, question.Text, question.Order,
+                            tDataTable.Rows.Add(tQuestion.Id, tQuestion.Text, tQuestion.Order,
                                 ErrorLocalizer.GetMessage(nameof(QUESTION_TYPE_SLIDER)));
 
                             break;
                         case TypeQuestionEnum.SmileyFacesQuestion:
-                            tDataTable.Rows.Add(question.Id, question.Text, question.Order,
+                            tDataTable.Rows.Add(tQuestion.Id, tQuestion.Text, tQuestion.Order,
                                ErrorLocalizer.GetMessage(nameof(QUESTION_TYPE_SMILEY)));
 
                             break;
                         case TypeQuestionEnum.StarsQuestion:
-                            tDataTable.Rows.Add(question.Id, question.Text, question.Order,
+                            tDataTable.Rows.Add(tQuestion.Id, tQuestion.Text, tQuestion.Order,
                                ErrorLocalizer.GetMessage(nameof(QUESTION_TYPE_STARS)));
                             break;
                     }
@@ -185,6 +184,12 @@ namespace SurveyConfiguratorTask
                 foreach (DataGridViewColumn column in QuestionGridView.Columns)
                 {
                     column.SortMode = DataGridViewColumnSortMode.Automatic;
+                }
+
+                if(tDataTable.Rows.Count == 0)
+                {
+                    editButton.Enabled = false;
+                    deleteButton.Enabled = false;
                 }
             }
             catch (Exception ex)

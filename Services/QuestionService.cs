@@ -48,9 +48,10 @@ namespace Services
 
         public Result<List<Question>> QuestionsLoad()
         {
-            Result<List<Question>> tResult = new Result<List<Question>> { Success = true , Error = ErrorTypeEnum.None };
             try
             {
+                Result<List<Question>> tResult = new Result<List<Question>> { Success = true, Error = ErrorTypeEnum.None };
+
                 tResult = mRepo.QuestionsLoad();
                 if (!tResult.Success)
                 {
@@ -66,22 +67,25 @@ namespace Services
                 tResult.Data = mQuestions; 
                 return tResult;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
-                tResult.Success = false;
-                tResult.Error = ErrorTypeEnum.UnknownErrorQuestionsLoad;
-                tResult.Message = "Unexpected error occurred while loading questions.";
                 Log.Error(ex, "Error occurred while loading the question list.");
-                 
+
+                return new Result<List<Question>>()
+                {
+                    Success = false,
+                    Error = ErrorTypeEnum.UnknownErrorQuestionsLoad,
+                    Message = "Unexpected error occurred while loading questions."
+                };
             }
-            return tResult; 
-        
+
         }
         public Result<int> AddQuestion(TypeQuestionEnum pType , AddQuestionDto pQuestionDto)
         {
-            Result<int> tResult = new Result<int> { Error = ErrorTypeEnum.None , Success = true , Data = 0};
             try
             {
+                Result<int> tResult = new Result<int> { Error = ErrorTypeEnum.None, Success = true, Data = 0 };
+
                 if (pQuestionDto is null)
                     throw new ArgumentNullException(null , "Question data cannot be empty. Please provide a valid question.");
 
@@ -89,9 +93,7 @@ namespace Services
 
 
                 Question tQuestion = null;
-                //Create new question in local variable .
-                //becasue each type of question has different fields
-                //, we try to determine what type of question the user trying to add .
+                
                 switch (pType)
                 {
 
@@ -114,13 +116,15 @@ namespace Services
                 var tCountResult = GetCount();
                 if (!tCountResult.Success)
                     return tCountResult;
-                if (pQuestionDto.Order > tCountResult.Data+1 || pQuestionDto.Order <= 0)
+
+                
+                if ( pQuestionDto.Order <= 0)
                 {
-                    throw new ArgumentOutOfRangeException(null,$"Order value must be between 1 and {tCountResult.Data + 1}. Please enter a valid number.");
+                    throw new ArgumentOutOfRangeException(null, $"Order value must be non negative number. Please enter a valid number.");
                 }
-                
-                
-                mQuestions.Insert(pQuestionDto.Order - 1, tQuestion);
+
+
+                mQuestions.Add(tQuestion);
 
                 //Add new question to database.
 
@@ -128,80 +132,87 @@ namespace Services
                 if (!tResult.Success)
                     return tResult;
 
-                if (pQuestionDto.Order != tQuestionCount + 1 )
-                {
-                    tResult = EditOrder();
-                    if (!tResult.Success)
-                        return tResult; 
-                }
-
                 
-                
-
                 
                     mRepo.UpdateLastModified();
-               
+                return tResult;
+
+
             }
-            
+
             catch (ArgumentNullException ex)
             {
-                
-                tResult.Success = false;
-                tResult.Message = ex.Message;
-                tResult.Error = ErrorTypeEnum.Validation_QuestionDataNull;
                 Log.Error(ex, "Validation failed: null value.");
+
+                return new Result<int>()
+                {
+                    Success = false,
+                    Message = ex.Message,
+                    Error = ErrorTypeEnum.Validation_QuestionDataNull
+                };
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                
-                tResult.Success = false;
-                tResult.Message = ex.Message;
-                tResult.Error = ErrorTypeEnum.Validation_OrderOutOfRangeAdd;
                 Log.Error(ex, "Validation failed: value out of range.");
+
+                return new Result<int>()
+                {
+                    Success = false,
+                    Message = ex.Message,
+                    Error = ErrorTypeEnum.Validation_OrderOutOfRangeAdd
+                };
             }
             catch (ArgumentException ex)
             {
-                
-                tResult.Success = false;
-                tResult.Message = ex.Message;
-                tResult.Error = ErrorTypeEnum.Validation_QuestionTypeInvalid;
                 Log.Error(ex, "Validation failed: invalid argument.");
+
+                return new Result<int>()
+                {
+                    Success = false,
+                    Message = ex.Message,
+                    Error = ErrorTypeEnum.Validation_QuestionTypeInvalid
+                };
             }
             catch (Exception ex)
             {
                 Log.Error(ex, "Error occurred while adding a question of type {Type}", (TypeQuestionEnum)pType);
-                tResult.Success=false;
-                tResult.Error=ErrorTypeEnum.UnknownErrorAddQuestion;
-                tResult.Message = "An unexpected error occurred while adding your question. Please try again or contact support.";
+
+                return new Result<int>()
+                {
+                    Success = false,
+                    Error = ErrorTypeEnum.UnknownErrorAddQuestion,
+                    Message = "An unexpected error occurred while adding your question. Please try again or contact support."
+                };
             }
-            return tResult;
         }
         
         public Result<int> DeleteQuestion(int pId)
         {
-            Result<int> tResult = new Result<int>();
-            tResult.Success = true;
-            tResult.Error = ErrorTypeEnum.None;
-            tResult.Data = 0;
+            
             try
             {
+                Result<int> tResult = new Result<int>();
+                tResult.Success = true;
+                tResult.Error = ErrorTypeEnum.None;
+                tResult.Data = 0;
                 Question deletedQuestion = null; 
-                foreach ( var question in mQuestions)
+                foreach ( var tQuestion in mQuestions)
                 {
-                    if (question.Id == pId)
+                    if (tQuestion.Id == pId)
                     {
                         
                             mRepo.DeleteQuestion(pId); 
                         if(!tResult.Success)
                             return tResult;
-                        mQuestions.Remove(question);
+                        mQuestions.Remove(tQuestion);
 
 
                         // Reorder mQuestions to maintain consistent ordering after deletion
-                        tResult = EditOrder();
-                        if (!tResult.Success)
-                            return tResult; 
-                        deletedQuestion = question;
+                        //tResult = EditOrder();
+                        //if (!tResult.Success)
+                        //    return tResult; 
+
+                        deletedQuestion = tQuestion;
                         mRepo.UpdateLastModified();
 
                         break;
@@ -210,33 +221,39 @@ namespace Services
                 }
                 if (deletedQuestion is null)
                     throw new KeyNotFoundException("Question not found.");
-                
+                return tResult;
+
+
             }
             catch (KeyNotFoundException ex)
             {
-                tResult.Success = false;
-                tResult.Message = ex.Message;
-                tResult.Error = ErrorTypeEnum.NotFound_DeleteQuestion;
                 Log.Error(ex, "Attempted to delete a question that does not exist. Id: {Id}", pId);
-                
-                
+
+                return new Result<int>()
+                {
+                    Success = false,
+                    Message = ex.Message,
+                    Error = ErrorTypeEnum.NotFound_DeleteQuestion
+                };
             }
             catch (Exception ex)
             {
-                tResult.Success = false;
-                tResult.Message = ex.Message;
-                tResult.Error = ErrorTypeEnum.UnknownErrorDeleteQuestion;
                 Log.Error(ex, "Error occurred while deleting a question with Id {Id}", pId);
-                
-                
+
+                return new Result<int>()
+                {
+                    Success = false,
+                    Message = ex.Message,
+                    Error = ErrorTypeEnum.UnknownErrorDeleteQuestion
+                };
             }
-            return tResult; 
         }
         public Result<int> EditQuestion(int pId , EditQuestionDto pEditQuestionDto)
         {
-            Result<int> tResult = new Result<int> { Success = true , Error = ErrorTypeEnum.None , Data = 0};
             try
             {
+                Result<int> tResult = new Result<int> { Success = true, Error = ErrorTypeEnum.None, Data = 0 };
+
                 if (pEditQuestionDto is null)
                     throw new ArgumentNullException( null , "Please provide a question. This field cannot be empty.");
 
@@ -251,11 +268,12 @@ namespace Services
                 //    return tResult;
                 //}
                 
-                foreach (var item in mQuestions)
+                foreach (var tItem in mQuestions)
                 {
-                    if (item.Id == pId)
+                    if (tItem.Id == pId)
                     {
-                        question = item;
+                        question = tItem;
+                        break;
                     }
                 }
                 if (question is null)
@@ -268,26 +286,26 @@ namespace Services
 
                     case TypeQuestionEnum.SliderQuestion:
 
-                        questionEdit = new SliderQuestion(question.Id, pEditQuestionDto.Text, pEditQuestionDto.Order == 0 ? question.Order : pEditQuestionDto.Order, pEditQuestionDto.StartValue
+                        questionEdit = new SliderQuestion(question.Id, pEditQuestionDto.Text,  pEditQuestionDto.Order, pEditQuestionDto.StartValue
                             , pEditQuestionDto.EndValue, pEditQuestionDto.StartCaption, pEditQuestionDto.EndCaption);
                         break;
                     case TypeQuestionEnum.SmileyFacesQuestion:
-                        questionEdit = new SmileyFacesQuestion(question.Id, pEditQuestionDto.Text, pEditQuestionDto.Order == 0 ? question.Order : pEditQuestionDto.Order, pEditQuestionDto.SmileyCount);
+                        questionEdit = new SmileyFacesQuestion(question.Id, pEditQuestionDto.Text,  pEditQuestionDto.Order, pEditQuestionDto.SmileyCount);
                         break;
                     case TypeQuestionEnum.StarsQuestion:
-                        questionEdit = new StarsQuestion(question.Id, pEditQuestionDto.Text, pEditQuestionDto.Order == 0 ? question.Order : pEditQuestionDto.Order, pEditQuestionDto.StarsCount);
+                        questionEdit = new StarsQuestion(question.Id, pEditQuestionDto.Text,  pEditQuestionDto.Order, pEditQuestionDto.StarsCount);
                         break;
                      
 
                 }
-                tResult = GetCount();
-                if (!tResult.Success)
-                    return tResult; 
+                //tResult = GetCount();
+                //if (!tResult.Success)
+                //    return tResult; 
                 // Validate that the user-selected order does not exceed the total number of mQuestions
 
-                if (questionEdit.Order > tResult.Data || questionEdit.Order <= 0)
+                if (questionEdit.Order <= 0)
                 {
-                    throw new ArgumentOutOfRangeException(null , $"Order value must be between 1 and {tResult.Data}. Please enter a valid number.");
+                    throw new ArgumentOutOfRangeException(null , $"Order value must be non negative number . Please enter a valid number.");
 
                 }
 
@@ -297,69 +315,86 @@ namespace Services
                     return tResult;
 
                 mQuestions.Remove(question);
-                mQuestions.Insert(questionEdit.Order - 1, questionEdit);
+                mQuestions.Add(questionEdit);
 
                 // Reorder all mQuestions only when the question's order has been changed
-                if (pEditQuestionDto.Order != 0)
-                {
-                    tResult = EditOrder();
-                    if(!tResult.Success)
-                            return tResult;
-                }
+                //if (pEditQuestionDto.Order != 0)
+                //{
+                //    tResult = EditOrder();
+                //    if(!tResult.Success)
+                //            return tResult;
+                //}
                 mRepo.UpdateLastModified();
 
+                return tResult;
 
             }
             catch (KeyNotFoundException ex)
             {
-                tResult.Success = false;
-                tResult.Message = ex.Message;
-                tResult.Error = ErrorTypeEnum.NotFound_EditQuestion;
                 Log.Error(ex, "Attempted to edit a question a question with Id {Id}", pId);
-                
+
+                return new Result<int>()
+                {
+                    Success = false,
+                    Message = ex.Message,
+                    Error = ErrorTypeEnum.NotFound_EditQuestion
+                };
             }
             catch (ArgumentNullException ex)
             {
-
-                tResult.Success = false;
-                tResult.Message = ex.Message;
-                tResult.Error = ErrorTypeEnum.Validation_EditQuestionDataNull;
                 Log.Error(ex, "Validation failed: null value.");
+
+                return new Result<int>()
+                {
+                    Success = false,
+                    Message = ex.Message,
+                    Error = ErrorTypeEnum.Validation_EditQuestionDataNull
+                };
             }
             catch (ArgumentOutOfRangeException ex)
             {
-
-                tResult.Success = false;
-                tResult.Message = ex.Message;
-                tResult.Error = ErrorTypeEnum.Validation_OrderOutOfRangeEdit;
                 Log.Error(ex, "Validation failed: value out of range.");
+
+                return new Result<int>()
+                {
+                    Success = false,
+                    Message = ex.Message,
+                    Error = ErrorTypeEnum.Validation_OrderOutOfRangeEdit
+                };
             }
             catch (ArgumentException ex)
             {
-
-                tResult.Success = false;
-                tResult.Message = ex.Message;
-                tResult.Error = ErrorTypeEnum.Validation_QuestionTypeInvalid;
                 Log.Error(ex, "Validation failed: invalid argument.");
+
+                return new Result<int>()
+                {
+                    Success = false,
+                    Message = ex.Message,
+                    Error = ErrorTypeEnum.Validation_QuestionTypeInvalid
+                };
             }
             catch (Exception ex)
             {
                 Log.Error(ex, "Error occurred while edit a question a question with Id {Id}", pId);
-                tResult.Success = false;
-                tResult.Error = ErrorTypeEnum.UnknownErrorEditQuestion;
-                tResult.Message = "An unexpected error occurred while edit your question. Please try again or contact support.";
+
+                return new Result<int>()
+                {
+                    Success = false,
+                    Error = ErrorTypeEnum.UnknownErrorEditQuestion,
+                    Message = "An unexpected error occurred while edit your question. Please try again or contact support."
+                };
             }
-            
-            
-            return tResult;
+
+
         }
         public Result<int> EditOrder()
         {
-            Result<int> tResult = new Result<int>();
-            tResult.Success = true;
-            tResult.Error = ErrorTypeEnum.None; 
+            
             try
             {
+                Result<int> tResult = new Result<int>();
+                tResult.Success = true;
+                tResult.Error = ErrorTypeEnum.None;
                 mQuestions.Sort();
                 var tIds = new List<int>();
                 var tOrders = new List<int>();
@@ -378,16 +413,20 @@ namespace Services
                     mRepo.UpdateLastModified();
 
                 }
+                return tResult;
+
             }
             catch (Exception ex)
             {
-                tResult.Success = false;
-                tResult.Message = ex.Message;
-                tResult.Error = ErrorTypeEnum.UnknownErrorEditOrder; 
                 Log.Error(ex, "Error occurred while editing the order of mQuestions.");
-                
+
+                return new Result<int>()
+                {
+                    Success = false,
+                    Message = ex.Message,
+                    Error = ErrorTypeEnum.UnknownErrorEditOrder
+                };
             }
-            return tResult; 
         }
         public List<Question> GetQuestionsList()
         {
@@ -406,67 +445,79 @@ namespace Services
         
         public Result<Question> GetQuestion(int pId)
         {
-            Result<Question> tResult = new Result<Question> { Success = true , Error=ErrorTypeEnum.None };
             try
             {
-                foreach (var question in mQuestions)
+                Result<Question> tResult = new Result<Question> { Success = true, Error = ErrorTypeEnum.None };
+
+                foreach (var tQuestion in mQuestions)
                 {
-                    if (question.Id == pId) 
+                    if (tQuestion.Id == pId) 
                     {
-                        tResult.Data = question;
+                        tResult.Data = tQuestion;
                         return tResult; 
                     
                     }
                 }
                 throw new KeyNotFoundException("The specified question was not found. Please check your selection.");
+                
 
             }
-            catch(KeyNotFoundException ex)
+            catch (KeyNotFoundException ex)
             {
-                tResult.Success = false;
-                tResult.Message = ex.Message;
-                tResult.Error =ErrorTypeEnum.NotFound_GetQuestion;
+                return new Result<Question>()
+                {
+                    Success = false,
+                    Message = ex.Message,
+                    Error = ErrorTypeEnum.NotFound_GetQuestion
+                };
             }
             catch (Exception ex)
             {
-                tResult.Success = false;
-                tResult.Message = ex.Message;
-                tResult.Error = ErrorTypeEnum.UnknownErrorGetQuestion;
                 Log.Error(ex, "Error occurred while retrieving the question with Id {Id}", pId);
-                
+
+                return new Result<Question>()
+                {
+                    Success = false,
+                    Message = ex.Message,
+                    Error = ErrorTypeEnum.UnknownErrorGetQuestion
+                };
             }
-            return tResult;
         }
 
         public Result<int> GetCount()
         {
-            Result<int> tResult = new Result<int> { Success =true , Error = ErrorTypeEnum.None , Data = 0 };
             try
             {
+                Result<int> tResult = new Result<int> { Success = true, Error = ErrorTypeEnum.None, Data = 0 };
+
                 tResult = mRepo.GetCount();
-                
+            return tResult;
+
             }
             catch (Exception ex)
             {
-                tResult.Success = false;
-                tResult.Message = ex.Message;
-                tResult.Error = ErrorTypeEnum.UnknownErrorGetCount;
                 Log.Error(ex, "Error occurred while retrieving the question count from the repository.");
-                
+
+                return new Result<int>()
+                {
+                    Success = false,
+                    Message = ex.Message,
+                    Error = ErrorTypeEnum.UnknownErrorGetCount
+                };
             }
-            return tResult;
         }
 
         public Result<DateTime> GetLastModified()
         {
-            Result<DateTime> tResult = new Result<DateTime>
-            {
-                Success = true,
-                Error = ErrorTypeEnum.None,
-
-            };
+            
             try
             {
+                Result<DateTime> tResult = new Result<DateTime>
+                {
+                    Success = true,
+                    Error = ErrorTypeEnum.None,
+
+                };
                 tResult = mRepo.GetLastModified();
                 return tResult;
                 
@@ -474,45 +525,52 @@ namespace Services
             catch (Exception ex)
             {
                 Log.Error(ex, "Error occurred while retrieving the last modified .");
-                tResult.Success = false;
-                tResult.Message= ex.Message;
-                tResult.Error= ErrorTypeEnum.UnknownErrorGetLastModified;
+
+                return new Result<DateTime>()
+                {
+                    Success = false,
+                    Message = ex.Message,
+                    Error = ErrorTypeEnum.UnknownErrorGetLastModified
+                };
             }
-            return tResult;
+
         }
 
         public Result<bool> ChangeConnectionString(string pConnectionString)
         {
-            var tResult = new Result<bool>()
-            {
-                Success = true,
-            };
+            
 
             try
             {
+                var tResult = new Result<bool>()
+                {
+                    Success = true,
+                };
                 tResult = mRepo.ChangeConnectionString(pConnectionString);
                 mConnectionValid = tResult.Success;
                 return tResult;
             }
             catch (Exception ex)
             {
-
                 Log.Error(ex, "Error occurred while Change Connection String  .");
-                tResult.Success = false;
-                tResult.Message = ex.Message;
-                tResult.Error = ErrorTypeEnum.UnknownErrorChangeConnectionString;
+
+                return new Result<bool>()
+                {
+                    Success = false,
+                    Message = ex.Message,
+                    Error = ErrorTypeEnum.UnknownErrorChangeConnectionString
+                };
             }
-            return tResult;
+
         }
         public Result<bool> CheckConnection()
         {
-            var tResult = new Result<bool>()
-            {
-                Success = true,
-            };
-
             try
             {
+                var tResult = new Result<bool>()
+                {
+                    Success = true,
+                };
                 var tSavedConnection = ConfigurationManager.ConnectionStrings["DbConnectionString"]?.ConnectionString;
 
                 if (!string.IsNullOrWhiteSpace(tSavedConnection))
@@ -536,16 +594,20 @@ namespace Services
                     tResult.Message = "Database connection is not set or invalid.\n Go to Settings → Database Connection to set it up.";
                     tResult.Error = ErrorTypeEnum.ConnectionStringNotSet;
                 }
+                return tResult;
+
             }
             catch (Exception ex)
             {
                 Log.Error(ex, "Error occurred while Check Connection  .");
-                tResult.Success = false;
-                tResult.Message = ex.Message;
-                tResult.Error = ErrorTypeEnum.UnknownErrorConnectionTest;
 
+                return new Result<bool>()
+                {
+                    Success = false,
+                    Message = ex.Message,
+                    Error = ErrorTypeEnum.UnknownErrorConnectionTest
+                };
             }
-            return tResult; 
         }
 
         public void CheckForUpdates()
@@ -605,40 +667,45 @@ namespace Services
 
             }
         }
-        public Result<bool> ConnectionTest(string connectionString)
+        public Result<bool> ConnectionTest(string pConnectionString)
         {
-            var tResult = new Result<bool>()
-            {
-                Success = true,
-                Error = ErrorTypeEnum.None
-            };
+            
 
             try
             {
-                tResult = mRepo.ConnectoinTest(connectionString);
+                var tResult = new Result<bool>()
+                {
+                    Success = true,
+                    Error = ErrorTypeEnum.None
+                };
+                tResult = mRepo.ConnectoinTest(pConnectionString);
                 return tResult;
             }
             catch (Exception ex)
             {
                 Log.Error(ex, "Error occurred while testing connection.");
-                tResult.Success = false;
-                tResult.Message = ex.Message;
-                tResult.Error = ErrorTypeEnum.UnknownErrorConnectionTest;
+
+                return new Result<bool>()
+                {
+                    Success = false,
+                    Message = ex.Message,
+                    Error = ErrorTypeEnum.UnknownErrorConnectionTest
+                };
             }
 
-            return tResult;
         }
 
         public Result<SqlConnectionStringBuilder> GetConnectionString()
         {
-            var tResult = new Result<SqlConnectionStringBuilder>()
-            {
-                Success = true,
-                Error = ErrorTypeEnum.None
-            };
+            
 
             try
             {
+                var tResult = new Result<SqlConnectionStringBuilder>()
+                {
+                    Success = true,
+                    Error = ErrorTypeEnum.None
+                };
                 var tConnectionString = mRepo.GetConnectionString();
 
                 if (!tConnectionString.Success || string.IsNullOrEmpty(tConnectionString.Data))
@@ -657,12 +724,15 @@ namespace Services
             catch (Exception ex)
             {
                 Log.Error(ex, "Error occurred while retrieving the connection string.");
-                tResult.Success = false;
-                tResult.Message = ex.Message;
-                tResult.Error = ErrorTypeEnum.UnknownErrorGetConnectionString;
+
+                return new Result<SqlConnectionStringBuilder>()
+                {
+                    Success = false,
+                    Message = ex.Message,
+                    Error = ErrorTypeEnum.UnknownErrorGetConnectionString
+                };
             }
 
-            return tResult;
         }
 
 

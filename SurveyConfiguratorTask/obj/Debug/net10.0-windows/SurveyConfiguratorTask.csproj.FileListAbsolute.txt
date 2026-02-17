@@ -83,3 +83,6 @@ D:\SurveyConfiguratorTask\SurveyConfiguratorTask\bin\Debug\net10.0-windows\Local
 D:\SurveyConfiguratorTask\SurveyConfiguratorTask\bin\Debug\net10.0-windows\ar\Localization.resources.dll
 D:\SurveyConfiguratorTask\SurveyConfiguratorTask\bin\Debug\net10.0-windows\Logging.dll
 D:\SurveyConfiguratorTask\SurveyConfiguratorTask\bin\Debug\net10.0-windows\Logging.pdb
+D:\SurveyConfiguratorTask\SurveyConfiguratorTask\bin\Debug\net10.0-windows\am-ET\SurveyConfiguratorTask.resources.dll
+D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\SurveyConfiguratorTask.EditDialog.am-ET.resources
+D:\SurveyConfiguratorTask\SurveyConfiguratorTask\obj\Debug\net10.0-windows\am-ET\SurveyConfiguratorTask.resources.dll

@@ -124,40 +124,7 @@
   <data name="textQuestionTextBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>11, 21</value>
   </data>
-  <data name="typeQuestionGroup.Text" xml:space="preserve">
-    <value>نوع السؤال </value>
-  </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="questionTextLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="questionTextLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>465, 24</value>
-  </data>
-  <data name="questionTextLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>70, 15</value>
-  </data>
-  <data name="questionTextLabel.Text" xml:space="preserve">
-    <value>نص السؤال :</value>
-  </data>
-  <data name="orderLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="orderLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>488, 52</value>
-  </data>
-  <data name="orderLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 15</value>
-  </data>
-  <data name="orderLabel.Text" xml:space="preserve">
-    <value>الترتيب :</value>
-  </data>
-  <data name="generalGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 11</value>
-  </data>
-  <data name="generalGroupBox.Text" xml:space="preserve">
-    <value>عام</value>
-  </data>
   <data name="starsQuestionRadioButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -194,6 +161,39 @@
   <data name="sliderQuestionRadioButton.Text" xml:space="preserve">
     <value>سؤال شريط التمرير</value>
   </data>
+  <data name="typeQuestionGroup.Text" xml:space="preserve">
+    <value>نوع السؤال </value>
+  </data>
+  <data name="questionTextLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="questionTextLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>465, 24</value>
+  </data>
+  <data name="questionTextLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>70, 15</value>
+  </data>
+  <data name="questionTextLabel.Text" xml:space="preserve">
+    <value>نص السؤال :</value>
+  </data>
+  <data name="orderLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="orderLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>488, 52</value>
+  </data>
+  <data name="orderLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 15</value>
+  </data>
+  <data name="orderLabel.Text" xml:space="preserve">
+    <value>الترتيب :</value>
+  </data>
+  <data name="generalGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 11</value>
+  </data>
+  <data name="generalGroupBox.Text" xml:space="preserve">
+    <value>عام</value>
+  </data>
   <data name="okAddButton.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -212,24 +212,6 @@
   <data name="CancelAddButton.Text" xml:space="preserve">
     <value>إلغاء</value>
   </data>
-  <data name="detailsGroupBox.Location" type="System.Drawing.Point, System.Drawing">
-    <value>13, 202</value>
-  </data>
-  <data name="detailsGroupBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>559, 131</value>
-  </data>
-  <data name="detailsGroupBox.Text" xml:space="preserve">
-    <value>تفاصيل السؤال </value>
-  </data>
-  <data name="starsPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 17</value>
-  </data>
-  <data name="starsPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>543, 38</value>
-  </data>
-  <data name="starsCountLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="starsCountLabel.Location" type="System.Drawing.Point, System.Drawing">
     <value>492, 10</value>
   </data>
@@ -242,11 +224,11 @@
   <data name="starsUpDown.Size" type="System.Drawing.Size, System.Drawing">
     <value>436, 23</value>
   </data>
-  <data name="smileyPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>3, 15</value>
+  <data name="starsPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>5, 17</value>
   </data>
-  <data name="smileyFacesCountLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="starsPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>543, 38</value>
   </data>
   <data name="smileyFacesCountLabel.Location" type="System.Drawing.Point, System.Drawing">
     <value>453, 12</value>
@@ -263,11 +245,8 @@
   <data name="smileyFacesUpDown.Size" type="System.Drawing.Size, System.Drawing">
     <value>436, 23</value>
   </data>
-  <data name="sliderPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>6, 15</value>
-  </data>
-  <data name="sliderPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>543, 108</value>
+  <data name="smileyPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>3, 15</value>
   </data>
   <data name="endCaptionTextBox.Location" type="System.Drawing.Point, System.Drawing">
     <value>5, 81</value>
@@ -287,9 +266,6 @@
   <data name="endValueUpDown.Size" type="System.Drawing.Size, System.Drawing">
     <value>436, 23</value>
   </data>
-  <data name="endCaptionLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="endCaptionLabel.Location" type="System.Drawing.Point, System.Drawing">
     <value>471, 84</value>
   </data>
@@ -298,9 +274,6 @@
   </data>
   <data name="endCaptionLabel.Text" xml:space="preserve">
     <value>نص النهاية :</value>
-  </data>
-  <data name="startCaptionLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="startCaptionLabel.Location" type="System.Drawing.Point, System.Drawing">
     <value>471, 59</value>
@@ -311,9 +284,6 @@
   <data name="startCaptionLabel.Text" xml:space="preserve">
     <value>نص البداية :</value>
   </data>
-  <data name="startValueLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
   <data name="startValueLabel.Location" type="System.Drawing.Point, System.Drawing">
     <value>468, 9</value>
   </data>
@@ -322,9 +292,6 @@
   </data>
   <data name="startValueLabel.Text" xml:space="preserve">
     <value>قيمة البداية :</value>
-  </data>
-  <data name="endValueLabel.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="endValueLabel.Location" type="System.Drawing.Point, System.Drawing">
     <value>468, 34</value>
@@ -340,6 +307,24 @@
   </data>
   <data name="startValueUpDown.Size" type="System.Drawing.Size, System.Drawing">
     <value>436, 23</value>
+  </data>
+  <data name="sliderPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>6, 15</value>
+  </data>
+  <data name="sliderPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>543, 108</value>
+  </data>
+  <data name="detailsGroupBox.Location" type="System.Drawing.Point, System.Drawing">
+    <value>13, 202</value>
+  </data>
+  <data name="detailsGroupBox.Size" type="System.Drawing.Size, System.Drawing">
+    <value>559, 131</value>
+  </data>
+  <data name="detailsGroupBox.Text" xml:space="preserve">
+    <value>تفاصيل السؤال </value>
+  </data>
+  <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
+    <value>584, 402</value>
   </data>
   <data name="$this.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
     <value>Yes</value>

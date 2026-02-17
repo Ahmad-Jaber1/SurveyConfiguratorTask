@@ -26,7 +26,7 @@ namespace SurveyConfiguratorTask
             {
                 Log.Error(null, ex);
                 MessageBox.Show(ErrorLocalizer.GetMessage(nameof(UI_ERROR_MESSAGE)), ERROR,
-MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -36,10 +36,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             try
             {
                 authComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-                //authComboBox.Items.Clear();
-                //authComboBox.Items.Add("Windows authentication");
-                //authComboBox.Items.Add("SQL Server authentication");
-                //authComboBox.SelectedIndex = 0;
+                
                 var tConnectionString = mService.GetConnectionString();
                 if (!tConnectionString.Success)
                 {
@@ -60,7 +57,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             {
                 Log.Error(null, ex);
                 MessageBox.Show(ErrorLocalizer.GetMessage(nameof(UI_ERROR_MESSAGE)), ERROR,
-MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -81,7 +78,7 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
             {
                 Log.Error(null, ex);
                 MessageBox.Show(ErrorLocalizer.GetMessage(nameof(UI_ERROR_MESSAGE)), ERROR,
-MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -169,9 +166,9 @@ MessageBoxButtons.OK, MessageBoxIcon.Error);
                 //Starting from SqlClient 4.0 , Changed Encrypt connection string property to be true by default 
 
                 stringBuilder.Append("TrustServerCertificate=True;");
-                string connectionString = stringBuilder.ToString();
+                string tConnectionString = stringBuilder.ToString();
 
-                var tResult = mService.ConnectionTest(connectionString);
+                var tResult = mService.ConnectionTest(tConnectionString);
                 if (!tResult.Success)
                 {
                     MessageBox.Show(

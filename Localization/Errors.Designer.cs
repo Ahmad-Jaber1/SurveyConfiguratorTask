@@ -160,7 +160,7 @@ namespace Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please enter a valid order value. The value must be between 1 and {0}..
+        ///   Looks up a localized string similar to Please enter a valid order value. The value must be non negative number ..
         /// </summary>
         internal static string ERROR_ORDER_VALUE_OUT_OF_RANGE {
             get {

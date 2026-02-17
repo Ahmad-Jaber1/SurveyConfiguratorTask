@@ -10,16 +10,12 @@ namespace Shared
 {
     public static class ErrorLocalizer
     {
-        
-
-        
         public static string GetMessage(string pVariable ,params string[] pParameters)
         {
             try
             {
                 var tMessage = Errors.ResourceManager.GetString(
-                        pVariable, Thread.CurrentThread.CurrentUICulture
-                        );
+                        pVariable, Thread.CurrentThread.CurrentUICulture);
 
                 return string.Format(tMessage, pParameters);
             }
@@ -31,8 +27,6 @@ namespace Shared
             }
 
         }
-
-        
         
     }
 }

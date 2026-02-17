@@ -28,16 +28,21 @@ namespace SurveyConfiguratorTask
 
         public EditDialog(QuestionService service, Question question)
         {
-            mQuestion = question;
-            mService = service;
-            //Thread.CurrentThread.CurrentUICulture = new CultureInfo(MainForm.Language);
-            //if(MainForm.Language == "en")
-            //{
-            //    RightToLeft = RightToLeft.No;
-            //    RightToLeftLayout = false;
+            try
+            {
+                mQuestion = question;
+                mService = service;
 
-            //}
-            InitializeComponent();
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex, "Unexpected error occurred while create EditDialog object.");
+                MessageBox.Show(ErrorLocalizer.GetMessage(UI_ERROR_MESSAGE), ERROR,
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+
+            }
         }
 
         private void EditDialog_Load(object sender, EventArgs e)
@@ -92,7 +97,7 @@ namespace SurveyConfiguratorTask
             {
                 Log.Error(null, ex);
                 MessageBox.Show(ErrorLocalizer.GetMessage(nameof(UI_ERROR_MESSAGE)), ERROR,
-    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -124,7 +129,7 @@ namespace SurveyConfiguratorTask
                     return;
                 }
                 //validate order
-                if ((int)orderUpDown.Value > tQuestionsCount.Data + 1 || (int)orderUpDown.Value < 1)
+                if ( (int)orderUpDown.Value < 1)
                 {
 
                     MessageBox.Show(
@@ -230,7 +235,7 @@ namespace SurveyConfiguratorTask
             {
                 Log.Error(null, ex);
                 MessageBox.Show(ErrorLocalizer.GetMessage(nameof(UI_ERROR_MESSAGE)), ERROR,
-    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -245,7 +250,7 @@ namespace SurveyConfiguratorTask
             {
                 Log.Error(null, ex);
                 MessageBox.Show(ErrorLocalizer.GetMessage(nameof(UI_ERROR_MESSAGE)), ERROR,
-    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

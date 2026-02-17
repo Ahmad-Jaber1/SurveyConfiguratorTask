@@ -3149,3 +3149,11 @@ ClientConnectionId:cbdec304-e0d1-431f-ab44-090e9efca5d3
 Error Number:4060,State:1,Class:11
 
 ============================================================
+2026-02-17 10:56:02.501 | Error | 
+Message    : Validation failed: value out of range.
+Exception  :
+System.ArgumentOutOfRangeException: Index must be within the bounds of the List. (Parameter 'index')
+   at System.Collections.Generic.List`1.Insert(Int32 index, T item)
+   at Services.QuestionService.AddQuestion(TypeQuestionEnum pType, AddQuestionDto pQuestionDto) in D:\SurveyConfiguratorTask\Services\QuestionService.cs:line 132
+
+============================================================
